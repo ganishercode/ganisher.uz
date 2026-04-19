@@ -1,29 +1,26 @@
 /* ============================================
    G'anisher Raximov — Portfolio & Academic Hub
-   Interactive JavaScript
+   Interactive JavaScript (Clean Edition)
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // ── Loader ──
   initLoader();
-  // ── Particles ──
   initParticles();
-  // ── Theme Toggle ──
   initThemeToggle();
-  // ── Mobile Menu ──
   initMobileMenu();
-  // ── Navbar Scroll ──
   initNavbarScroll();
-  // ── Active Nav Link ──
   initActiveNavLink();
-  // ── Scroll Reveal ──
   initScrollReveal();
-  // ── Stat Counters ──
   initStatCounters();
-  // ── Skill Bars ──
   initSkillBars();
-  // ── Google Sheets Data ──
   initGoogleSheetsData();
+  initMouseGlow();
+  initTypewriter();
+  initHoverTilt();
+  initStatCardsInteractions();
+  initPortfolioFilters();
+  initNavbarClock();
+  initCustomCursor();
 });
 
 /* ═══════════════════════════════════
@@ -32,90 +29,133 @@ document.addEventListener('DOMContentLoaded', () => {
 function initLoader() {
   const loader = document.getElementById('gloader');
   if (!loader) return;
-
   window.addEventListener('load', () => {
-    setTimeout(() => {
-      loader.classList.add('hidden');
-      // Trigger hero animations after loader hides
-      document.body.style.overflow = '';
-    }, 1800);
+    setTimeout(() => { loader.classList.add('hidden'); document.body.style.overflow = ''; }, 1800);
   });
-
-  // Prevent scrolling while loader is visible
   document.body.style.overflow = 'hidden';
-
-  // Fallback: hide loader after 4 seconds regardless
-  setTimeout(() => {
-    loader.classList.add('hidden');
-    document.body.style.overflow = '';
-  }, 4000);
+  setTimeout(() => { loader.classList.add('hidden'); document.body.style.overflow = ''; }, 4000);
 }
 
 /* ═══════════════════════════════════
-   PARTICLES BACKGROUND
+   PARTICLES BACKGROUND (SVG)
    ═══════════════════════════════════ */
 function initParticles() {
   const container = document.getElementById('particles-bg');
   if (!container) return;
-
-  const colors = [
-    'var(--accent-purple)',
-    'var(--accent-teal)',
-    'var(--accent-blue)',
+  const colors = ['var(--accent-purple)', 'var(--accent-teal)', 'var(--accent-blue)'];
+  const svgs = [
+    '<svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>', // yulduz
+    '<svg viewBox="0 0 24 24"><path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"/></svg>', // plus
+    '<svg viewBox="0 0 24 24"><path d="M2.859 2.477l12.57-2.719c.883-.191 1.764.471 1.764 1.39v21.7q0 .907-1.748 1.378l-12.57-2.71a1.2 1.2 0 0 1-.954-1.173v-16.7a1.21 1.21 0 0 1 .938-1.166zm16.334 2.223h2.6c.66 0 1.2.537 1.2 1.2v12.2c0 .663-.54 1.2-1.2 1.2h-2.6v-14.6z"/></svg>' // excel
   ];
-
-  const particleCount = window.innerWidth < 768 ? 20 : 40;
-
-  for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
-
-    const size = Math.random() * 4 + 2;
-    const left = Math.random() * 100;
-    const duration = Math.random() * 15 + 10;
-    const delay = Math.random() * 15;
+  const count = window.innerWidth < 768 ? 10 : 25;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
     const color = colors[Math.floor(Math.random() * colors.length)];
-
-    particle.style.cssText = `
-      width: ${size}px;
-      height: ${size}px;
-      left: ${left}%;
-      background: ${color};
-      animation-duration: ${duration}s;
-      animation-delay: ${delay}s;
-      box-shadow: 0 0 ${size * 3}px ${color};
-    `;
-
-    container.appendChild(particle);
+    const svgIcon = svgs[Math.floor(Math.random() * svgs.length)];
+    p.style.cssText = `left:${Math.random()*100}%; color:${color}; animation-duration:${Math.random()*20+15}s; animation-delay:-${Math.random()*15}s;`;
+    p.innerHTML = svgIcon;
+    // Tasodifiy razmer
+    const svgEl = p.querySelector('svg');
+    const size = Math.random() * 14 + 10;
+    if(svgEl) { svgEl.style.width = size+'px'; svgEl.style.height = size+'px'; }
+    container.appendChild(p);
   }
 }
 
 /* ═══════════════════════════════════
-   THEME TOGGLE (Dark / Light)
+   MOUSE GLOW
+   ═══════════════════════════════════ */
+function initMouseGlow() {
+  const glow = document.getElementById('mouse-glow');
+  if (!glow || window.innerWidth < 768) return; // mobilda o'chirib qoyamiz
+  document.addEventListener('mousemove', (e) => {
+    glow.style.opacity = '1';
+    glow.style.top = e.clientY + 'px';
+    glow.style.left = e.clientX + 'px';
+  });
+  document.addEventListener('mouseleave', () => glow.style.opacity = '0');
+}
+
+/* ═══════════════════════════════════
+   DYNAMIC TYPEWRITER
+   ═══════════════════════════════════ */
+function initTypewriter() {
+  const el = document.getElementById('typed-text');
+  if (!el) return;
+  const words = ["Excelda tizim yaratishga", "AI ni ishga joriy qilishga", "No-code ilovalar tuzishga"];
+  let wordIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  
+  function type() {
+    const currentWord = words[wordIndex];
+    if (isDeleting) {
+      charIndex--;
+    } else {
+      charIndex++;
+    }
+    el.textContent = currentWord.substring(0, charIndex);
+    
+    let typeSpeed = isDeleting ? 40 : 80;
+    if (!isDeleting && charIndex === currentWord.length) {
+      typeSpeed = 2000;
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      wordIndex = (wordIndex + 1) % words.length;
+      typeSpeed = 500;
+    }
+    setTimeout(type, typeSpeed);
+  }
+  type();
+}
+
+/* ═══════════════════════════════════
+   HOVER TILT EFFECT
+   ═══════════════════════════════════ */
+function initHoverTilt() {
+  const wrapper = document.getElementById('tilt-wrapper');
+  if(!wrapper || window.innerWidth < 768) return;
+  
+  wrapper.addEventListener('mousemove', (e) => {
+    const rect = wrapper.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    // Tilt degrees (max 15 deg)
+    const rotateX = ((y - centerY) / centerY) * -15;
+    const rotateY = ((x - centerX) / centerX) * 15;
+    
+    wrapper.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+  });
+  
+  wrapper.addEventListener('mouseleave', () => {
+    wrapper.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+  });
+}
+
+/* ═══════════════════════════════════
+   THEME TOGGLE
    ═══════════════════════════════════ */
 function initThemeToggle() {
   const toggle = document.getElementById('themeToggle');
   const icon = document.getElementById('themeIcon');
   if (!toggle || !icon) return;
-
-  // Check saved preference
-  const savedTheme = localStorage.getItem('gr-theme') || 'dark';
-  document.documentElement.setAttribute('data-theme', savedTheme);
-  icon.innerHTML = savedTheme === 'dark' ? '<i class="ri-moon-fill"></i>' : '<i class="ri-sun-fill"></i>';
-
+  const saved = localStorage.getItem('gr-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  icon.innerHTML = saved === 'dark' ? '<i class="ri-moon-fill"></i>' : '<i class="ri-sun-fill"></i>';
   toggle.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : 'dark';
-
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('gr-theme', next);
     icon.innerHTML = next === 'dark' ? '<i class="ri-moon-fill"></i>' : '<i class="ri-sun-fill"></i>';
-
-    // Smooth icon animation
     toggle.style.transform = 'rotate(360deg) scale(1.2)';
-    setTimeout(() => {
-      toggle.style.transform = '';
-    }, 400);
+    setTimeout(() => { toggle.style.transform = ''; }, 400);
   });
 }
 
@@ -126,295 +166,290 @@ function initMobileMenu() {
   const btn = document.getElementById('mobileMenuBtn');
   const menu = document.getElementById('navMenu');
   if (!btn || !menu) return;
-
   btn.addEventListener('click', () => {
     btn.classList.toggle('open');
     menu.classList.toggle('open');
     document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
   });
-
-  // Close menu when clicking a link
   menu.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
-      btn.classList.remove('open');
-      menu.classList.remove('open');
-      document.body.style.overflow = '';
+      btn.classList.remove('open'); menu.classList.remove('open'); document.body.style.overflow = '';
     });
   });
 }
 
 /* ═══════════════════════════════════
-   NAVBAR SCROLL EFFECT
+   NAVBAR SCROLL
    ═══════════════════════════════════ */
 function initNavbarScroll() {
   const navbar = document.getElementById('navbar');
   if (!navbar) return;
-
-  let lastScroll = 0;
-
   window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-
-    if (scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-
-    lastScroll = scrollY;
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
   }, { passive: true });
 }
 
 /* ═══════════════════════════════════
-   ACTIVE NAV LINK ON SCROLL
+   ACTIVE NAV LINK
    ═══════════════════════════════════ */
 function initActiveNavLink() {
   const navLinks = document.querySelectorAll('.nav-link[data-section]');
   const sections = [];
-
   navLinks.forEach(link => {
-    const sectionId = link.getAttribute('data-section');
-    const section = document.getElementById(sectionId);
-    if (section) {
-      sections.push({ el: section, link: link });
-    }
+    const s = document.getElementById(link.getAttribute('data-section'));
+    if (s) sections.push({ el: s, link });
   });
-
-  if (sections.length === 0) return;
-
-  const observer = new IntersectionObserver((entries) => {
+  if (!sections.length) return;
+  const obs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         navLinks.forEach(l => l.classList.remove('active'));
-        const matchLink = sections.find(s => s.el === entry.target);
-        if (matchLink) {
-          matchLink.link.classList.add('active');
-        }
+        const m = sections.find(s => s.el === entry.target);
+        if (m) m.link.classList.add('active');
       }
     });
-  }, {
-    threshold: 0.3,
-    rootMargin: '-80px 0px -50% 0px'
-  });
-
-  sections.forEach(s => observer.observe(s.el));
+  }, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
+  sections.forEach(s => obs.observe(s.el));
 }
 
 /* ═══════════════════════════════════
-   SCROLL REVEAL ANIMATIONS
+   SCROLL REVEAL
    ═══════════════════════════════════ */
 function initScrollReveal() {
-  const reveals = document.querySelectorAll('.reveal');
-  if (reveals.length === 0) return;
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -60px 0px'
-  });
-
-  reveals.forEach(el => observer.observe(el));
+  const els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  els.forEach(el => obs.observe(el));
 }
 
 /* ═══════════════════════════════════
-   ANIMATED STAT COUNTERS
+   STAT COUNTERS
    ═══════════════════════════════════ */
 function initStatCounters() {
   const counters = document.querySelectorAll('.stat-number[data-target]');
-  if (counters.length === 0) return;
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCounter(entry.target);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.5
-  });
-
-  counters.forEach(counter => observer.observe(counter));
+  if (!counters.length) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); obs.unobserve(e.target); } });
+  }, { threshold: 0.5 });
+  counters.forEach(c => obs.observe(c));
 }
 
 function animateCounter(el) {
   const target = parseInt(el.getAttribute('data-target'));
   const suffix = el.getAttribute('data-suffix') || '';
-  const duration = 2000;
-  const startTime = performance.now();
-
-  function easeOutCubic(t) {
-    return 1 - Math.pow(1 - t, 3);
+  const duration = 2000, start = performance.now();
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+  function update(now) {
+    const p = Math.min((now - start) / duration, 1);
+    el.textContent = Math.floor(ease(p) * target) + suffix;
+    if (p < 1) requestAnimationFrame(update); else el.textContent = target + suffix;
   }
-
-  function update(currentTime) {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const easedProgress = easeOutCubic(progress);
-    const current = Math.floor(easedProgress * target);
-
-    el.textContent = current + suffix;
-
-    if (progress < 1) {
-      requestAnimationFrame(update);
-    } else {
-      el.textContent = target + suffix;
-    }
-  }
-
   requestAnimationFrame(update);
 }
 
 /* ═══════════════════════════════════
-   SKILL BARS ANIMATION
+   PREMIUM STAT CARD INTERACTIONS
    ═══════════════════════════════════ */
-function initSkillBars() {
-  const fills = document.querySelectorAll('.skill-fill[data-width]');
-  if (fills.length === 0) return;
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const width = entry.target.getAttribute('data-width');
-        entry.target.style.width = width + '%';
-        observer.unobserve(entry.target);
-      }
+function initStatCardsInteractions() {
+  const cards = document.querySelectorAll('.stat-card, .neon-chart-wrapper');
+  if (!cards.length || window.innerWidth < 768) return;
+  
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      // Spotlight update
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+      
+      // Tilt logic
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -10;
+      const rotateY = ((x - centerX) / centerX) * 10;
+      
+      card.style.transition = 'none';
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
     });
-  }, {
-    threshold: 0.3
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 0.4s ease-out';
+      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+      setTimeout(() => { if(card) card.style.transition = ''; }, 400);
+    });
   });
-
-  fills.forEach(fill => observer.observe(fill));
 }
 
 /* ═══════════════════════════════════
-   SMOOTH SCROLL FOR ANCHOR LINKS
+   SKILL BARS
    ═══════════════════════════════════ */
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
+function initSkillBars() {
+  const fills = document.querySelectorAll('.skill-fill[data-width]');
+  if (!fills.length) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.width = e.target.getAttribute('data-width') + '%'; obs.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+  fills.forEach(f => obs.observe(f));
+}
+
+/* ═══════════════════════════════════
+   SMOOTH SCROLL
+   ═══════════════════════════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
     e.preventDefault();
-    const targetId = this.getAttribute('href');
-    const target = document.querySelector(targetId);
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
+    const t = document.querySelector(this.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 
 /* ═══════════════════════════════════
-   GOOGLE SHEETS DATA FETCH (Gviz API)
+   PORTFOLIO FILTERS (V2)
+   ═══════════════════════════════════ */
+function initPortfolioFilters() {
+  const filters = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.portfolio-card-v2');
+  if (!filters.length || !cards.length) return;
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filters.forEach(f => f.classList.remove('active'));
+      btn.classList.add('active');
+      
+      const filterValue = btn.getAttribute('data-filter');
+      
+      cards.forEach(card => {
+        card.style.transition = 'all 0.3s ease';
+        card.style.transform = 'scale(0.8)';
+        card.style.opacity = '0';
+        
+        setTimeout(() => {
+          if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+            card.classList.remove('hidden');
+            setTimeout(() => {
+              card.style.transform = 'scale(1)';
+              card.style.opacity = '1';
+            }, 50);
+          } else {
+            card.classList.add('hidden');
+          }
+        }, 300);
+      });
+    });
+  });
+}
+
+/* ═══════════════════════════════════
+   GOOGLE SHEETS DATA
    ═══════════════════════════════════ */
 async function initGoogleSheetsData() {
-    // MA'LUMOT: Bu yerga Google Sheet ID kiritiladi
-    const sheetID = '1WE2WrRNR85G4zcBl09hUd9i7A2ZAdvYBgVnWiyuhlS0';
-
-    // 1. Loyihalar (Portfolio) varag'ini o'qish (Varaq nomi "Loyihalar" bo'lishi kerak)
-    try {
-      const portfolioUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=Loyihalar`;
-      const res = await fetch(portfolioUrl);
-      const text = await res.text();
-      // JSON qismini ajratish (xavfsiz usul)
-      const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-      const data = JSON.parse(jsonString);
-      renderPortfolio(data.table);
-    } catch (err) {
-      console.error("Loyihalarni yuklashda xatolik:", err);
-      document.getElementById('dynamic-portfolio').innerHTML = '<p style="text-align:center; width:100%; color:var(--accent-red);">Loyihalarni yuklashda xatolik yuz berdi. Jadval hammaga ochiqligini (Viewer) tekshiring.</p>';
-    }
-
-    // 2. Prezentatsiyalar varag'ini o'qish (Varaq nomi "Prezentatsiyalar" bo'lishi kerak)
-    try {
-      const presUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=Prezentatsiyalar`;
-      const res = await fetch(presUrl);
-      const text = await res.text();
-      // Xavfsiz JSON ajratish
-      const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-      const data = JSON.parse(jsonString);
-      renderPresentations(data.table);
-    } catch (err) {
-      console.error("Prezentatsiyalarni yuklashda xatolik:", err);
-      document.getElementById('dynamic-presentations').innerHTML = '<p style="text-align:center; width:100%; color:var(--accent-red);">Prezentatsiyalarni yuklashda xatolik yuz berdi. Jadval hammaga ochiqligini (Viewer) tekshiring.</p>';
-    }
-  }
-
-  function renderPortfolio(table) {
-    const container = document.getElementById('dynamic-portfolio');
-    container.innerHTML = '';
-
-    if (!table.rows || table.rows.length === 0) {
-      container.innerHTML = '<p style="text-align:center; width:100%; color:var(--text-secondary);">Hozircha loyihalar mavjud emas.</p>';
-      return;
-    }
-
-    table.rows.forEach((row, index) => {
-      // Ustunlar tartibi [0]: Ikonka (masalan: ri-file-list-3-fill), [1]: Sarlavha, [2]: Matn, [3]: Teglar (vergul bilan)
-      const icon = (row.c[0] && row.c[0].v) ? row.c[0].v : 'ri-file-list-3-fill';
-      const title = (row.c[1] && row.c[1].v) ? row.c[1].v : 'Nomsiz loyiha';
-      const desc = (row.c[2] && row.c[2].v) ? row.c[2].v : '';
-      const tagsString = (row.c[3] && row.c[3].v) ? row.c[3].v : '';
-
-      let tagsHtml = '';
-      if (tagsString) {
-        const tags = tagsString.split(',').map(t => t.trim());
-        tagsHtml = tags.map(t => `<span>${t}</span>`).join('');
-      }
-
-      const delayClass = index > 0 ? `reveal-delay-${index > 3 ? 3 : index}` : '';
-
-      const card = document.createElement('div');
-      card.className = `glass-card portfolio-card reveal visible ${delayClass}`;
-      card.innerHTML = `
-      <span class="portfolio-card-icon"><i class="${icon}"></i></span>
-      <h3>${title}</h3>
-      <p>${desc}</p>
-      <div class="portfolio-card-tags">
-        ${tagsHtml}
-      </div>
-    `;
-      container.appendChild(card);
-    });
-  }
-
-  function renderPresentations(table) {
+  const sheetID = '1WE2WrRNR85G4zcBl09hUd9i7A2ZAdvYBgVnWiyuhlS0';
+  
+  try {
+    const res = await fetch(`https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=Prezentatsiyalar`);
+    const text = await res.text();
+    const data = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
+    renderPresentations(data.table);
+  } catch (e) {
+    console.error("Prezentatsiyalar xatolik:", e);
     const container = document.getElementById('dynamic-presentations');
-    container.innerHTML = '';
-
-    if (!table.rows || table.rows.length === 0) {
-      container.innerHTML = '<p style="text-align:center; width:100%; color:var(--text-secondary);">Hozircha prezentatsiyalar mavjud emas.</p>';
-      return;
-    }
-
-    table.rows.forEach((row, index) => {
-      // Ustunlar: [0]: Tur (Akademik/Tadqiqot), [1]: Ikonka, [2]: Sarlavha, [3]: Matn, [4]: Havola (Link)
-      const type = (row.c[0] && row.c[0].v) ? row.c[0].v : 'Akademik';
-      const badgeClass = type.toLowerCase() === 'tadqiqot' ? 'research' : 'academic';
-      const icon = (row.c[1] && row.c[1].v) ? row.c[1].v : 'ri-book-read-fill';
-      const title = (row.c[2] && row.c[2].v) ? row.c[2].v : 'Nomsiz prezentatsiya';
-      const desc = (row.c[3] && row.c[3].v) ? row.c[3].v : '';
-      const link = (row.c[4] && row.c[4].v) ? row.c[4].v : '#';
-
-      const delayClass = index > 0 ? `reveal-delay-${index > 3 ? 3 : index}` : '';
-
-      const card = document.createElement('div');
-      card.className = `glass-card presentation-card reveal visible ${delayClass}`;
-      card.innerHTML = `
-      <span class="presentation-badge ${badgeClass}"><i class="${icon}"></i> ${type}</span>
-      <h3>${title}</h3>
-      <p>${desc}</p>
-      <a href="${link}" target="_blank" rel="noopener noreferrer" class="btn btn-canva">
-        <span class="btn-icon"><i class="ri-search-eye-line"></i></span>
-        O'qish / Ochish
-      </a>
-    `;
-      container.appendChild(card);
-    });
+    if (container) container.innerHTML = '<p style="text-align:center;width:100%;color:#ef4444;">Prezentatsiyalarni yuklashda xatolik.</p>';
   }
+}
+
+function renderPresentations(table) {
+  const c = document.getElementById('dynamic-presentations');
+  c.innerHTML = '';
+  if (!table.rows || !table.rows.length) { c.innerHTML = '<p style="text-align:center;width:100%;color:var(--text-secondary);">Hozircha prezentatsiyalar mavjud emas.</p>'; return; }
+  table.rows.forEach((row, i) => {
+    if (!row || !row.c) return;
+    const type = (row.c[0]&&row.c[0].v)||'Akademik', bc = type.toLowerCase()==='tadqiqot'?'research':'academic';
+    const icon = (row.c[1]&&row.c[1].v)||'ri-book-read-fill', title = (row.c[2]&&row.c[2].v)||'Nomsiz', desc = (row.c[3]&&row.c[3].v)||'', link = (row.c[4]&&row.c[4].v)||'#';
+    const card = document.createElement('div');
+    card.className = `glass-card presentation-card reveal visible ${i>0?`reveal-delay-${Math.min(i,3)}`:''}`;
+    card.innerHTML = `<span class="presentation-badge ${bc}"><i class="${icon}"></i> ${type}</span><h3>${title}</h3><p>${desc}</p><a href="${link}" target="_blank" rel="noopener noreferrer" class="btn btn-canva"><span class="btn-icon"><i class="ri-search-eye-line"></i></span> O'qish / Ochish</a>`;
+    c.appendChild(card);
+  });
+}
+
+/* ═══════════════════════════════════
+   NAVBAR CLOCK
+   ═══════════════════════════════════ */
+function initNavbarClock() {
+  const clockEl = document.getElementById('navClock');
+  if (!clockEl) return;
+
+  const monthsUz = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'];
+
+  function updateClock() {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = monthsUz[now.getMonth()];
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    clockEl.innerHTML = `
+      <span class="clock-date">${day} ${month} ${year}, </span>
+      <span class="clock-time">${hours}:${minutes}<span class="clock-seconds">:${seconds}</span></span>
+    `;
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+}
+
+/* ═══════════════════════════════════
+   CUSTOM CURSOR
+   ═══════════════════════════════════ */
+function initCustomCursor() {
+  const star = document.querySelector('.cursor-star');
+  const ring = document.querySelector('.cursor-ring');
+  if (!star || !ring) return;
+
+  // We only run custom cursor logic on non-touch devices
+  if (window.matchMedia("(pointer: coarse)").matches) {
+    document.getElementById('custom-cursor').style.display = 'none';
+    return;
+  }
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let ringX = mouseX;
+  let ringY = mouseY;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  const lerp = (a, b, n) => (1 - n) * a + n * b;
+
+  function render() {
+    ringX = lerp(ringX, mouseX, 0.15);
+    ringY = lerp(ringY, mouseY, 0.15);
+
+    star.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+    ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+
+  const interactives = document.querySelectorAll('a, button, .glass-card, .portfolio-card-v2, .stat-card');
+  interactives.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.classList.add('hovered');
+      star.classList.add('hovered');
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.classList.remove('hovered');
+      star.classList.remove('hovered');
+    });
+  });
+}

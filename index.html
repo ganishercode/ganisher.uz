@@ -11,13 +11,20 @@
     content="G'anisher Raximov, portfolio, dasturchi, iqtisodchi, kompyuter savodxonligi, AppSheet, VBA, AI">
   <title>G'anisher Raximov — Portfolio & Akademik Markaz</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2.3">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css">
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 </head>
 
 <body>
+
+  <!-- ════════════ MOUSE GLOW & CURSOR ════════════ -->
+  <div id="mouse-glow"></div>
+  <div id="custom-cursor">
+    <div class="cursor-star"><span>✦</span></div>
+    <div class="cursor-ring"></div>
+  </div>
 
   <!-- ════════════ LOADER ════════════ -->
   <div id="gloader">
@@ -42,7 +49,10 @@
         <a href="#contact" class="nav-link" data-section="contact">Aloqa</a>
       </div>
 
-      <div style="display:flex;align-items:center;gap:8px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div id="navClock" class="nav-clock" aria-label="Joriy vaqt">
+          <!-- JS fills this -->
+        </div>
         <button class="theme-toggle" id="themeToggle" aria-label="Rejimni almashtirish">
           <span id="themeIcon"><i class="ri-moon-fill"></i></span>
         </button>
@@ -56,62 +66,80 @@
   <!-- ════════════ HERO ════════════ -->
   <section id="hero">
     <div class="hero-bg-gradient"></div>
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-text">
-          <div class="hero-badge">
-            <span class="dot"></span>
-            <span class="typewriter">Yangi loyihalar ustida ishlamoqda...</span>
-          </div>
-          <h1 class="hero-name">
-            Assalomu alaykum, men <span class="highlight">G'anisher Raximov</span>
-          </h1>
-          <div class="hero-tagline">
-            <span class="tag"><i class="ri-computer-line"></i> Ofis dasturlarida ishlash kursi o'qituvchisi</span>
-            <span class="tag"><i class="ri-code-s-slash-line"></i> Dasturchi</span>
-            <span class="tag"><i class="ri-bar-chart-box-line"></i> Iqtisodchi</span>
-          </div>
-          <div class="hero-buttons">
-            <a href="#portfolio" class="btn btn-primary">
-              <span class="btn-icon"><i class="ri-rocket-2-fill"></i></span>
-              Loyihalarni ko'rish
-            </a>
-            <a href="#presentations" class="btn btn-secondary">
-              <span class="btn-icon"><i class="ri-slideshow-3-line"></i></span>
-              Prezentatsiyalarga o'tish
-            </a>
-          </div>
+    <div class="hero-content-full">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          <span>Yangi loyihalar ustida ishlamoqda...</span>
         </div>
-        <div class="hero-image-wrapper">
-          <img src="profile.jpg" alt="G'anisher Raximov" class="hero-image" id="heroImage">
+        <h1 class="hero-name">
+          Assalomu alaykum, men <span class="highlight">G'anisher Raximov</span>
+        </h1>
+        <h2 class="hero-dynamic-text">
+          Men sizga <span id="typed-text" class="typed-text"></span> yordam beraman
+        </h2>
+        <div class="hero-tagline" style="margin-top: 16px;">
+          <span class="tag"><i class="ri-computer-line"></i> Ofis dasturlari o'qituvchisi</span>
+          <span class="tag"><i class="ri-code-s-slash-line"></i> Dasturchi</span>
+          <span class="tag"><i class="ri-bar-chart-box-line"></i> Iqtisodchi</span>
+          <span class="tag"><i class="ri-calculator-line"></i> Buxgalter</span>
         </div>
+        <div class="hero-buttons">
+          <a href="#portfolio" class="btn btn-primary">
+            <span class="btn-icon"><i class="ri-rocket-2-fill"></i></span>
+            Loyihalarni ko'rish
+          </a>
+          <a href="#presentations" class="btn btn-secondary">
+            <span class="btn-icon"><i class="ri-slideshow-3-line"></i></span>
+            Prezentatsiyalarga o'tish
+          </a>
+        </div>
+      </div>
+      <div class="hero-image-wrapper" id="tilt-wrapper">
+        <img src="assets/profile.jpg" alt="G'anisher Raximov" class="hero-image" id="heroImage">
+      </div>
+    </div>
+
+    <!-- ════════════ MARQUEE TICKER ════════════ -->
+    <div class="hero-marquee">
+      <div class="marquee-content">
+        <div class="marquee-item"><i class="ri-file-excel-2-fill"></i> Microsoft Excel</div>
+        <div class="marquee-item"><i class="ri-apps-2-fill"></i> AppSheet</div>
+        <div class="marquee-item"><i class="ri-robot-2-fill"></i> ChatGPT</div>
+        <div class="marquee-item"><i class="ri-sparkling-fill"></i> Gemini</div>
+        <div class="marquee-item"><i class="ri-terminal-box-fill"></i> Python</div>
+        <div class="marquee-item"><i class="ri-file-excel-2-fill"></i> Microsoft Excel</div>
+        <div class="marquee-item"><i class="ri-apps-2-fill"></i> AppSheet</div>
+        <div class="marquee-item"><i class="ri-robot-2-fill"></i> ChatGPT</div>
+        <div class="marquee-item"><i class="ri-sparkling-fill"></i> Gemini</div>
+        <div class="marquee-item"><i class="ri-terminal-box-fill"></i> Python</div>
       </div>
     </div>
   </section>
 
   <!-- ════════════ STATS ════════════ -->
   <section class="stats-section">
-    <div class="container">
+    <div class="section-full">
       <div class="stats-grid">
         <div class="glass-card stat-card reveal">
-          <span class="stat-icon"><i class="ri-graduation-cap-fill"></i></span>
-          <div class="stat-number" data-target="500" data-suffix="+">0</div>
-          <div class="stat-label">O'qitilgan o'quvchilar</div>
+          <span class="stat-icon"><i class="ri-macbook-line"></i></span>
+          <div class="stat-number" data-target="3" data-suffix=" yil">0</div>
+          <div class="stat-label">Tajriba</div>
         </div>
         <div class="glass-card stat-card reveal reveal-delay-1">
-          <span class="stat-icon"><i class="ri-smartphone-fill"></i></span>
-          <div class="stat-number" data-target="5" data-suffix=" ta">0</div>
-          <div class="stat-label">Yaratilgan ilovalar</div>
+          <span class="stat-icon"><i class="ri-team-fill"></i></span>
+          <div class="stat-number" data-target="100" data-suffix="+">0</div>
+          <div class="stat-label">O'quvchilar</div>
         </div>
         <div class="glass-card stat-card reveal reveal-delay-2">
-          <span class="stat-icon"><i class="ri-youtube-fill"></i></span>
-          <div class="stat-number" data-target="1200" data-suffix="+">0</div>
-          <div class="stat-label">YouTube obunachilari</div>
+          <span class="stat-icon"><i class="ri-rocket-fill"></i></span>
+          <div class="stat-number" data-target="10" data-suffix="+">0</div>
+          <div class="stat-label">Loyihalar</div>
         </div>
         <div class="glass-card stat-card reveal reveal-delay-3">
-          <span class="stat-icon"><i class="ri-book-open-fill"></i></span>
-          <div class="stat-number" data-target="20" data-suffix="+">0</div>
-          <div class="stat-label">Yaratilgan darsliklar</div>
+          <span class="stat-icon"><i class="ri-youtube-fill"></i></span>
+          <div class="stat-number" data-target="1000" data-suffix="+">0</div>
+          <div class="stat-label">YouTube obunachilari</div>
         </div>
       </div>
     </div>
@@ -119,35 +147,51 @@
 
   <!-- ════════════ ABOUT ════════════ -->
   <section id="about" class="section">
-    <div class="container">
+    <div class="section-full">
       <h2 class="section-title reveal">Men haqimda</h2>
       <p class="section-subtitle reveal">Texnologiya va ta'lim sohasidagi tajribam haqida</p>
 
       <div class="about-grid">
         <div class="about-text reveal">
-          <p>
-            Men professional kompyuter savodxonligi o'qituvchisi, dasturchi va iqtisodchiman.
-            Yillar davomida yuzlab o'quvchilarga zamonaviy texnologiyalarni o'rgatish tajribasiga egaman.
+          <p class="about-intro">
+            Men biznes jarayonlaridagi tartibsizliklarni aniq, vaqtni tejaydigan va avtomatlashtirilgan tizimlarga aylantiraman. 
+            Asosiy maqsadim — murakkab ishlarni oddiy va xatosiz ishlaydigan mexanizmga o'tkazish.
           </p>
-          <p>
-            Mening asosiy maqsadim — texnologiyani oddiy va tushunarli qilib yetkazish.
-            Microsoft Excel va VBA dasturlash, sun'iy intellekt (AI) ilovalari, AppSheet no-code platformasi
-            va raqamli marketing sohalarida chuqur bilimga egaman.
-          </p>
-          <p>
-            Qarz daftar ilovasi, YouTube va Telegram kontentlar, HR bo'limi uchun interaktiv darsliklar
-            kabi bir qator amaliy loyihalar ustida ishlayman.
-          </p>
-
-          <div class="skill-tags">
-            <span class="skill-tag"><i class="ri-bar-chart-grouped-fill"></i> Excel</span>
-            <span class="skill-tag"><i class="ri-robot-2-fill"></i> Sun'iy Intellekt</span>
-            <span class="skill-tag"><i class="ri-apps-2-fill"></i> AppSheet</span>
-            <span class="skill-tag"><i class="ri-terminal-box-fill"></i> Python</span>
-            <span class="skill-tag"><i class="ri-line-chart-fill"></i> Marketing</span>
-            <span class="skill-tag"><i class="ri-video-fill"></i> Kontent yaratish</span>
-            <span class="skill-tag"><i class="ri-bank-fill"></i> Iqtisodiyot</span>
-            <span class="skill-tag"><i class="ri-hand-heart-fill"></i> Ta'lim</span>
+          
+          <h3 class="services-title">Mijozlar va bizneslar uchun nima qilib bera olaman?</h3>
+          
+          <div class="services-list">
+            <div class="service-item">
+              <div class="service-icon"><i class="ri-line-chart-fill"></i></div>
+              <div class="service-content">
+                <h4>Moliya va Tahlil</h4>
+                <p>Excel va Google Sheets yordamida korxonangizning pul aylanmasini (cash flow) va aniq moliyaviy holatini ko'rsatib beruvchi interaktiv tizimlar (dashboard'lar) yarataman. Buxgalteriya hisobini to'g'ri yo'lga qo'yaman.</p>
+              </div>
+            </div>
+            
+            <div class="service-item">
+              <div class="service-icon"><i class="ri-smartphone-fill"></i></div>
+              <div class="service-content">
+                <h4>Ilovalar va Botlar (No-code)</h4>
+                <p>Ma'lumotlarni yig'ish va boshqarishni osonlashtirish uchun AppSheet orqali mustaqil mobil ilovalar, shuningdek, Google Sheets bilan integratsiya qilingan aqlli Telegram botlar tuzib beraman.</p>
+              </div>
+            </div>
+            
+            <div class="service-item">
+              <div class="service-icon"><i class="ri-global-fill"></i></div>
+              <div class="service-content">
+                <h4>Veb va So'rovnomalar</h4>
+                <p>Kompaniyalar uchun zamonaviy veb-saytlar va mijozlar bilan ishlash uchun mukammal Google Forms so'rovnomalari ishlab chiqaman.</p>
+              </div>
+            </div>
+            
+            <div class="service-item">
+              <div class="service-icon"><i class="ri-graduation-cap-fill"></i></div>
+              <div class="service-content">
+                <h4>Amaliy Ta'lim</h4>
+                <p>Ofis dasturlari bo'yicha quruq nazariyadan xoli, faqat real biznes jarayonlarida asqotadigan, natijaga yo'naltirilgan amaliy darslar o'taman.</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -197,6 +241,72 @@
               <div class="skill-fill" data-width="75"></div>
             </div>
           </div>
+          
+          <!-- Neon 2D Chart SVG -->
+          <div class="glass-card neon-chart-wrapper reveal reveal-delay-3" style="padding: 24px;">
+            <div class="chart-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+              <div>
+                <span class="skill-name" style="display: block; margin-bottom: 4px;">Biznes Avtomatlashtirish</span>
+                <span style="color: var(--text-muted); font-size: 0.8rem;">Samaradorlik va Vaqt tejamkorligi</span>
+              </div>
+              <div style="background: rgba(20, 184, 166, 0.1); padding: 6px 12px; border-radius: var(--radius-full); border: 1px solid rgba(20, 184, 166, 0.2); display: flex; align-items: center; gap: 6px;">
+                <i class="ri-arrow-right-up-line" style="color: var(--accent-teal);"></i>
+                <span style="color: var(--accent-teal); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.9rem;">+140%</span>
+              </div>
+            </div>
+            
+            <div class="svg-chart-container" style="position: relative; width: 100%; height: 160px; pointer-events: none;">
+               <!-- Y axis grid lines -->
+               <div style="position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; z-index: 0;">
+                  <div style="width: 100%; height: 1px; background: linear-gradient(90deg, var(--border-glass), transparent); opacity: 0.4;"></div>
+                  <div style="width: 100%; height: 1px; background: linear-gradient(90deg, var(--border-glass), transparent); opacity: 0.4;"></div>
+                  <div style="width: 100%; height: 1px; background: linear-gradient(90deg, var(--border-glass), transparent); opacity: 0.4;"></div>
+                  <div style="width: 100%; height: 1px; background: linear-gradient(90deg, var(--border-glass), transparent); opacity: 0.4;"></div>
+               </div>
+               
+               <svg viewBox="0 0 400 160" preserveAspectRatio="none" style="width: 100%; height: 100%; position: relative; z-index: 1; overflow: visible;">
+                 <!-- Gradient Defs -->
+                 <defs>
+                   <linearGradient id="neonArea" x1="0%" y1="0%" x2="0%" y2="100%">
+                     <stop offset="0%" stop-color="rgba(20, 184, 166, 0.3)" />
+                     <stop offset="100%" stop-color="rgba(20, 184, 166, 0.0)" />
+                   </linearGradient>
+                   <filter id="neonChartGlow">
+                     <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                     <feMerge>
+                       <feMergeNode in="coloredBlur"/>
+                       <feMergeNode in="SourceGraphic"/>
+                     </feMerge>
+                   </filter>
+                 </defs>
+
+                 <!-- Area Fill -->
+                 <path class="chart-area-anim" d="M0,160 L0,130 C50,130 80,90 130,100 C150,104 180,110 220,50 C250,5 270,60 320,70 C360,78 380,20 400,10 L400,160 Z" 
+                       fill="url(#neonArea)" />
+                       
+                 <!-- Glowing Line -->
+                 <path class="chart-line-anim" d="M0,130 C50,130 80,90 130,100 C150,104 180,110 220,50 C250,5 270,60 320,70 C360,78 380,20 400,10" 
+                       fill="none" stroke="var(--accent-teal)" stroke-width="3" filter="url(#neonChartGlow)" />
+
+                 <!-- Points -->
+                 <circle cx="130" cy="100" r="4" fill="var(--bg-primary)" stroke="var(--accent-teal)" stroke-width="2" class="chart-point p1" />
+                 <circle cx="220" cy="50" r="4" fill="var(--bg-primary)" stroke="var(--accent-teal)" stroke-width="2" class="chart-point p2" />
+                 <circle cx="320" cy="70" r="4" fill="var(--bg-primary)" stroke="var(--accent-teal)" stroke-width="2" class="chart-point p3" />
+                 <circle cx="400" cy="10" r="6" fill="#fff" stroke="var(--accent-purple)" stroke-width="3" filter="url(#neonChartGlow)" class="chart-point pulse p4" />
+               </svg>
+            </div>
+          </div>
+          
+          <div class="skill-tags reveal reveal-delay-3" style="margin-top: 0;">
+            <span class="skill-tag"><i class="ri-bar-chart-grouped-fill"></i> Excel</span>
+            <span class="skill-tag"><i class="ri-robot-2-fill"></i> Sun'iy Intellekt</span>
+            <span class="skill-tag"><i class="ri-apps-2-fill"></i> AppSheet</span>
+            <span class="skill-tag"><i class="ri-terminal-box-fill"></i> Python</span>
+            <span class="skill-tag"><i class="ri-line-chart-fill"></i> Marketing</span>
+            <span class="skill-tag"><i class="ri-video-fill"></i> Kontent yaratish</span>
+            <span class="skill-tag"><i class="ri-bank-fill"></i> Iqtisodiyot</span>
+            <span class="skill-tag"><i class="ri-hand-heart-fill"></i> Ta'lim</span>
+          </div>
         </div>
       </div>
     </div>
@@ -204,106 +314,167 @@
 
   <!-- ════════════ TECH STACK ════════════ -->
   <section id="techstack" class="section">
-    <div class="container">
+    <div class="section-full">
       <h2 class="section-title reveal">Texnologik Malakam</h2>
-      <p class="section-subtitle reveal">Tech Stack & Expertise</p>
+      <p class="section-subtitle reveal">Asosiy ish qurollarim va texnologiyalar to'plami</p>
 
       <div class="techstack-grid">
-
-        <div class="glass-card techstack-card reveal">
-          <div class="techstack-icon-wrapper" style="--card-accent: #22c55e;">
+        <!-- 1: Excel va Avtomatlashtirish -->
+        <div class="glass-card techstack-card reveal" style="--card-accent: #22c55e;">
+          <div class="techstack-icon-wrapper">
             <span class="techstack-icon"><i class="ri-bar-chart-grouped-fill"></i></span>
           </div>
-          <h3>Excel va Avtomatlashtirish muhandisi</h3>
-          <p>
-            MS Excel imkoniyatlarini maksimal darajada qo'llagan holda murakkab hisob-kitoblar,
-            interaktiv interfeyslar, ma'lumotlar tahlili va VBA makroslari orqali biznes jarayonlarini
-            to'liq avtomatlashtiruvchi kompleks tizimlar (Dashboard va boshqaruv panellari) yarataman.
-          </p>
+          <h3>Excel va Avtomatlashtirish</h3>
+          <p>Korxona va bizneslar uchun Excelda hisob-kitoblarni avtomatlashtiruvchi tayyor tizimlar yarataman. Bunga ombor hisobi, qarzdorlik nazorati, tovarlarning kirim-chiqimi va moliyaviy monitoringni yurituvchi qulay jadvallar hamda boshqaruv panellari (dashboard) kiradi.</p>
         </div>
 
-        <div class="glass-card techstack-card reveal reveal-delay-1">
-          <div class="techstack-icon-wrapper" style="--card-accent: #a855f7;">
+        <!-- 2: No-code Ilovalar (AppSheet) -->
+        <div class="glass-card techstack-card reveal reveal-delay-1" style="--card-accent: #a855f7;">
+          <div class="techstack-icon-wrapper">
             <span class="techstack-icon"><i class="ri-apps-2-fill"></i></span>
           </div>
-          <h3>No-code arxitektori (AppSheet)</h3>
-          <p>
-            Dasturlash tillarisiz (No-code platformalarida), xususan AppSheet yordamida korxonalar
-            uchun moslashtirilgan, tez va samarali ishlaydigan mobil hamda veb-ilovalarni noldan
-            loyihalashtiraman (masalan: "Qarz daftar").
-          </p>
+          <h3>No-code Ilovalar (AppSheet)</h3>
+          <p>Kod yozmasdan turib ishingizni yengillashtiruvchi mobil ilovalar tuzaman. "Qarz daftar", ombor nazorati, kutubxona yoki mijozlar bazasini yurituvchi ilovalarni aynan sizning biznesingiz talablariga moslashtirib yaratib beraman.</p>
         </div>
 
-        <div class="glass-card techstack-card reveal reveal-delay-2">
-          <div class="techstack-icon-wrapper" style="--card-accent: #3b82f6;">
+        <!-- 3: Sun'iy Intellekt va AI -->
+        <div class="glass-card techstack-card reveal reveal-delay-2" style="--card-accent: #3b82f6;">
+          <div class="techstack-icon-wrapper">
             <span class="techstack-icon"><i class="ri-robot-2-fill"></i></span>
           </div>
-          <h3>Sun'iy intellekt integratori va o'qituvchi</h3>
-          <p>
-            Zamonaviy sun'iy intellekt (ChatGPT, Gemini, Claude) yechimlarini kundalik ish va ta'lim
-            jarayonlariga joriy qilish, shuningdek, AI yordamida mehnat unumdorligini oshirish
-            bo'yicha amaliy ko'nikmalarni o'rgatuvchi mutaxassis-ustoz.
-          </p>
+          <h3>Sun'iy Intellekt va AI</h3>
+          <p>ChatGPT, Gemini, Claude kabi neyrotarmoqlarni kundalik ishga to'g'ri integratsiya qilishni o'rgataman. Sun'iy intellekt yordamida ishdagi unumdorlikni oshirish va ta'lim sifatini yaxshilash bo'yicha amaliy darslar o'taman.</p>
         </div>
 
-        <div class="glass-card techstack-card reveal reveal-delay-3">
-          <div class="techstack-icon-wrapper" style="--card-accent: #14b8a6;">
+        <!-- 4: Telegram Botlar -->
+        <div class="glass-card techstack-card reveal" style="--card-accent: #14b8a6;">
+          <div class="techstack-icon-wrapper">
             <span class="techstack-icon"><i class="ri-telegram-fill"></i></span>
           </div>
-          <h3>Telegram Bot yaratuvchisi</h3>
-          <p>
-            Telegram platformasida biznes, mijozlarga xizmat ko'rsatish va ma'lumotlar bazasi bilan
-            ishlovchi avtomatlashtirilgan aqlli botlar tizimini ishlab chiqish va joriy etish.
-          </p>
+          <h3>Telegram Botlar</h3>
+          <p>Mijozlar bilan ishlash va ma'lumotlarni yig'ish jarayonini osonlashtirish uchun Telegram botlar yarataman. Shuningdek, botlarni to'g'ridan-to'g'ri Google Sheets bazasiga ulab, sizning maxsus talablaringiz asosida moslashtirib beraman.</p>
         </div>
 
-        <div class="glass-card techstack-card reveal reveal-delay-4">
-          <div class="techstack-icon-wrapper" style="--card-accent: #f59e0b;">
-            <span class="techstack-icon"><i class="ri-cloud-fill"></i></span>
+        <!-- 5: Google Workspace -->
+        <div class="glass-card techstack-card reveal reveal-delay-1" style="--card-accent: #f59e0b;">
+          <div class="techstack-icon-wrapper">
+            <span class="techstack-icon"><i class="ri-google-fill"></i></span>
           </div>
-          <h3>Google Workspace (Bulutli texnologiyalar)</h3>
-          <p>
-            Jamoaviy ishlashni va ma'lumotlar yig'ishni tizimlashtirish uchun bulutli yechimlardan
-            professional foydalanish: Google Sheets (murakkab jadvallar), Google Forms (so'rovnomalar
-            va testlar) hamda Google Docs (hujjatlar bilan onlayn ishlash).
-          </p>
+          <h3>Google Workspace</h3>
+          <p>Jamoaviy ishlashni va ma'lumot yig'ishni tartibga solish uchun Google Sheets (jadvallar), Google Forms (so'rovnomalar) hamda Google Docs vositalaridan unumli foydalanishni yo'lga qo'yib beraman.</p>
         </div>
 
+        <!-- 6: Hujjatlarni Avtomatlashtirish (Word & Docs) -->
+        <div class="glass-card techstack-card reveal reveal-delay-2" style="--card-accent: #ec4899;">
+          <div class="techstack-icon-wrapper">
+            <span class="techstack-icon"><i class="ri-file-paper-2-fill"></i></span>
+          </div>
+          <h3>Hujjatlarni Avtomatlashtirish (Word & Docs)</h3>
+          <p>Korxona hujjatlar aylanmasini (HR buyruqlari, shartnomalar) tezlashtirish uchun aqlli shablonlar yarataman. Bitta ma'lumotlar bazasi orqali bir vaqtning o'zida o'nlab (30-40 ta) xodimlar uchun tayyor hujjatlarni avtomatik generatsiya qiluvchi tizimlar tuzib beraman. Shuningdek, akademik va ofis ishlari uchun professional qoliplar tayyorlayman.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ════════════ PORTFOLIO ════════════ -->
   <section id="portfolio" class="section">
-    <div class="container">
+    <div class="section-full">
       <h2 class="section-title reveal">Mening Loyihalarim</h2>
       <p class="section-subtitle reveal">Amaliy loyihalar va ishlanmalar</p>
 
-      <div class="portfolio-grid" id="dynamic-portfolio">
-        <!-- Google Sheets orqali to'ldiriladi -->
-        <p style="text-align: center; width: 100%; color: var(--text-secondary);">Ma'lumotlar yuklanmoqda <i class="ri-loader-4-line" style="animation: spin 1s linear infinite;"></i></p>
+      <div class="portfolio-filters reveal">
+        <button class="filter-btn active" data-filter="all">Barchasi</button>
+        <button class="filter-btn" data-filter="appsheet">AppSheet</button>
+        <button class="filter-btn" data-filter="excel">Excel</button>
+        <button class="filter-btn" data-filter="sheets">Google Sheets</button>
+        <button class="filter-btn" data-filter="bot">Botlar</button>
+      </div>
+
+      <div class="portfolio-grid-v2" id="portfolio-grid">
+        <!-- Card 1 -->
+        <div class="portfolio-card-v2 reveal" data-category="appsheet">
+          <div class="portfolio-card-img">
+            <!-- Shu joydagi 'src' dagi rasmni o'zingizning rasmingiz bilan almashtirasiz -->
+            <img src="assets/project-appsheet.jpg" alt="AppSheet" class="card-image" onerror="this.style.opacity='0'">
+            <div class="img-placeholder">RASM KIRITING</div>
+          </div>
+          <div class="portfolio-card-content">
+            <h3>Qarz Daftar Ilovasi</h3>
+            <p>Mijozlar bilan ishlash, qarz va to'lovlarni nazorat qilish dasturi.</p>
+            <div class="portfolio-card-tags">
+              <span>AppSheet</span>
+              <span>Google Drive</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="portfolio-card-v2 reveal reveal-delay-1" data-category="excel">
+          <div class="portfolio-card-img">
+            <img src="assets/project-excel.jpg" alt="Excel Dashboard" class="card-image" onerror="this.style.opacity='0'">
+            <div class="img-placeholder">RASM KIRITING</div>
+          </div>
+          <div class="portfolio-card-content">
+            <h3>Ombor va Savdo Avtomatizatsiyasi</h3>
+            <p>Tovarlar qoldig'i, daromad va harajatlarning to'liq hisobi.</p>
+            <div class="portfolio-card-tags">
+              <span>MS Excel</span>
+              <span>Dashboard</span>
+              <span>VBA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="portfolio-card-v2 reveal reveal-delay-2" data-category="sheets">
+          <div class="portfolio-card-img">
+            <img src="assets/project-sheets.jpg" alt="Google Sheets" class="card-image" onerror="this.style.opacity='0'">
+            <div class="img-placeholder">RASM KIRITING</div>
+          </div>
+          <div class="portfolio-card-content">
+            <h3>Moliya va Cash Flow Tizimi</h3>
+            <p>Korxonaning barcha pul oqimlarini vizual tarzda monitoring qilish.</p>
+            <div class="portfolio-card-tags">
+              <span>Google Sheets</span>
+              <span>Formulalar</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="portfolio-card-v2 reveal reveal-delay-3" data-category="bot">
+          <div class="portfolio-card-img">
+            <img src="assets/project-bot.jpg" alt="Telegram Bot" class="card-image" onerror="this.style.opacity='0'">
+            <div class="img-placeholder">RASM KIRITING</div>
+          </div>
+          <div class="portfolio-card-content">
+            <h3>Mijozlar Bazasi Boti</h3>
+            <p>Yangi klientlarni qabul qilish va ma'lumotlarni Sheetsga yozish.</p>
+            <div class="portfolio-card-tags">
+              <span>Telegram API</span>
+              <span>Google Apps Script</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ════════════ PRESENTATIONS ════════════ -->
   <section id="presentations" class="section">
-    <div class="container">
+    <div class="section-full">
       <h2 class="section-title reveal">Prezentatsiyalar</h2>
       <p class="section-subtitle reveal">Ilmiy va akademik taqdimotlarim</p>
 
       <div class="presentations-grid" id="dynamic-presentations">
-        <!-- Google Sheets orqali to'ldiriladi -->
         <p style="text-align: center; width: 100%; color: var(--text-secondary);">Ma'lumotlar yuklanmoqda <i class="ri-loader-4-line" style="animation: spin 1s linear infinite;"></i></p>
       </div>
     </div>
   </section>
 
-
-
   <!-- ════════════ CHANNELS ════════════ -->
   <section id="channels" class="section">
-    <div class="container">
+    <div class="section-full">
       <h2 class="section-title reveal" style="text-align:center;">Kanallarim</h2>
       <p class="section-subtitle reveal" style="text-align:center;margin-left:auto;margin-right:auto;">
         Foydali kontent va ta'limiy materiallar uchun kanallarimga obuna bo'ling
@@ -312,9 +483,7 @@
       <div class="channels-grid">
         <a href="https://www.youtube.com/@raximovganisher" target="_blank" rel="noopener noreferrer"
           class="glass-card channel-card reveal" style="--channel-color: #FF0000;">
-          <div class="channel-icon-wrapper">
-            <i class="ri-youtube-fill"></i>
-          </div>
+          <div class="channel-icon-wrapper"><i class="ri-youtube-fill"></i></div>
           <h3>YouTube kanal</h3>
           <p class="channel-handle">@raximovganisher</p>
           <span class="channel-desc">Excel sirlari, AI vositalari va texnologiya bo'yicha video darsliklar</span>
@@ -322,9 +491,7 @@
 
         <a href="https://t.me/raximovganisher" target="_blank" rel="noopener noreferrer"
           class="glass-card channel-card reveal reveal-delay-1" style="--channel-color: #2AABEE;">
-          <div class="channel-icon-wrapper">
-            <i class="ri-telegram-fill"></i>
-          </div>
+          <div class="channel-icon-wrapper"><i class="ri-telegram-fill"></i></div>
           <h3>Telegram kanal</h3>
           <p class="channel-handle">@raximovganisher</p>
           <span class="channel-desc">Kundalik foydali postlar, shablonlar va yangiliklar</span>
@@ -332,12 +499,18 @@
 
         <a href="https://www.instagram.com/tezkor_excel/" target="_blank" rel="noopener noreferrer"
           class="glass-card channel-card reveal reveal-delay-2" style="--channel-color: #E4405F;">
-          <div class="channel-icon-wrapper">
-            <i class="ri-instagram-fill"></i>
-          </div>
+          <div class="channel-icon-wrapper"><i class="ri-instagram-fill"></i></div>
           <h3>Instagram</h3>
           <p class="channel-handle">@tezkor_excel</p>
           <span class="channel-desc">Tezkor Excel sirlari va qisqa video ko'rsatmalar</span>
+        </a>
+
+        <a href="https://t.me/tezkor_excel" target="_blank" rel="noopener noreferrer"
+          class="glass-card channel-card reveal reveal-delay-3" style="--channel-color: #22c55e;">
+          <div class="channel-icon-wrapper"><i class="ri-telegram-fill"></i></div>
+          <h3>Tezkor Excel</h3>
+          <p class="channel-handle">@tezkor_excel</p>
+          <span class="channel-desc">Faqat Excel bo'yicha amaliy qisqa videolar va tezkor yechimlar</span>
         </a>
       </div>
     </div>
@@ -345,10 +518,10 @@
 
   <!-- ════════════ CONTACT ════════════ -->
   <section id="contact" class="section">
-    <div class="container">
+    <div class="section-full">
       <h2 class="section-title reveal" style="text-align:center;">Aloqa</h2>
-      <p class="section-subtitle reveal" style="text-align:center;margin-left:auto;margin-right:auto;">
-        Men bilan bog'laning — yangi loyihalar va hamkorlik uchun doimo tayyorman
+      <p class="section-subtitle reveal" style="text-align:center; margin: 0 auto 50px auto; max-width: 800px; width: 100%; font-size: 1.15rem;">
+        <span class="neon-text-animate">Men bilan bog'laning — yangi loyihalar va hamkorlik uchun doimo tayyorman</span>
       </p>
 
       <div class="contact-grid">
@@ -366,8 +539,7 @@
           <p>@raximov.ganisherr</p>
         </a>
 
-        <a href="tel:+998942274464"
-          class="glass-card contact-card reveal reveal-delay-2">
+        <a href="tel:+998942274464" class="glass-card contact-card reveal reveal-delay-2">
           <span class="contact-icon"><i class="ri-phone-fill"></i></span>
           <h3>Telefon</h3>
           <p>+998 94 227 44 64</p>
@@ -384,8 +556,8 @@
 
   <!-- ════════════ FOOTER ════════════ -->
   <footer class="footer">
-    <div class="container">
-      <p>© 2026 G'anisher Raximov. Barcha huquqlar himoyalangan. <span style="font-size:1.2rem;vertical-align:top;margin-left:4px;display:inline-block;"><i class="ri-macbook-line" style="color:var(--accent-teal);"></i></span></p>
+    <div class="section-full">
+      <p>&copy; 2026 G'anisher Raximov. Barcha huquqlar himoyalangan. <span style="font-size:1.2rem;vertical-align:top;margin-left:4px;display:inline-block;"><i class="ri-macbook-line" style="color:var(--accent-teal);"></i></span></p>
     </div>
   </footer>
 
