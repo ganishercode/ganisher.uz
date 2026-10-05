@@ -1,0 +1,3 @@
+Krossvord tuzuvchi | xizmatlar/krossvord.html
+Test tuzuvchi | xizmatlar/test.html
+Obyektivka tuzuvchi | xizmatlar/obyektivka.html

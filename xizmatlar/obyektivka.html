@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obyektivka tuzuvchi</title>
+<meta name="description" content="Rasmiy obyektivka (ma'lumotnoma) shaklini onlayn to'ldiring: 3×4 rasm, mehnat faoliyati va qarindoshlar jadvali bilan tayyor hujjatni PDF yoki Word'da yuklab oling.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2.5 27.7 9.25v13.5L16 29.5 4.3 22.75V9.25z' fill='%230A0A0A' stroke='%23F5B83D' stroke-width='2.4'/%3E%3Ctext x='16' y='21.2' font-family='Arial,sans-serif' font-weight='800' font-size='13' text-anchor='middle' fill='%23F5B83D'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Joylashuv: chapda forma (bo'limlar bo'yicha panellar), o'ngda A4 qog'oz ko'rinishi va yuklab olish */
+:root{
+  /* ganisher.uz ranglari: deyarli qora fon, oltin aksent */
+  --bg:#0A0A0A; --panel:#141310; --panel-2:#1B1914; --ink:#FFFFFF; --muted:#A1A1A1; --line:rgba(245,184,61,.16);
+  --accent:#F5B83D; --accent-hover:#FFC94D; --accent-ink:#0A0A0A; --accent-soft:rgba(245,184,61,.12);
+  --warn:#FFC46B; --warn-soft:#3A2A10; --bad:#FF8A80; --bad-soft:#3D1A18; --good:#7AD99A; --good-soft:#15331F;
+  --display:"Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --body:"Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:radial-gradient(1100px 520px at 0% -10%,rgba(245,184,61,.07),transparent 60%),var(--bg);color:var(--ink);font:15px/1.5 var(--body);padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 20px}
+h1{font:700 clamp(24px,3.4vw,34px)/1.1 var(--display);margin:0;letter-spacing:-.02em;text-wrap:balance}
+header p{margin:8px 0 0;color:var(--muted);max-width:66ch}
+.gold{color:var(--accent)}
+.ic{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---- yuqori qator va vositalar menyusi (krossvord / test bilan bir xil) ---- */
+.topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.brand{display:inline-flex;align-items:center;gap:10px;font:800 16px var(--display);letter-spacing:.06em;color:var(--ink);text-decoration:none}
+.brand svg{width:28px;height:28px}
+.brand b{color:var(--accent);font-weight:inherit}
+.tools{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow-x:auto;max-width:100%}
+.tools a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:9px;color:var(--muted);font-weight:600;font-size:14px;text-decoration:none;white-space:nowrap}
+.tools a:hover{color:var(--ink)}
+.tools a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:600;font-size:14px;text-decoration:none}
+.back:hover{color:var(--accent)}
+@media (max-width:760px){.tools{order:3;width:100%}.tools a{flex:1;justify-content:center;padding-inline:10px}}
+@media (max-width:380px){.tools a{padding-inline:8px;gap:0}.tools a .ic{display:none}.brand{font-size:15px}}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:13px}
+.foot a{color:var(--ink);font-weight:600;text-decoration:none}
+.foot a:hover{color:var(--accent)}
+
+/* ---- asosiy to'r ---- */
+.grid{display:grid;grid-template-columns:minmax(0,470px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:980px){.grid{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.step{display:flex;align-items:center;gap:10px;font:700 12px/1 var(--display);text-transform:uppercase;letter-spacing:.14em;color:var(--accent)}
+.step b{display:inline-grid;place-items:center;min-width:28px;height:24px;padding-inline:6px;border:1px solid var(--line);border-radius:7px;background:var(--accent-soft);color:var(--accent);font-size:12px;letter-spacing:.04em}
+.step .opt{margin-left:auto;font:500 12px var(--body);letter-spacing:0;text-transform:none;color:var(--muted)}
+.hint{color:var(--muted);font-size:13px;margin:0}
+.notice{display:flex;align-items:flex-start;gap:10px;background:var(--accent-soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;color:var(--ink)}
+.notice .ic{color:var(--accent);margin-top:2px}
+.notice span{min-width:0}
+
+/* ---- maydonlar ---- */
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted);min-width:0}
+.fld.full{grid-column:1/-1}
+.fld .req{color:var(--accent)}
+input[type=text],select,textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:500 14px/1.45 var(--body);background:var(--bg);color:var(--ink);transition:border-color .2s,box-shadow .2s}
+textarea{min-height:64px;resize:vertical}
+input::placeholder,textarea::placeholder{color:#8C877C}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+[aria-invalid="true"]{border-color:var(--bad)!important}
+label.row{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink);cursor:pointer}
+input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+@media (max-width:520px){.fields{grid-template-columns:1fr}}
+
+/* ---- tugmalar ---- */
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 14px var(--body);border-radius:10px;padding:10px 16px;cursor:pointer;border:1px solid var(--line);background:var(--panel-2);color:var(--ink);transition:border-color .2s,background-color .2s,color .2s}
+button:hover{border-color:var(--accent)}
+button:disabled{opacity:.55;cursor:wait}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+button.ghost{background:transparent}
+button.add{align-self:flex-start;background:transparent;border-style:dashed;color:var(--accent);padding:8px 14px;font-size:13.5px}
+button.icon{padding:0;width:36px;height:36px;flex-shrink:0;background:transparent;color:var(--muted)}
+button.icon:hover{color:var(--ink)}
+button.icon.del:hover{color:var(--bad);border-color:var(--bad)}
+button.icon:disabled{opacity:.3;cursor:default}
+button.danger{color:var(--bad);border-color:var(--bad)}
+
+/* ---- rasm ---- */
+.photo-row{display:flex;gap:16px;align-items:center}
+.thumb{width:84px;height:112px;border-radius:8px;border:1px dashed var(--line);background:var(--bg);display:grid;place-items:center;overflow:hidden;flex-shrink:0;color:var(--muted);font-size:12px;text-align:center}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-side{display:flex;flex-direction:column;gap:8px;min-width:0}
+
+/* ---- ro'yxatlar ---- */
+.list{display:flex;flex-direction:column;gap:8px}
+.lrow{display:flex;gap:8px;align-items:center}
+.lrow input{flex:1}
+.sub{display:flex;flex-direction:column;gap:8px;padding-top:4px}
+.sub + .sub{border-top:1px dashed var(--line);padding-top:12px}
+.sub-head{font-size:13px;font-weight:600;color:var(--ink)}
+.wrow{display:grid;grid-template-columns:72px 72px minmax(0,1fr) auto;gap:8px;align-items:start;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px}
+.wrow textarea{min-height:42px}
+.wrow .ctl{display:flex;flex-direction:column;gap:4px}
+.wrow .ctl button{width:32px;height:28px}
+@media (max-width:520px){.wrow{grid-template-columns:1fr 1fr auto}.wrow textarea{grid-column:1/3;grid-row:2}.wrow .ctl{grid-row:1/3;grid-column:3}}
+.rcard{display:flex;flex-direction:column;gap:10px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px}
+.rcard-head{display:flex;gap:8px;align-items:center}
+.rcard-head input{flex:1;font-weight:700}
+.rcard .fields{gap:10px}
+
+/* ---- o'ng ustun: ko'rish ---- */
+.sticky{position:sticky;top:16px}
+@media (max-width:980px){.sticky{position:static}}
+.status{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--panel-2);color:var(--muted)}
+.pill.ok{background:var(--good-soft);color:var(--good)}
+.pill.err{background:var(--bad-soft);color:var(--bad)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.paperwrap{overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px;max-height:calc(100vh - 230px);display:flex;flex-direction:column;align-items:center;gap:16px}
+@media (max-width:980px){.paperwrap{max-height:none}}
+.paper{background:#fff;color:#000;width:720px;max-width:none;flex-shrink:0;padding:40px 44px;min-height:1018px;box-shadow:0 1px 3px rgba(0,0,0,.3),0 12px 30px rgba(0,0,0,.4)}
+.paper img{max-width:none}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--panel-2);color:var(--ink);border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.5);padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;max-width:calc(100% - 32px)}
+.toast.show{opacity:1}
+#printArea,#pdfStage{display:none}
+#pdfStage{position:fixed;left:-10000px;top:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{
+  @page{size:A4;margin:15mm}
+  body{background:#fff;padding:0}
+  body > *:not(#printArea){display:none!important}
+  #printArea{display:block!important}
+  .pb{page-break-before:always;break-before:page}
+}
+
+/* ================= TELEFON ================= */
+.mbar{display:none}
+input[type=checkbox],input[type=radio]{accent-color:var(--accent)}
+@media (max-width:980px){
+  /* iPhone maydonga bosilganda ekranni kattalashtirmasligi uchun shrift 16px */
+  input[type=text],input[type=number],select,textarea{font-size:16px}
+  input[type=text],input[type=number],select{min-height:44px}
+  input[type=checkbox],input[type=radio]{width:20px;height:20px}
+  button{min-height:44px}
+  .btns > button{flex:1 1 auto}
+  .paper{max-width:none}
+  /* pastki tezkor panel: natijani ko'rish va PDF */
+  .mbar{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(10,10,10,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+  .mbar button{flex:1;white-space:nowrap;padding-inline:12px}
+  body{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8M13 12h8M13 18h8"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h2M15 12h2M7 16h10"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.6 5.6 1.9-5.6 1.9L12 18l-1.9-5.6-5.6-1.9 5.6-1.9z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-file-down" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></symbol>
+  <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8M16 13H8M16 17H8"/></symbol>
+  <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3h12v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+  <nav class="topbar" aria-label="Sayt">
+    <a class="brand" href="../index.html" aria-label="GANISHER.UZ — bosh sahifa"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2.5 27.7 9.25v13.5L16 29.5 4.3 22.75V9.25z" fill="#141310" stroke="#F5B83D" stroke-width="2"/><text x="16" y="21.2" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="13" text-anchor="middle" fill="#F5B83D">G</text></svg><span>GANISHER<b>.UZ</b></span></a>
+    <div class="tools" aria-label="Ta'lim xizmatlari">
+      <a href="krossvord.html"><svg class="ic"><use href="#i-grid"/></svg>Krossvord</a>
+      <a href="test.html"><svg class="ic"><use href="#i-list"/></svg>Test</a>
+      <a href="obyektivka.html" aria-current="page"><svg class="ic"><use href="#i-idcard"/></svg>Obyektivka</a>
+    </div>
+    <a class="back" href="../index.html#education"><svg class="ic"><use href="#i-arrow-left"/></svg>Saytga qaytish</a>
+  </nav>
+
+  <header>
+    <div>
+      <h1>Obyektivka <span class="gold">tuzuvchi</span></h1>
+      <p>Rasmiy ma'lumotnoma (obyektivka) shaklini to'ldiring — hujjat o'ng tomonda darhol tayyor bo'ladi. PDF yoki Word'da yuklab oling yoki chop eting. Ma'lumotlar faqat shu brauzerda saqlanadi, hech qayerga yuborilmaydi.</p>
+    </div>
+    <div class="btns">
+      <button type="button" id="btnSample"><svg class="ic"><use href="#i-sparkle"/></svg>Namuna</button>
+      <button type="button" id="btnClear"><svg class="ic"><use href="#i-trash"/></svg>Tozalash</button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <!-- ======================= FORMA ======================= -->
+    <form class="col" id="form" novalidate autocomplete="off">
+      <div class="notice" id="sampleNote" hidden><svg class="ic"><use href="#i-info"/></svg><span>Namuna ma'lumotlar ko'rsatilmoqda. O'zingiznikini yozing yoki yuqoridagi "Tozalash" tugmasini bosing.</span></div>
+
+      <section class="panel" aria-labelledby="s1">
+        <div class="step" id="s1"><b>1</b>Shaxsiy ma'lumotlar</div>
+        <div class="photo-row">
+          <div class="thumb" id="thumb"><span>3×4<br>rasm</span></div>
+          <div class="photo-side">
+            <div class="btns">
+              <button type="button" id="photoBtn"><svg class="ic"><use href="#i-upload"/></svg>Rasm yuklash</button>
+              <button type="button" class="ghost" id="photoDel" hidden><svg class="ic"><use href="#i-x"/></svg>O'chirish</button>
+            </div>
+            <p class="hint">.jpg, .png yoki .webp. Rasm avtomatik 3×4 o'lchamga qirqiladi.</p>
+            <input type="file" id="photoFile" accept="image/jpeg,image/png,image/webp" hidden>
+          </div>
+        </div>
+        <div class="fields">
+          <label class="fld full"><span>F.I.Sh. (familiya, ism, otasining ismi) <span class="req">*</span></span>
+            <input type="text" id="f-fio" data-k="fio" placeholder="Masalan: Karimov Javohir Rustamovich">
+          </label>
+          <label class="fld"><span>Tug'ilgan sana <span class="req">*</span></span>
+            <input type="text" id="f-birth" data-k="birth" data-date inputmode="numeric" placeholder="kun.oy.yil">
+          </label>
+          <label class="fld"><span>Millati <span class="req">*</span></span>
+            <input type="text" id="f-nation" data-k="nation" placeholder="Masalan: o'zbek">
+          </label>
+          <label class="fld full"><span>Tug'ilgan joyi <span class="req">*</span></span>
+            <input type="text" id="f-place" data-k="place" placeholder="Masalan: Xorazm viloyati, Urganch shahri">
+          </label>
+          <label class="fld full">Partiyaviyligi
+            <input type="text" id="f-party" data-k="party" placeholder="yo'q">
+          </label>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="s2">
+        <div class="step" id="s2"><b>2</b>Joriy lavozim</div>
+        <div class="fields">
+          <label class="fld">Lavozimga tayinlangan sana
+            <input type="text" id="f-posDate" data-k="posDate" data-date inputmode="numeric" placeholder="kun.oy.yil">
+          </label>
+          <label class="fld full">Joriy lavozim (to'liq)
+            <textarea id="f-pos" data-k="pos" placeholder="Masalan: Urganch shahar hokimligi iqtisodiyot bo'limi bosh mutaxassisi"></textarea>
+          </label>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="s3">
+        <div class="step" id="s3"><b>3</b>Ma'lumoti</div>
+        <div class="fields">
+          <label class="fld"><span>Ma'lumoti <span class="req">*</span></span>
+            <select id="f-edu" data-k="edu">
+              <option>Oliy (Magistr)</option><option>Oliy (Bakalavr)</option><option>Oliy</option><option>O'rta maxsus</option><option>O'rta</option>
+            </select>
+          </label>
+          <label class="fld">Mutaxassisligi
+            <input type="text" id="f-spec" data-k="spec" placeholder="Masalan: Iqtisodiyot">
+          </label>
+        </div>
+        <div class="sub"><div class="sub-head">Tamomlagan (o'quv yurtlari)</div><div class="list" data-list="schools" data-ph="Masalan: 2014 y. Urganch davlat universiteti (kunduzgi)"></div><button type="button" class="add" data-add="schools"><svg class="ic"><use href="#i-plus"/></svg>Maydon qo'shish</button></div>
+        <div class="sub"><div class="sub-head">Ilmiy darajasi</div><div class="list" data-list="degrees" data-ph="Masalan: iqtisodiyot fanlari nomzodi"></div><button type="button" class="add" data-add="degrees"><svg class="ic"><use href="#i-plus"/></svg>Maydon qo'shish</button></div>
+        <div class="sub"><div class="sub-head">Ilmiy unvoni</div><div class="list" data-list="titles" data-ph="Masalan: dotsent"></div><button type="button" class="add" data-add="titles"><svg class="ic"><use href="#i-plus"/></svg>Maydon qo'shish</button></div>
+        <div class="sub"><div class="sub-head">Qaysi chet tillarini biladi</div><div class="list" data-list="langs" data-ph="Masalan: rus tili"></div><button type="button" class="add" data-add="langs"><svg class="ic"><use href="#i-plus"/></svg>Maydon qo'shish</button></div>
+        <div class="sub"><div class="sub-head">Davlat mukofotlari bilan taqdirlanganmi</div><div class="list" data-list="awards" data-ph="Masalan: «Shuhrat» medali (2020)"></div><button type="button" class="add" data-add="awards"><svg class="ic"><use href="#i-plus"/></svg>Maydon qo'shish</button></div>
+        <p class="hint">Bo'sh qoldirilgan ro'yxatlar hujjatda "yo'q" deb yoziladi.</p>
+        <label class="fld">Xalq deputatlari Kengashi deputatimi yoki boshqa saylanadigan organ a'zosimi
+          <input type="text" id="f-deputy" data-k="deputy" placeholder="yo'q">
+        </label>
+      </section>
+
+      <section class="panel" aria-labelledby="s4">
+        <div class="step" id="s4"><b>4</b>Mehnat faoliyati</div>
+        <p class="hint">Yillarni yozing. Hozir ham shu yerda ishlasangiz, "gacha" ni bo'sh qoldiring — hujjatda "h.v." (hozirgi vaqtgacha) chiqadi.</p>
+        <div class="list" id="workList"></div>
+        <button type="button" class="add" data-add="work"><svg class="ic"><use href="#i-plus"/></svg>Maydon qo'shish</button>
+      </section>
+
+      <section class="panel" aria-labelledby="s5">
+        <div class="step" id="s5"><b>5</b>Yaqin qarindoshlari</div>
+        <div class="list" id="relList"></div>
+        <button type="button" class="add" data-add="rel"><svg class="ic"><use href="#i-plus"/></svg>Qarindosh qo'shish</button>
+        <datalist id="relTypes">
+          <option value="Otasi"></option><option value="Onasi"></option><option value="Akasi"></option><option value="Ukasi"></option>
+          <option value="Opasi"></option><option value="Singlisi"></option><option value="Turmush o'rtog'i"></option>
+          <option value="O'g'li"></option><option value="Qizi"></option><option value="Qaynotasi"></option><option value="Qaynonasi"></option>
+        </datalist>
+      </section>
+    </form>
+
+    <!-- ======================= KO'RISH ======================= -->
+    <div class="col sticky">
+      <section class="panel" aria-labelledby="s6">
+        <div class="step" id="s6"><b>6</b>Ko'rish va yuklab olish</div>
+        <div class="status" id="status"></div>
+        <div class="btns">
+          <button type="button" class="primary" id="btnPdf"><svg class="ic"><use href="#i-file-down"/></svg>PDF yuklab olish</button>
+          <button type="button" class="primary" id="btnDoc"><svg class="ic"><use href="#i-file-text"/></svg>Word yuklab olish</button>
+          <button type="button" id="btnPrint"><svg class="ic"><use href="#i-printer"/></svg>Chop etish</button>
+        </div>
+        <div class="paperwrap" id="pages"></div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <span>&copy; <a href="../index.html">ganisher.uz</a> — G‘anisher Raximov</span>
+    <span>Savol va takliflar: <a href="https://t.me/raximov_ganisher" target="_blank" rel="noopener noreferrer">Telegram</a></span>
+  </footer>
+</div>
+
+<div class="mbar" id="mbar" aria-label="Tezkor amallar">
+  <button type="button" data-go="#pages"><svg class="ic"><use href="#i-eye"/></svg>Hujjatni ko'rish</button>
+  <button type="button" class="primary" data-click="#btnPdf"><svg class="ic"><use href="#i-file-down"/></svg>PDF yuklash</button>
+</div>
+<div id="printArea"></div>
+<div id="pdfStage"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* ================= umumiy ================= */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("ob_" + k); return v == null ? d : v; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem("ob_" + k, v); } catch (e) {} }
+};
+function toast(msg, ms = 2800) {
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), ms);
+}
+function safeName(s, fallback) { return (String(s || "").replace(/[\\/:*?"<>|]+/g, "").trim() || fallback); }
+function download(blob, name) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+}
+
+/* ================= ma'lumotlar ================= */
+const relRow = (type = "") => ({ type, fio: "", birth: "", dead: false, deadYear: "", work: "", home: "" });
+const blank = () => ({
+  photo: "", fio: "", birth: "", place: "", nation: "", party: "yo'q", edu: "Oliy", spec: "",
+  posDate: "", pos: "", deputy: "yo'q",
+  schools: [], degrees: [], titles: [], langs: [], awards: [],
+  work: [{ from: "", to: "", text: "" }],
+  rel: [relRow("Otasi"), relRow("Onasi")]
+});
+/* Namuna — o'ylab topilgan shaxs, faqat qanday ko'rinishini ko'rsatish uchun */
+const SAMPLE = {
+  photo: "", fio: "Karimov Javohir Rustamovich", birth: "14.03.1992", place: "Xorazm viloyati, Urganch shahri",
+  nation: "o'zbek", party: "yo'q", edu: "Oliy (Magistr)", spec: "Iqtisodiyot (tarmoqlar bo'yicha)",
+  posDate: "01.09.2021", pos: "Urganch shahar hokimligi iqtisodiyot bo'limi bosh mutaxassisi", deputy: "yo'q",
+  schools: ["2014 y. Urganch davlat universiteti (kunduzgi)", "2016 y. Toshkent davlat iqtisodiyot universiteti (magistratura)"],
+  degrees: [], titles: [], langs: ["rus tili", "ingliz tili"], awards: [],
+  work: [
+    { from: "2010", to: "2014", text: "Urganch davlat universiteti talabasi" },
+    { from: "2014", to: "2016", text: "Toshkent davlat iqtisodiyot universiteti magistranti" },
+    { from: "2016", to: "2021", text: "«Xorazm savdo» MChJ iqtisodchisi" },
+    { from: "2021", to: "", text: "Urganch shahar hokimligi iqtisodiyot bo'limi bosh mutaxassisi" }
+  ],
+  rel: [
+    { type: "Otasi", fio: "Karimov Rustam Olimovich", birth: "1965 yil, Xorazm viloyati, Urganch tumani", dead: false, deadYear: "", work: "Urganch tumanidagi 12-maktab o'qituvchisi", home: "Xorazm viloyati, Urganch tumani" },
+    { type: "Onasi", fio: "Karimova Dilnoza Bahromovna", birth: "1968 yil, Xorazm viloyati, Urganch tumani", dead: false, deadYear: "", work: "Uy bekasi", home: "Xorazm viloyati, Urganch tumani" },
+    { type: "Ukasi", fio: "Karimov Sardor Rustamovich", birth: "1996 yil, Xorazm viloyati, Urganch shahri", dead: false, deadYear: "", work: "«Urganch tekstil» MChJ muhandisi", home: "Xorazm viloyati, Urganch shahri" },
+    { type: "Bobosi", fio: "Karimov Olim Saidovich", birth: "1938 yil, Xorazm viloyati, Urganch tumani", dead: true, deadYear: "2015", work: "", home: "" }
+  ]
+};
+const clone = o => JSON.parse(JSON.stringify(o));
+function normalize(d) {
+  const b = blank(), out = Object.assign(b, d || {});
+  ["schools", "degrees", "titles", "langs", "awards"].forEach(k => { if (!Array.isArray(out[k])) out[k] = []; });
+  if (!Array.isArray(out.work)) out.work = []; if (!Array.isArray(out.rel)) out.rel = [];
+  out.rel = out.rel.map(r => Object.assign(relRow(), r));
+  return out;
+}
+
+let D, isSample = false;
+try { D = JSON.parse(store.get("data", "")); } catch (e) { D = null; }
+if (D) { D = normalize(D); isSample = store.get("sample", "0") === "1"; }
+else { D = clone(SAMPLE); isSample = true; }
+
+/* ================= forma ================= */
+const form = $("#form");
+const LIST_KEYS = ["schools", "degrees", "titles", "langs", "awards"];
+
+function maskDate(v) {
+  const d = v.replace(/\D/g, "").slice(0, 8);
+  return d.length > 4 ? d.slice(0, 2) + "." + d.slice(2, 4) + "." + d.slice(4) : d.length > 2 ? d.slice(0, 2) + "." + d.slice(2) : d;
+}
+function fillScalars() {
+  $$("[data-k]").forEach(el => { el.value = D[el.dataset.k] || ""; });
+  if (![...$("#f-edu").options].some(o => o.value === D.edu)) $("#f-edu").value = "Oliy";
+  renderPhoto();
+}
+function renderSimpleList(key) {
+  const box = form.querySelector(`[data-list="${key}"]`), ph = box.dataset.ph;
+  box.innerHTML = D[key].map((v, i) =>
+    `<div class="lrow"><input type="text" data-li="${key}" data-i="${i}" value="${esc(v)}" placeholder="${esc(ph)}" aria-label="${esc(ph)}">`
+    + `<button type="button" class="icon del" data-del="${key}" data-i="${i}" aria-label="O'chirish"><svg class="ic"><use href="#i-x"/></svg></button></div>`).join("");
+}
+function renderWork() {
+  const n = D.work.length;
+  $("#workList").innerHTML = D.work.map((w, i) => `<div class="wrow">
+      <input type="text" data-w="from" data-i="${i}" value="${esc(w.from)}" inputmode="numeric" maxlength="4" placeholder="dan" aria-label="Boshlangan yil">
+      <input type="text" data-w="to" data-i="${i}" value="${esc(w.to)}" inputmode="numeric" maxlength="4" placeholder="gacha" aria-label="Tugagan yil (bo'sh — hozirgacha)">
+      <textarea data-w="text" data-i="${i}" placeholder="Ish joyi va lavozimi" aria-label="Ish joyi va lavozimi">${esc(w.text)}</textarea>
+      <div class="ctl">
+        <button type="button" class="icon" data-move="-1" data-i="${i}" aria-label="Yuqoriga" ${i === 0 ? "disabled" : ""}><svg class="ic"><use href="#i-up"/></svg></button>
+        <button type="button" class="icon" data-move="1" data-i="${i}" aria-label="Pastga" ${i === n - 1 ? "disabled" : ""}><svg class="ic"><use href="#i-down"/></svg></button>
+        <button type="button" class="icon del" data-del="work" data-i="${i}" aria-label="O'chirish"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+    </div>`).join("");
+}
+function renderRel() {
+  $("#relList").innerHTML = D.rel.map((r, i) => `<div class="rcard">
+      <div class="rcard-head">
+        <input type="text" list="relTypes" data-r="type" data-i="${i}" value="${esc(r.type)}" placeholder="Qarindoshligi" aria-label="Qarindoshligi">
+        <button type="button" class="icon del" data-del="rel" data-i="${i}" aria-label="O'chirish"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="fields">
+        <label class="fld full">F.I.Sh.<input type="text" data-r="fio" data-i="${i}" value="${esc(r.fio)}"></label>
+        <label class="fld full">Tug'ilgan yili va joyi<input type="text" data-r="birth" data-i="${i}" value="${esc(r.birth)}" placeholder="Masalan: 1965 yil, Xorazm viloyati"></label>
+        <label class="row fld full"><input type="checkbox" data-r="dead" data-i="${i}" ${r.dead ? "checked" : ""}> Vafot etgan</label>
+        ${r.dead
+          ? `<label class="fld">Vafot etgan yili<input type="text" data-r="deadYear" data-i="${i}" value="${esc(r.deadYear)}" inputmode="numeric" maxlength="4" placeholder="ixtiyoriy"></label>`
+          : `<label class="fld full">Ish joyi va lavozimi<input type="text" data-r="work" data-i="${i}" value="${esc(r.work)}"></label>
+             <label class="fld full">Turar joyi<input type="text" data-r="home" data-i="${i}" value="${esc(r.home)}"></label>`}
+      </div>
+    </div>`).join("");
+}
+function renderLists() { LIST_KEYS.forEach(renderSimpleList); renderWork(); renderRel(); }
+function renderPhoto() {
+  $("#thumb").innerHTML = D.photo ? `<img src="${D.photo}" alt="Yuklangan rasm">` : `<span>3×4<br>rasm</span>`;
+  $("#photoDel").hidden = !D.photo;
+}
+function renderAll() { fillScalars(); renderLists(); renderPreview(); $("#sampleNote").hidden = !isSample; }
+
+let saveT, prevT;
+function changed() {
+  if (isSample) { isSample = false; $("#sampleNote").hidden = true; store.set("sample", "0"); }
+  clearTimeout(saveT); saveT = setTimeout(() => store.set("data", JSON.stringify(D)), 300);
+  clearTimeout(prevT); prevT = setTimeout(renderPreview, 120);
+}
+
+form.addEventListener("input", e => {
+  const el = e.target, i = +el.dataset.i;
+  if (el.dataset.k) {
+    let v = el.value;
+    if (el.hasAttribute("data-date")) { v = maskDate(v); el.value = v; }
+    D[el.dataset.k] = v; el.removeAttribute("aria-invalid");
+  } else if (el.dataset.li) D[el.dataset.li][i] = el.value;
+  else if (el.dataset.w) D.work[i][el.dataset.w] = el.dataset.w === "text" ? el.value : el.value.replace(/\D/g, "");
+  else if (el.dataset.r) {
+    if (el.type === "checkbox") { D.rel[i].dead = el.checked; renderRel(); }
+    else D.rel[i][el.dataset.r] = el.value;
+  } else return;
+  changed();
+});
+form.addEventListener("change", e => { if (e.target.dataset.k === "edu") { D.edu = e.target.value; changed(); } });
+form.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.add) {
+    const k = b.dataset.add;
+    if (k === "work") D.work.push({ from: "", to: "", text: "" });
+    else if (k === "rel") D.rel.push(relRow(""));
+    else D[k].push("");
+    renderLists(); changed();
+    const box = k === "work" ? $("#workList") : k === "rel" ? $("#relList") : form.querySelector(`[data-list="${k}"]`);
+    const first = box.lastElementChild && box.lastElementChild.querySelector("input, textarea");
+    if (first) first.focus();
+  } else if (b.dataset.del) {
+    D[b.dataset.del].splice(+b.dataset.i, 1); renderLists(); changed();
+  } else if (b.dataset.move) {
+    const i = +b.dataset.i, j = i + +b.dataset.move;
+    if (j < 0 || j >= D.work.length) return;
+    [D.work[i], D.work[j]] = [D.work[j], D.work[i]]; renderWork(); changed();
+  }
+});
+
+/* ---- rasm: markazdan 3×4 qirqib, 360×480 JPEG qilib saqlaymiz ---- */
+$("#photoBtn").onclick = () => $("#photoFile").click();
+$("#photoDel").onclick = () => { D.photo = ""; renderPhoto(); changed(); };
+$("#photoFile").addEventListener("change", e => {
+  const f = e.target.files[0]; e.target.value = "";
+  if (!f) return;
+  if (!/^image\/(jpeg|png|webp)$/.test(f.type)) { toast("Faqat .jpg, .png yoki .webp rasm yuklang"); return; }
+  if (f.size > 8 * 1024 * 1024) { toast("Rasm 8 MB dan katta. Kichikroq rasm tanlang"); return; }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      const W = 360, H = 480, r = W / H;
+      let sw = img.width, sh = img.height, sx = 0, sy = 0;
+      if (sw / sh > r) { sw = sh * r; sx = (img.width - sw) / 2; } else { sh = sw / r; sy = (img.height - sh) / 2; }
+      const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+      const ctx = cv.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, W, H);
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
+      D.photo = cv.toDataURL("image/jpeg", 0.88);
+      renderPhoto(); changed(); toast("Rasm qo'yildi");
+    };
+    img.onerror = () => toast("Rasmni o'qib bo'lmadi. Boshqa fayl tanlang");
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(f);
+});
+
+/* ================= hujjat ================= */
+const TF = "'Times New Roman',Times,serif";
+const P = (html, st = "") => `<p style="margin:0;font-family:${TF};font-size:12pt;line-height:1.3;${st}">${html}</p>`;
+const MONTHS_FROM = ["yanvardan", "fevraldan", "martdan", "apreldan", "maydan", "iyundan", "iyuldan", "avgustdan", "sentyabrdan", "oktyabrdan", "noyabrdan", "dekabrdan"];
+const val = s => String(s || "").trim() ? esc(String(s).trim()) : "";
+const orYoq = arr => { const a = (arr || []).map(s => String(s).trim()).filter(Boolean); return a.length ? a.map(esc).join("<br>") : "yo'q"; };
+const DATE_RE = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/;
+function fromPhrase(d) {               // "01.09.2021" → "2021 yil 1 sentyabrdan"
+  const m = DATE_RE.exec(String(d || "").trim());
+  if (!m) return d ? esc(d) : "";
+  const mo = +m[2]; if (mo < 1 || mo > 12) return esc(d);
+  return `${m[3]} yil ${+m[1]} ${MONTHS_FROM[mo - 1]}`;
+}
+function period(w) {
+  const f = String(w.from || "").trim(), t = String(w.to || "").trim();
+  if (!f && !t) return "";
+  if (!t) return `${f} y. – h.v.`;
+  if (!f || f === t) return `${t} y.`;
+  return `${f}-${t} yy.`;
+}
+const cellStyle = "vertical-align:top;border:none;padding:0 12pt 9pt 0";
+const row2 = (l1, v1, l2, v2) => `<tr><td style="width:50%;${cellStyle}">${P(`<b>${l1}</b>`)}${P(v1 || "&nbsp;")}</td><td style="width:50%;${cellStyle}">${P(`<b>${l2}</b>`)}${P(v2 || "&nbsp;")}</td></tr>`;
+const row1 = (l, v) => `<tr><td colspan="2" style="${cellStyle}">${P(`<b>${l}</b>`)}${P(v || "&nbsp;")}</td></tr>`;
+
+function page1(d) {
+  const photo = d.photo
+    ? `<img src="${d.photo}" width="113" height="151" style="width:85pt;height:113pt;display:block" alt="">`
+    : `<table cellspacing="0" cellpadding="0" style="border-collapse:collapse"><tr><td width="113" height="151" style="width:85pt;height:113pt;border:1px solid #000;text-align:center;vertical-align:middle;font-family:${TF};font-size:10pt;color:#666">3×4</td></tr></table>`;
+  const from = fromPhrase(d.posDate);
+  let h = P("MA'LUMOTNOMA", "text-align:center;font-size:14pt;font-weight:bold;letter-spacing:2pt;margin-bottom:12pt");
+  h += `<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse"><tr>`
+    + `<td style="vertical-align:top;border:none;padding:0 16pt 0 0">`
+    + P(val(d.fio) || "&nbsp;", "font-size:14pt;font-weight:bold;margin-bottom:10pt")
+    + (from ? P(from + ":", "margin-bottom:2pt") : "")
+    + P(val(d.pos) || "&nbsp;")
+    + `</td><td width="113" style="width:85pt;vertical-align:top;border:none;padding:0">${photo}</td></tr></table>`;
+  h += `<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;margin-top:16pt">`
+    + row2("Tug'ilgan yili:", val(d.birth), "Tug'ilgan joyi:", val(d.place))
+    + row2("Millati:", val(d.nation), "Partiyaviyligi:", val(d.party) || "yo'q")
+    + row2("Ma'lumoti:", esc(String(d.edu || "").toLowerCase()), "Tamomlagan:", orYoq(d.schools))
+    + row1("Ma'lumoti bo'yicha mutaxassisligi:", val(d.spec) || "yo'q")
+    + row2("Ilmiy darajasi:", orYoq(d.degrees), "Ilmiy unvoni:", orYoq(d.titles))
+    + row2("Qaysi chet tillarini biladi:", orYoq(d.langs), "Davlat mukofotlari bilan taqdirlanganmi (qanaqa):", orYoq(d.awards))
+    + row1("Xalq deputatlari respublika, viloyat, shahar va tuman Kengashi deputatimi yoki boshqa saylanadigan organlarning a'zosimi (to'liq ko'rsatilishi lozim):", val(d.deputy) || "yo'q")
+    + `</table>`;
+  const work = d.work.filter(w => String(w.text || "").trim() || w.from || w.to);
+  h += P("MEHNAT FAOLIYATI", "text-align:center;font-weight:bold;letter-spacing:1pt;margin:14pt 0 8pt");
+  h += work.length
+    ? `<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse">` + work.map(w =>
+        `<tr><td style="width:96pt;vertical-align:top;border:none;padding:0 6pt 5pt 0;white-space:nowrap">${P(esc(period(w)) || "&nbsp;")}</td>`
+        + `<td style="vertical-align:top;border:none;padding:0 0 5pt">${P("– " + (val(w.text) || ""))}</td></tr>`).join("") + `</table>`
+    : P("&nbsp;");
+  return h;
+}
+function page2(d) {
+  const rows = d.rel.filter(r => String(r.fio || "").trim() || String(r.birth || "").trim());
+  const name = String(d.fio || "").trim();
+  const th = `border:1px solid #000;padding:4pt 5pt;font-family:${TF};font-size:11pt;font-weight:bold;text-align:center;vertical-align:middle;background:#f2f2f2`;
+  const td = `border:1px solid #000;padding:4pt 5pt;font-family:${TF};font-size:11pt;line-height:1.25;vertical-align:top`;
+  let h = P(`${name ? esc(name) + "ning" : "____________________"} yaqin qarindoshlari haqida`, "text-align:center;font-weight:bold;font-size:13pt");
+  h += P("MA'LUMOT", "text-align:center;font-weight:bold;font-size:14pt;letter-spacing:2pt;margin:2pt 0 12pt");
+  h += `<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse"><tr>`
+    + `<td style="${th};width:14%">Qarindosh&shy;ligi</td><td style="${th};width:23%">Familiyasi, ismi va otasining ismi</td>`
+    + `<td style="${th};width:21%">Tug'ilgan yili va joyi</td><td style="${th};width:22%">Ish joyi va lavozimi</td><td style="${th};width:20%">Turar joyi</td></tr>`;
+  h += rows.length ? rows.map(r => {
+    const work = r.dead ? `Vafot etgan${String(r.deadYear || "").trim() ? ` (${esc(String(r.deadYear).trim())} y.)` : ""}` : val(r.work);
+    return `<tr><td style="${td};font-weight:bold">${val(r.type)}</td><td style="${td}">${val(r.fio)}</td><td style="${td}">${val(r.birth)}</td><td style="${td}">${work}</td><td style="${td}">${r.dead ? "" : val(r.home)}</td></tr>`;
+  }).join("") : `<tr><td colspan="5" style="${td};height:40pt">&nbsp;</td></tr>`;
+  return h + `</table>`;
+}
+const docParts = () => [page1(D), page2(D)];
+
+/* ---- tekshiruv ---- */
+const REQ = [["fio", "F.I.Sh."], ["birth", "Tug'ilgan sana"], ["nation", "Millati"], ["place", "Tug'ilgan joyi"], ["edu", "Ma'lumoti"]];
+function problems() {
+  const miss = REQ.filter(([k]) => !String(D[k] || "").trim());
+  const badDates = [["birth", "Tug'ilgan sana"], ["posDate", "Lavozim sanasi"]].filter(([k]) => String(D[k] || "").trim() && !DATE_RE.test(D[k].trim()));
+  return { miss, badDates };
+}
+function renderPreview() {
+  $("#pages").innerHTML = docParts().map(p => `<div class="paper">${p}</div>`).join("");
+  const { miss, badDates } = problems();
+  const relN = D.rel.filter(r => String(r.fio || "").trim()).length;
+  $("#status").innerHTML = (miss.length
+      ? `<span class="pill err">${miss.length} ta majburiy maydon bo'sh: ${miss.map(m => m[1]).join(", ")}</span>`
+      : `<span class="pill ok">Hujjat tayyor</span>`)
+    + badDates.map(b => `<span class="pill warn">${b[1]}: kun.oy.yil shaklida yozing</span>`).join("")
+    + `<span class="pill">${D.work.filter(w => String(w.text || "").trim()).length} ta ish joyi · ${relN} ta qarindosh</span>`
+    + (D.photo ? `<span class="pill ok">Rasm bor</span>` : `<span class="pill warn">Rasm qo'yilmagan</span>`);
+}
+function ready() {
+  const { miss, badDates } = problems();
+  if (!miss.length && !badDates.length) return true;
+  [...miss, ...badDates].forEach(([k]) => { const el = form.querySelector(`[data-k="${k}"]`); if (el) el.setAttribute("aria-invalid", "true"); });
+  const first = form.querySelector('[aria-invalid="true"]');
+  if (first) { first.focus(); first.scrollIntoView({ block: "center", behavior: "smooth" }); }
+  toast(miss.length ? "Avval majburiy maydonlarni to'ldiring: " + miss.map(m => m[1]).join(", ") : "Sanani kun.oy.yil shaklida yozing", 4000);
+  return false;
+}
+const fileName = () => safeName("Obyektivka — " + (D.fio || "").trim(), "Obyektivka");
+
+/* ================= eksport ================= */
+const PAGE_BREAK = '<br clear="all" style="page-break-before:always;mso-break-type:page-break">';
+const wordHTML = parts => `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Obyektivka</title>`
+  + `<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->`
+  + `<style>@page WordSection1{size:595.3pt 841.9pt;margin:42pt 42pt 42pt 42pt}div.WordSection1{page:WordSection1}p{margin:0}</style></head>`
+  + `<body><div class="WordSection1">${parts.join(PAGE_BREAK)}</div></body></html>`;
+
+/* Word: rasm hujjat ichida qolishi uchun MHTML (bitta fayl, .doc) ko'rinishida yig'iladi */
+function exportWord() {
+  let html = wordHTML(docParts());
+  const parts = [];
+  if (D.photo) {
+    const loc = "file:///C:/obyektivka/rasm.jpg";
+    html = html.split(D.photo).join(loc);
+    parts.push({ loc, type: "image/jpeg", data: D.photo.split(",")[1] });
+  }
+  const b64 = s => btoa(unescape(encodeURIComponent(s)));
+  const wrap76 = s => s.replace(/.{76}/g, "$&\r\n");
+  const B = "----=_ganisher_" + Date.now().toString(36);
+  let m = `MIME-Version: 1.0\r\nContent-Type: multipart/related; boundary="${B}"; type="text/html"\r\n\r\n`
+    + `--${B}\r\nContent-Location: file:///C:/obyektivka/obyektivka.htm\r\nContent-Transfer-Encoding: base64\r\nContent-Type: text/html; charset="utf-8"\r\n\r\n${wrap76(b64(html))}\r\n`;
+  parts.forEach(p => { m += `--${B}\r\nContent-Location: ${p.loc}\r\nContent-Transfer-Encoding: base64\r\nContent-Type: ${p.type}\r\n\r\n${wrap76(p.data)}\r\n`; });
+  m += `--${B}--\r\n`;
+  download(new Blob([m], { type: "application/msword" }), fileName() + ".doc");
+  toast("Word fayl yuklab olindi");
+}
+function exportPrint() {
+  $("#printArea").innerHTML = docParts().map((p, i) => `<div class="${i ? "pb" : ""}">${p}</div>`).join("");
+  window.print();
+}
+async function exportPdf(btn) {
+  if (!window.html2canvas || !window.jspdf) {
+    toast("PDF kutubxonasi yuklanmadi (internet yo'q). Chop etish oynasida “PDF sifatida saqlash”ni tanlang", 4500);
+    setTimeout(exportPrint, 900); return;
+  }
+  const parts = docParts();
+  const old = btn.innerHTML; btn.disabled = true; btn.textContent = "Tayyorlanmoqda…";
+  const stage = $("#pdfStage");
+  try {
+    stage.style.display = "block";
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: "pt", format: "a4" });
+    const W = pdf.internal.pageSize.getWidth(), H = pdf.internal.pageSize.getHeight(), M = 42;
+    const PW = 720, iw = W - 2 * M, availCss = (H - 2 * M) * PW / iw;
+    let pages = 0;
+    for (let i = 0; i < parts.length; i++) {
+      stage.innerHTML = `<div style="position:relative;width:${PW}px;background:#fff;color:#000;padding:1px 0">${parts[i]}</div>`;
+      const pg = stage.firstChild;
+      const canvas = await html2canvas(pg, { scale: 2, backgroundColor: "#ffffff" });
+      const cssH = pg.offsetHeight, k = canvas.height / cssH;
+      const cuts = [0]; let startY = 0;
+      for (const el of pg.children) {
+        const top = el.offsetTop, bot = top + el.offsetHeight;
+        if (bot - startY > availCss && top > startY) { cuts.push(top); startY = top; }
+        while (bot - startY > availCss) { startY += availCss; cuts.push(startY); }
+      }
+      cuts.push(cssH);
+      for (let j = 0; j + 1 < cuts.length; j++) {
+        const y0 = Math.round(cuts[j] * k), y1 = Math.min(canvas.height, Math.round(cuts[j + 1] * k));
+        if (y1 - y0 < 4) continue;
+        const slice = document.createElement("canvas"); slice.width = canvas.width; slice.height = y1 - y0;
+        slice.getContext("2d").drawImage(canvas, 0, y0, canvas.width, y1 - y0, 0, 0, canvas.width, y1 - y0);
+        if (pages++) pdf.addPage();
+        pdf.addImage(slice.toDataURL("image/jpeg", 0.92), "JPEG", M, M, iw, (y1 - y0) * iw / canvas.width);
+      }
+      await new Promise(r => setTimeout(r, 0));
+    }
+    pdf.save(fileName() + ".pdf");
+    toast("PDF yuklab olindi");
+  } catch (e) {
+    console.error(e); toast("PDF yaratishda xato. “Chop etish” orqali PDF saqlang", 4500);
+  } finally {
+    stage.innerHTML = ""; stage.style.display = "none";
+    btn.disabled = false; btn.innerHTML = old;
+  }
+}
+$("#btnPdf").onclick = () => { if (ready()) exportPdf($("#btnPdf")); };
+$("#btnDoc").onclick = () => { if (ready()) exportWord(); };
+$("#btnPrint").onclick = () => { if (ready()) exportPrint(); };
+
+/* ---- namuna / tozalash (tozalash ikki marta bosish bilan tasdiqlanadi) ---- */
+$("#btnSample").onclick = () => {
+  D = clone(SAMPLE); isSample = true; store.set("sample", "1"); store.set("data", JSON.stringify(D));
+  renderAll(); toast("Namuna ma'lumotlar qo'yildi");
+};
+let clearArmed = 0;
+$("#btnClear").onclick = () => {
+  const b = $("#btnClear");
+  if (Date.now() - clearArmed > 3000) {
+    clearArmed = Date.now(); b.classList.add("danger");
+    b.lastChild.textContent = "Tasdiqlash uchun yana bosing";
+    setTimeout(() => { if (Date.now() - clearArmed >= 3000) { b.classList.remove("danger"); b.lastChild.textContent = "Tozalash"; } }, 3100);
+    return;
+  }
+  clearArmed = 0; b.classList.remove("danger"); b.lastChild.textContent = "Tozalash";
+  D = blank(); isSample = false; store.set("sample", "0"); store.set("data", JSON.stringify(D));
+  renderAll(); $("#f-fio").focus(); toast("Forma tozalandi");
+};
+
+/* ================= boshlash ================= */
+if (isSample) store.set("sample", "1");
+renderAll();
+
+/* ================= TELEFON: qog'oz ko'rinishini ekran eniga sig'diramiz ================= */
+const MOBILE_MQ = window.matchMedia('(max-width:980px)');
+function fitPapers() {
+  document.querySelectorAll('.paperwrap').forEach(w => {
+    const cs = getComputedStyle(w);
+    const avail = w.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    w.querySelectorAll('.paper').forEach(p => {
+      p.style.zoom = '';
+      const natural = Math.max(p.scrollWidth, p.offsetWidth);
+      const k = Math.min(1, avail / natural);
+      if (k < 0.999) p.style.zoom = k.toFixed(3);
+    });
+  });
+}
+let fitT;
+const queueFit = () => { clearTimeout(fitT); fitT = setTimeout(fitPapers, 60); };
+document.querySelectorAll('.paperwrap').forEach(w => new MutationObserver(queueFit).observe(w, { childList: true, subtree: true, characterData: true }));
+window.addEventListener('resize', queueFit);
+queueFit();
+
+/* pastki panel tugmalari */
+document.getElementById('mbar').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.go) { const t = document.querySelector(b.dataset.go); (t.closest('.paperwrap') || t.closest('.panel')).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  if (b.dataset.click) document.querySelector(b.dataset.click).click();
+});
+/* telefonda natijani ko'rsatish uchun shu bo'limga suriladi */
+function revealOnMobile(sel) {
+  if (!MOBILE_MQ.matches) return;
+  const el = document.querySelector(sel); if (!el) return;
+  setTimeout(() => el.closest('.panel').scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1077 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test tuzuvchi</title>
+<meta name="description" content="Savollardan aralashtirilgan test variantlari, javoblar kaliti va blankalar tuzadi. PDF, Word, chop etish va onlayn topshirish.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='15' y='20' width='70' height='45' rx='6' fill='%230d1117' stroke='%2314b8a6' stroke-width='8'/><path d='M5 75h90a5 5 0 015 5v5H0v-5a5 5 0 015-5z' fill='%23a855f7'/><rect x='42' y='75' width='16' height='5' fill='%2314b8a6'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: yuqorida bo‘lim tablari; har bo‘limda chapda kiritish paneli, o‘ngda sozlamalar, variantlar va qog‘oz ko‘rinishi */
+:root{
+  /* ganisher.uz ranglari: deyarli qora fon, oltin aksent */
+  --bg:#0A0A0A; --panel:#141310; --panel-2:#1B1914; --ink:#FFFFFF; --muted:#A1A1A1; --line:rgba(245,184,61,.16);
+  --accent:#F5B83D; --accent-hover:#FFC94D; --accent-ink:#0A0A0A; --accent-soft:rgba(245,184,61,.12);
+  --warn:#FFC46B; --warn-soft:#3A2A10; --bad:#FF8A80; --bad-soft:#3D1A18; --good:#7AD99A; --good-soft:#15331F;
+  --display:"Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --body:"Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:radial-gradient(1100px 520px at 0% -10%,rgba(245,184,61,.07),transparent 60%),var(--bg);color:var(--ink);font:15px/1.5 var(--body);padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 20px}
+h1{font:700 clamp(22px,3.4vw,32px)/1.1 var(--display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+header p{margin:6px 0 0;color:var(--muted);max-width:62ch}
+.tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px}
+.tabs button{border:none;background:transparent;font:600 14px var(--display);padding:9px 16px;border-radius:7px;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--accent-soft);color:var(--accent)}
+.grid{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:920px){.grid{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:20px;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.step{display:flex;align-items:center;gap:10px;font:700 12px/1 var(--display);text-transform:uppercase;letter-spacing:.14em;color:var(--accent)}
+.step b{display:inline-grid;place-items:center;min-width:28px;height:24px;padding-inline:6px;border:1px solid var(--line);border-radius:7px;background:var(--accent-soft);color:var(--accent);font-size:12px;letter-spacing:.04em}
+.hint{color:var(--muted);font-size:13px;margin:0}
+textarea{width:100%;min-height:340px;resize:vertical;border:1px solid var(--line);border-radius:8px;padding:12px;font:14px/1.6 var(--body);background:var(--bg);color:var(--ink);tab-size:4}
+input[type=text],input[type=number],select{border:1px solid var(--line);border-radius:8px;padding:9px 10px;font:14px var(--body);background:var(--bg);color:var(--ink);width:100%}
+label.row{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px 16px}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 14px var(--body);border-radius:10px;padding:10px 16px;cursor:pointer;border:1px solid var(--line);background:var(--panel-2);color:var(--ink);transition:border-color .2s,background-color .2s,color .2s}
+button:hover{border-color:var(--accent)}
+button:disabled{opacity:.55;cursor:wait}
+button:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.variants{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.vcard{display:flex;flex-direction:column;gap:6px;padding:8px;text-align:left;font-weight:500}
+.vcard canvas{width:100%;aspect-ratio:1;max-width:100%;background:#fff;border-radius:4px;display:block}
+.vcard .t{font:600 13px var(--display)}
+.vcard .m{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.vcard .w{font-size:12px;color:var(--warn)}
+.vcard[aria-pressed="true"],.chip[aria-pressed="true"]{border:2px solid var(--accent);background:var(--accent-soft)}
+.vcard[aria-pressed="true"]{padding:7px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:6px 11px;font-size:13px;border-radius:999px;font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{padding:5px 10px}
+.chip.alt{border-style:dashed}
+.empty{border:1px dashed var(--line);border-radius:8px;padding:28px;text-align:center;color:var(--muted)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
+.paperwrap{overflow-x:auto;background:var(--bg);border-radius:8px;padding:16px}
+.paper{background:#fff;color:#000;padding:32px 36px;margin:0 auto;width:max-content;min-width:min(100%,560px);max-width:100%;box-shadow:0 1px 3px rgba(0,0,0,.12),0 8px 24px rgba(0,0,0,.08)}
+.paper.test{width:720px;max-width:none}
+.warnbox{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 12px;font-size:14px}
+details.help{border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13px}
+details.help summary{cursor:pointer;font-weight:600}
+details.help pre{background:var(--bg);border-radius:6px;padding:8px 10px;margin:6px 0 10px;white-space:pre-wrap;font:12.5px/1.5 ui-monospace,Consolas,monospace;overflow-x:auto}
+details.help p{margin:8px 0 2px}
+.status{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--bg);color:var(--muted);font-variant-numeric:tabular-nums}
+.pill.ok{background:var(--good-soft);color:var(--good)}
+.pill.err{background:var(--bad-soft);color:var(--bad)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.issues{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;max-height:220px;overflow:auto;font-size:13px}
+.issues li{padding:6px 10px;border-radius:6px;border-left:3px solid var(--line);background:var(--bg)}
+.issues li.err{border-left-color:var(--bad)}
+.issues li.warn{border-left-color:var(--warn)}
+.issues li.info{border-left-color:var(--accent)}
+.issues button{padding:0;border:none;background:none;color:var(--accent);font:inherit;font-weight:600;cursor:pointer}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--panel-2);color:var(--ink);border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.5);padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;max-width:calc(100% - 32px)}
+.toast.show{opacity:1}
+#printArea,#pdfStage{display:none}
+#pdfStage{position:fixed;left:-10000px;top:0}
+
+/* onlayn test */
+.quiz{position:fixed;inset:0;background:var(--bg);z-index:40;overflow-y:auto;padding-inline:16px;padding-block:0 40px}
+.quizbar{position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line);margin-inline:-16px;padding:12px 16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;z-index:2}
+.quizbar strong{font:600 15px var(--display)}
+.quizbar .meta{display:flex;gap:10px;align-items:center;font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted)}
+.timer{font:600 15px var(--display);color:var(--ink)}
+.timer.low{color:var(--bad)}
+.quizbody{max-width:760px;margin:20px auto 0;display:flex;flex-direction:column;gap:14px}
+.qcard{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;margin:0}
+.qcard legend{float:left;width:100%;padding:0;margin:0 0 10px;font-weight:600;white-space:pre-wrap}
+.qcard .choices{clear:both;display:flex;flex-direction:column;gap:6px}
+.qcard label{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.qcard label:hover{border-color:var(--accent)}
+.qcard input{margin-top:3px;accent-color:var(--accent)}
+.qcard label.ok{border-color:var(--good);background:var(--good-soft)}
+.qcard label.bad{border-color:var(--bad);background:var(--bad-soft)}
+.qcard.miss{border-color:var(--warn)}
+.result{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-wrap:wrap;gap:12px 28px;align-items:baseline}
+.result .big{font:700 36px/1 var(--display);font-variant-numeric:tabular-nums}
+.result .grade{font:600 18px var(--display)}
+.quizfoot{max-width:760px;margin:18px auto 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.quizfoot .note{font-size:14px;color:var(--warn)}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+@media print{
+  @page{size:A4;margin:15mm}
+  body{background:#fff;padding:0}
+  body > *:not(#printArea){display:none!important}
+  #printArea{display:block!important}
+  .pb{page-break-before:always;break-before:page}
+}
+/* sayt bilan bog'lovchi yuqori qator, vositalar menyusi, ikonkalar va pastki qism */
+.gold{color:var(--accent)}
+.ic{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.brand{display:inline-flex;align-items:center;gap:10px;font:800 16px var(--display);letter-spacing:.06em;color:var(--ink);text-decoration:none}
+.brand svg{width:28px;height:28px}
+.brand b{color:var(--accent);font-weight:inherit}
+.tools{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow-x:auto;max-width:100%}
+.tools a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:9px;color:var(--muted);font-weight:600;font-size:14px;text-decoration:none;white-space:nowrap}
+.tools a:hover{color:var(--ink)}
+.tools a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:600;font-size:14px;text-decoration:none}
+.back:hover{color:var(--accent)}
+@media (max-width:760px){.tools{order:3;width:100%}.tools a{flex:1;justify-content:center;padding-inline:10px}}
+@media (max-width:380px){.tools a{padding-inline:8px;gap:0}.tools a .ic{display:none}.brand{font-size:15px}}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:13px}
+.foot a{color:var(--ink);font-weight:600;text-decoration:none}
+.foot a:hover{color:var(--accent)}
+
+/* ================= TELEFON ================= */
+.mbar{display:none}
+input[type=checkbox],input[type=radio]{accent-color:var(--accent)}
+@media (max-width:920px){
+  /* iPhone maydonga bosilganda ekranni kattalashtirmasligi uchun shrift 16px */
+  input[type=text],input[type=number],select,textarea{font-size:16px}
+  input[type=text],input[type=number],select{min-height:44px}
+  input[type=checkbox],input[type=radio]{width:20px;height:20px}
+  button{min-height:44px}
+  .btns > button{flex:1 1 auto}
+  .paper{max-width:none}
+  /* pastki tezkor panel: natijani ko'rish va PDF */
+  .mbar{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(10,10,10,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+  .mbar button{flex:1;white-space:nowrap;padding-inline:12px}
+  body{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8M13 12h8M13 18h8"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h2M15 12h2M7 16h10"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 3l14 9-14 9z"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.6 5.6 1.9-5.6 1.9L12 18l-1.9-5.6-5.6-1.9 5.6-1.9z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-file-down" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></symbol>
+  <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8M16 13H8M16 17H8"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2"/></symbol>
+  <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3h12v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="m10 7 5 3-5 3z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+</defs></svg>
+<div class="wrap">
+  <nav class="topbar" aria-label="Sayt">
+    <a class="brand" href="../index.html" aria-label="GANISHER.UZ — bosh sahifa"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2.5 27.7 9.25v13.5L16 29.5 4.3 22.75V9.25z" fill="#141310" stroke="#F5B83D" stroke-width="2"/><text x="16" y="21.2" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="13" text-anchor="middle" fill="#F5B83D">G</text></svg><span>GANISHER<b>.UZ</b></span></a>
+    <div class="tools" aria-label="Ta'lim xizmatlari">
+      <a href="krossvord.html"><svg class="ic"><use href="#i-grid"/></svg>Krossvord</a>
+      <a href="test.html" aria-current="page"><svg class="ic"><use href="#i-list"/></svg>Test</a>
+      <a href="obyektivka.html"><svg class="ic"><use href="#i-idcard"/></svg>Obyektivka</a>
+    </div>
+    <a class="back" href="../index.html#education"><svg class="ic"><use href="#i-arrow-left"/></svg>Saytga qaytish</a>
+  </nav>
+  <header>
+    <div>
+      <h1>Test <span class="gold">tuzuvchi</span></h1>
+      <p>Savollarni yozing yoki Word/Excel’dan qo‘ying — aralashtirilgan variantlar, javoblar kaliti va blankalar tayyor bo‘ladi. PDF yoki Word’da yuklab oling, chop eting yoki testni shu yerda onlayn topshiring.</p>
+    </div>
+  </header>
+
+  <!-- ================= TEST ================= -->
+  <div class="grid" id="paneTest">
+    <section class="panel" aria-labelledby="t1">
+      <div class="step" id="t1"><b>1</b>Savollar</div>
+      <p class="hint">Savollarni yozing yoki Word’dan nusxa olib qo‘ying. To‘g‘ri javob oldiga <strong>*</strong> qo‘ying yoki savol ostiga <strong>Javob: B</strong> deb yozing.</p>
+      <details class="help">
+        <summary>Qaysi formatlar tushunadi?</summary>
+        <p><b>Yulduzcha bilan</b> (* yoki + to‘g‘ri javob oldida):</p>
+<pre>1. 1 bayt necha bit?
+A) 4
+*B) 8
+C) 16
+D) 32</pre>
+        <p><b>“Javob:” qatori bilan</b> (“To‘g‘ri javob: B”, “Kalit: B” ham bo‘ladi):</p>
+<pre>2. Excel’da formula qaysi belgidan boshlanadi?
+A) #   B) =   C) +   D) @
+Javob: B</pre>
+        <p><b>Excel’dan</b>: ustunlar Savol | A | B | C | D | Javob. Kataklarni belgilab nusxa oling va shu yerga qo‘ying. Javob ustunida harf (B), raqam (2) yoki javob matnining o‘zi bo‘lishi mumkin.</p>
+        <p><b>Boshqa qoidalar:</b></p>
+        <ul style="margin:4px 0 0;padding-left:18px">
+          <li>Javoblar A–F (yoki А–Е) harflari bilan: <code>A)</code>, <code>A.</code>, <code>a)</code>.</li>
+          <li>Savol bir necha qatordan iborat bo‘lishi mumkin (masalan, formula alohida qatorda).</li>
+          <li>“Barcha javoblar to‘g‘ri”, “Hech biri” kabi javoblar aralashtirilganda ham oxirida qoladi.</li>
+          <li>“A va B javoblar” kabi harfga tayangan savolda javoblar joyi o‘zgartirilmaydi.</li>
+          <li>Savollar orasiga bo‘sh qator qo‘yish tavsiya etiladi, raqam shart emas.</li>
+        </ul>
+      </details>
+      <textarea id="tText" spellcheck="false" style="min-height:420px"></textarea>
+      <div class="status" id="tStatus"></div>
+      <ul class="issues" id="tIssues"></ul>
+      <div class="btns">
+        <button id="tLoad"><svg class="ic"><use href="#i-upload"/></svg>Fayldan yuklash</button>
+        <input type="file" id="tFile" accept=".txt,.docx,.csv,.tsv" hidden>
+        <button id="tSample"><svg class="ic"><use href="#i-sparkle"/></svg>Namuna</button>
+        <button id="tClear"><svg class="ic"><use href="#i-trash"/></svg>Tozalash</button>
+      </div>
+    </section>
+
+    <div class="col">
+      <section class="panel" aria-labelledby="t2">
+        <div class="step" id="t2"><b>2</b>Sozlamalar</div>
+        <div class="opts">
+          <label class="fld" for="tTitle">Sarlavha
+            <input type="text" id="tTitle" value="Informatika — nazorat ishi">
+          </label>
+          <label class="fld" for="tSub">Qo‘shimcha qator
+            <input type="text" id="tSub" value="8-sinf, 1-chorak" placeholder="masalan: 8-sinf, 1-chorak">
+          </label>
+        </div>
+        <label class="fld" for="tInstr">Ko‘rsatma (bo‘sh qoldirsangiz chiqmaydi)
+          <input type="text" id="tInstr" value="Har bir savolga faqat bitta to‘g‘ri javobni belgilang.">
+        </label>
+        <div class="opts">
+          <label class="fld" for="tVarN">Variantlar soni
+            <input type="number" id="tVarN" min="1" max="60" value="4">
+          </label>
+          <label class="fld" for="tPerV">Har variantda savollar
+            <input type="number" id="tPerV" min="1" placeholder="hammasi">
+          </label>
+          <label class="fld" for="tFont">Shrift o‘lchami
+            <select id="tFont"><option value="11">11 pt</option><option value="12" selected>12 pt</option><option value="14">14 pt</option></select>
+          </label>
+          <label class="fld" for="tTime">Onlayn vaqt, daqiqa
+            <input type="number" id="tTime" min="0" max="300" value="0" placeholder="0 — cheklanmagan">
+          </label>
+        </div>
+        <div class="opts">
+          <label class="row"><input type="checkbox" id="tShufQ" checked> Savollarni aralashtirish</label>
+          <label class="row"><input type="checkbox" id="tShufO" checked> Javoblarni aralashtirish</label>
+          <label class="row"><input type="checkbox" id="tBal" checked> To‘g‘ri javoblarni harflarga teng taqsimlash</label>
+          <label class="row"><input type="checkbox" id="tName" checked> Ism / sinf qatori</label>
+          <label class="row"><input type="checkbox" id="tBlank"> Javoblar varaqasi (blanka)</label>
+        </div>
+        <div class="btns">
+          <button class="primary" id="tGen"><svg class="ic"><use href="#i-play"/></svg>Variantlarni tuzish</button>
+          <button id="tRegen"><svg class="ic"><use href="#i-refresh"/></svg>Qayta aralashtirish</button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="t3">
+        <div class="step" id="t3"><b>3</b>Ko‘rish va yuklab olish</div>
+        <div class="chips" id="tChips"></div>
+        <div id="tEmpty" class="empty">Savollarni kiriting va “Variantlarni tuzish” tugmasini bosing.</div>
+        <div class="opts">
+          <label class="fld" for="tWhat">Nimani yuklash
+            <select id="tWhat">
+              <option value="all">Barcha variantlar + kalitlar</option>
+              <option value="tests">Faqat variantlar (o‘quvchilar uchun)</option>
+              <option value="key">Faqat kalitlar (o‘qituvchi uchun)</option>
+              <option value="cur">Faqat tanlangan variant</option>
+            </select>
+          </label>
+        </div>
+        <div class="btns">
+          <button class="primary" id="tPdf"><svg class="ic"><use href="#i-file-down"/></svg>PDF yuklab olish</button>
+          <button class="primary" id="tDoc"><svg class="ic"><use href="#i-file-text"/></svg>Word yuklab olish</button>
+          <button id="tCopy"><svg class="ic"><use href="#i-copy"/></svg>Nusxa olish (Word uchun)</button>
+          <button id="tPrint"><svg class="ic"><use href="#i-printer"/></svg>Chop etish</button>
+          <button id="tQuiz"><svg class="ic"><use href="#i-monitor"/></svg>Onlayn topshirish</button>
+        </div>
+        <div class="paperwrap"><div class="paper test" id="tPaper"><p style="font-family:'Times New Roman',serif;color:#666;margin:0">Bu yerda test ko‘rinadi.</p></div></div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <span>&copy; <a href="../index.html">ganisher.uz</a> — G‘anisher Raximov</span>
+    <span>Savol va takliflar: <a href="https://t.me/raximov_ganisher" target="_blank" rel="noopener noreferrer">Telegram</a></span>
+  </footer>
+</div>
+
+<!-- onlayn test oynasi -->
+<div class="quiz" id="quiz" hidden role="dialog" aria-modal="true" aria-labelledby="qzTitle">
+  <div class="quizbar">
+    <div><strong id="qzTitle"></strong> <span class="count" id="qzSub"></span></div>
+    <div class="meta"><span id="qzProg"></span><span class="timer" id="qzTimer"></span><button id="qzClose"><svg class="ic"><use href="#i-x"/></svg>Yopish</button></div>
+  </div>
+  <div class="quizbody" id="qzBody"></div>
+  <div class="quizfoot"><button class="primary" id="qzSubmit">Yakunlash</button><span class="note" id="qzNote"></span></div>
+</div>
+
+<div class="mbar" id="mbar" aria-label="Tezkor amallar">
+  <button type="button" data-go="#tPaper"><svg class="ic"><use href="#i-eye"/></svg>Natijani ko'rish</button>
+  <button type="button" class="primary" data-click="#tPdf"><svg class="ic"><use href="#i-file-down"/></svg>PDF yuklash</button>
+</div>
+<div id="printArea"></div>
+<div id="pdfStage"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/*TCORE*/
+const LET = 'ABCDEF';
+const LET_CYR = 'АБВГДЕ';
+function letterIdx(ch){
+  const u = String(ch).toUpperCase();
+  let i = LET.indexOf(u); if (i < 0) i = LET_CYR.indexOf(u);
+  return i;
+}
+const L_CLASS = 'A-Fa-fАБВГДЕабвгде';
+const OPT_RE = new RegExp('^\\s*([*+#]?)\\s*([' + L_CLASS + '])\\s*[\\)\\.\\]]\\s*(.*)$');
+const INL_RE = new RegExp('(^|\\s)([*+#]?)([' + L_CLASS + '])\\s*[\\)\\.]\\s+', 'g');
+const Q_RE = /^\s*(\d{1,3})\s*[\.\)]\s*(.*)$/;
+const ANS_RE = new RegExp("^\\s*(?:to['‘’ʻ`]?g['‘’ʻ`]?ri\\s+javob(?:i)?|javobi?|jav|kalit|ответ|правильный\\s+ответ|answer)\\s*[:\\-–—=]?\\s*\\(?([" + L_CLASS + "])\\)?\\s*\\.?\\s*$", 'i');
+const SUFFIX_RE = /\s*(?:\*|\(\+\)|\(\s*to['‘’ʻ`]?g['‘’ʻ`]?ri\s*\)|✓|✔)\s*$/i;
+const PIN_RE = /(barcha|hammasi|yuqoridagi|hech\s*biri|hech\s*qaysi|to['‘’ʻ`]?g['‘’ʻ`]?ri\s+javob\s+(?:yo['‘’ʻ`]?q|keltirilmagan|berilmagan)|javob\s+yo['‘’ʻ`]?q|barchasi|все\s+(?:ответы|перечисленн)|ни\s+один|нет\s+правильного|all\s+of\s+the\s+above|none\s+of\s+the\s+above)/i;
+const LOCK_RE = new RegExp('(^|[^\\p{L}])[' + L_CLASS + ']\\s*(?:va|,|ham|и|and|&)\\s*[' + L_CLASS + '](?![\\p{L}])', 'u');
+
+function splitInline(line){
+  const ms = [...line.matchAll(INL_RE)];
+  if (ms.length < 2) return null;
+  const firstNonSpace = line.search(/\S/);
+  if (ms[0].index + ms[0][1].length !== firstNonSpace) return null;
+  const idx = ms.map(m => letterIdx(m[3]));
+  for (let i = 1; i < idx.length; i++) if (idx[i] !== idx[i-1] + 1) return null;
+  const parts = [];
+  for (let i = 0; i < ms.length; i++){
+    const start = ms[i].index + ms[i][1].length;
+    const end = i + 1 < ms.length ? ms[i+1].index + ms[i+1][1].length : line.length;
+    parts.push(line.slice(start, end).trim());
+  }
+  return parts;
+}
+
+function parseTSV(lines){
+  const qs = [], issues = [];
+  lines.forEach((raw, i) => {
+    if (!raw.trim()) return;
+    const ln = i + 1;
+    let cols = raw.split('\t').map(s => s.trim());
+    while (cols.length && !cols[cols.length - 1]) cols.pop();
+    if (i === 0 && /savol|вопрос|question/i.test(cols[0]) && cols.length >= 3) return;
+    if (/^\d{1,3}$/.test(cols[0]) && cols.length >= 4) cols = cols.slice(1);
+    const q = { lines: [cols[0] || ''], opts: [], ans: null, line: ln, fromTsv: true };
+    const last = cols[cols.length - 1] || '';
+    let optCols = cols.slice(1, -1), ansTxt = last;
+    const optsWithLast = cols.slice(1);
+    const hasMarker = optsWithLast.some(t => /^[*+]/.test(t) || SUFFIX_RE.test(t));
+    const isLetter = /^\(?[A-Fa-fАБВГДЕабвгде]\)?\.?$/.test(last);
+    const isNum = /^[1-6]$/.test(last);
+    const textMatch = optCols.findIndex(t => t && t.toLowerCase() === last.toLowerCase());
+    if (!isLetter && !isNum && textMatch < 0){
+      optCols = optsWithLast; ansTxt = '';
+    }
+    optCols.forEach((t, k) => {
+      if (!t) return;
+      let correct = false, text = t;
+      if (/^[*+]/.test(text)){ correct = true; text = text.slice(1).trim(); }
+      if (SUFFIX_RE.test(text)){ correct = true; text = text.replace(SUFFIX_RE, ''); }
+      const om = text.match(OPT_RE);
+      if (om && om[3]) text = om[3];
+      q.opts.push({ text, correct, letter: q.opts.length, line: ln });
+    });
+    if (ansTxt){
+      if (isLetter) q.ans = letterIdx(ansTxt.replace(/[().]/g, ''));
+      else if (isNum && textMatch >= 0 && textMatch !== +ansTxt - 1){ q.ans = textMatch; q.ambig = ansTxt; }
+      else if (isNum) q.ans = +ansTxt - 1;
+      else q.ans = q.opts.findIndex(o => o.text.toLowerCase() === ansTxt.toLowerCase());
+    } else if (!hasMarker){
+      q.noAnswerCol = true;
+      if (last && last.length <= 3) q.badAns = last;
+    }
+    qs.push(q);
+  });
+  return { raw: qs, issues };
+}
+
+function parseTestText(text){
+  const lines = String(text).replace(/ /g, ' ').split(/\r?\n/);
+  const nonEmpty = lines.filter(l => l.trim());
+  const tabby = nonEmpty.filter(l => (l.match(/\t/g) || []).length >= 3).length;
+  if (nonEmpty.length && tabby >= nonEmpty.length * 0.6) return finishParse(parseTSV(lines).raw, 'tsv');
+
+  const raw = [];
+  let cur = null;
+  const start = (ln, num) => { cur = { lines: [], opts: [], ans: null, ansLine: 0, line: ln, num }; };
+  const flush = () => { if (cur && (cur.lines.length || cur.opts.length)) raw.push(cur); cur = null; };
+  const addOpt = (str, ln) => {
+    const m = str.match(OPT_RE);
+    let text = m[3].trim(), correct = !!m[1];
+    if (SUFFIX_RE.test(text)){ correct = true; text = text.replace(SUFFIX_RE, '').trim(); }
+    cur.opts.push({ text, correct, letter: letterIdx(m[2]), line: ln });
+  };
+  lines.forEach((rawLine, i) => {
+    const ln = i + 1;
+    const line = rawLine.replace(/\s+$/, '');
+    if (!line.trim()){ if (cur && cur.opts.length) flush(); return; }
+    const am = line.match(ANS_RE);
+    if (am && cur && cur.opts.length){ cur.ans = letterIdx(am[1]); cur.ansLine = ln; return; }
+    const qm = line.match(Q_RE);
+    if (qm && qm[2].trim() && (!cur || cur.opts.length || !cur.lines.length ||
+        (cur.num != null && +qm[1] === cur.num + 1))){
+      flush(); start(ln, +qm[1]); cur.lines.push(qm[2].trim()); return;
+    }
+    if (cur && cur.lines.length){
+      const inl = splitInline(line);
+      if (inl){ inl.forEach(p => addOpt(p, ln)); return; }
+      if (OPT_RE.test(line)){ addOpt(line, ln); return; }
+    }
+    if (cur && cur.opts.length){
+      if (/^\s/.test(rawLine) && !Q_RE.test(line)){ const o = cur.opts[cur.opts.length - 1]; o.text = (o.text + ' ' + line.trim()).trim(); return; }
+      flush(); start(ln, null); cur.lines.push(line.trim()); return;
+    }
+    if (!cur) start(ln, null);
+    cur.lines.push(line.trim());
+  });
+  flush();
+  return finishParse(raw, 'text');
+}
+
+function finishParse(raw, mode){
+  const bank = [], issues = [];
+  const seenQ = new Map();
+  raw.forEach((q, qi) => {
+    const no = qi + 1;
+    const where = { line: q.line, no };
+    const text = q.lines.join('\n').trim();
+    const push = (sev, msg) => issues.push({ sev, msg, ...where });
+    if (!text){ push('err', 'Savol matni yo‘q (javoblar savolsiz yozilgan).'); return; }
+    if (q.opts.length < 2){ push('err', q.opts.length ? 'Faqat bitta javob varianti bor, kamida 2 ta kerak.' : 'Javob variantlari topilmadi. Ular “A) …” ko‘rinishida yozilganini tekshiring.'); return; }
+    const empty = q.opts.findIndex(o => !o.text);
+    if (empty >= 0){ push('err', `${LET[empty]} javobning matni bo‘sh.`); return; }
+    if (mode === 'text'){
+      const bad = q.opts.some((o, k) => o.letter !== k);
+      if (bad) push('warn', 'Javob harflari ketma-ket emas (' + q.opts.map(o => LET[o.letter] || '?').join(', ') + '). Tartib bo‘yicha A, B, C… deb olindi.');
+    }
+    const marked = q.opts.map((o, k) => o.correct ? k : -1).filter(k => k >= 0);
+    let correct = -1;
+    if (q.ans != null && q.ans >= 0){
+      let idx = mode === 'text' ? q.opts.findIndex(o => o.letter === q.ans) : q.ans;
+      if (idx < 0 && q.ans < q.opts.length) idx = q.ans;
+      if (idx < 0 || idx >= q.opts.length){ push('err', `Javob “${LET[q.ans]}” deb ko‘rsatilgan, lekin bunday variant yo‘q.`); return; }
+      if (marked.length && (marked.length > 1 || marked[0] !== idx)) push('warn', `Belgi (*) va “Javob: ${LET[q.ans]}” qatori mos emas. “Javob:” qatori olindi.`);
+      correct = idx;
+    } else if (q.ans === -1){
+      push('err', 'Javob ustunidagi qiymat javob variantlariga mos kelmadi.'); return;
+    } else {
+      if (marked.length > 1){ push('err', 'Bir nechta to‘g‘ri javob belgilangan (' + marked.map(k => LET[k]).join(', ') + '). Faqat bittasini qoldiring.'); return; }
+      if (!marked.length){ push('err', q.badAns ? `Javob ustunidagi “${q.badAns}” tushunarsiz. Harf (A–F), raqam (1–6) yoki javob matnini yozing.` : q.noAnswerCol ? 'Javob ustuni yo‘q va to‘g‘ri javob belgilanmagan.' : 'To‘g‘ri javob belgilanmagan. Oldiga * qo‘ying yoki “Javob: B” deb yozing.'); return; }
+      correct = marked[0];
+    }
+    if (q.ambig) push('warn', `Javob ustunida “${q.ambig}” yozilgan. Bu javob matni sifatida olindi (${LET[correct]}), ${q.ambig}-o‘rindagi variant emas. Chalkashmaslik uchun harf yozing.`);
+    if (q.opts.length > 6){ push('err', 'Javoblar 6 tadan ko‘p. A–F gacha ruxsat etiladi.'); return; }
+    const norm = q.opts.map(o => o.text.toLowerCase().replace(/\s+/g, ' '));
+    const dup = norm.findIndex((t, k) => norm.indexOf(t) !== k);
+    if (dup >= 0) push('warn', `Bir xil javob variantlari bor (${LET[norm.indexOf(norm[dup])]} va ${LET[dup]}).`);
+    const options = q.opts.map(o => o.text);
+    const lockAll = options.some(t => LOCK_RE.test(t));
+    const pinEnd = lockAll ? [] : options.map((t, k) => PIN_RE.test(t) ? k : -1).filter(k => k >= 0);
+    if (lockAll) push('info', 'Javoblarda harflarga havola bor (“A va B”). Bu savolda javoblar joyi o‘zgartirilmaydi.');
+    else if (pinEnd.length) push('info', `“${options[pinEnd[0]]}” javobi aralashtirilganda ham oxirida qoladi.`);
+    const key = text.toLowerCase().replace(/\s+/g, ' ');
+    if (seenQ.has(key)) push('warn', `Bu savol ${seenQ.get(key)}-savol bilan bir xil.`);
+    else seenQ.set(key, no);
+    bank.push({ id: bank.length, no, line: q.line, text, options, correct, lockAll, pinEnd });
+  });
+  return { bank, issues, mode };
+}
+
+function shuffleArr(a, rnd){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function arrangeOptions(q, cfg, state, rnd){
+  const m = q.options.length;
+  const ident = [...Array(m).keys()];
+  if (!cfg.shuffleO || q.lockAll) return ident;
+  const pinned = q.pinEnd.slice();
+  const free = ident.filter(k => !pinned.includes(k));
+  if (free.length < 2) return ident;
+  if (pinned.includes(q.correct) || !cfg.balance){
+    return shuffleArr(free.slice(), rnd).concat(pinned);
+  }
+  const slots = [...Array(free.length).keys()];
+  const last2 = state.last.slice(-2);
+  const avoid = last2.length === 2 && last2[0] === last2[1] ? last2[0] : -1;
+  let cand = slots.filter(s => s !== avoid);
+  const minUse = Math.min(...cand.map(s => state.use[s] || 0));
+  cand = cand.filter(s => (state.use[s] || 0) === minUse);
+  const target = cand[Math.floor(rnd() * cand.length)];
+  const others = shuffleArr(free.filter(k => k !== q.correct), rnd);
+  const order = [];
+  for (let s = 0, o = 0; s < free.length; s++) order.push(s === target ? q.correct : others[o++]);
+  return order.concat(pinned);
+}
+
+function makeTestVariants(bank, cfg, rnd = Math.random){
+  const per = Math.max(1, Math.min(cfg.perVariant || bank.length, bank.length));
+  const out = [];
+  for (let v = 0; v < cfg.count; v++){
+    let ids = bank.map(q => q.id);
+    if (per < bank.length) ids = shuffleArr(ids, rnd).slice(0, per);
+    if (cfg.shuffleQ) ids = shuffleArr(ids, rnd); else ids.sort((a, b) => a - b);
+    const state = { use: [], last: [] };
+    const items = ids.map(id => {
+      const q = bank[id];
+      const order = arrangeOptions(q, cfg, state, rnd);
+      const ans = order.indexOf(q.correct);
+      state.use[ans] = (state.use[ans] || 0) + 1; state.last.push(ans);
+      return { q, order, ans };
+    });
+    out.push({ n: v + 1, items });
+  }
+  return out;
+}
+/*ENDTCORE*/
+
+/* ================= umumiy ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem('du_' + k); return v == null ? d : v; } catch (e){ return d; } },
+  set(k, v){ try{ localStorage.setItem('du_' + k, v); } catch (e){} }
+};
+function toast(msg, ms = 2800){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), ms);
+}
+function safeName(s, fallback){ return (String(s || '').replace(/[\\/:*?"<>|]+/g, '').trim() || fallback); }
+function download(blob, name){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+}
+const PAGE_BREAK = '<br clear="all" style="page-break-before:always;mso-break-type:page-break">';
+function exportWord(parts, name, title){
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>${esc(title)}</title>`
+    + `<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->`
+    + `<style>@page WordSection1{size:595.3pt 841.9pt;margin:42pt 42pt 42pt 42pt}div.WordSection1{page:WordSection1}p{margin:0}</style></head>`
+    + `<body><div class="WordSection1">${parts.join(PAGE_BREAK)}</div></body></html>`;
+  download(new Blob(['﻿', html], { type: 'application/msword' }), name + '.doc');
+  toast('Word fayl yuklab olindi');
+}
+async function exportCopy(parts){
+  const html = parts.join(PAGE_BREAK);
+  const tmp = document.createElement('div'); tmp.innerHTML = html;
+  tmp.style.cssText = 'position:fixed;left:-10000px;top:0;background:#fff;color:#000';
+  document.body.appendChild(tmp);
+  const text = tmp.innerText;
+  try{
+    if (navigator.clipboard && window.ClipboardItem){
+      await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([text], { type: 'text/plain' }) })]);
+      tmp.remove(); toast('Nusxa olindi. Word’da Ctrl+V bosing'); return;
+    }
+  } catch (e){}
+  tmp.contentEditable = 'true';
+  const range = document.createRange(); range.selectNodeContents(tmp);
+  const s = getSelection(); s.removeAllRanges(); s.addRange(range);
+  let ok = false; try{ ok = document.execCommand('copy'); } catch (e){}
+  s.removeAllRanges(); tmp.remove();
+  toast(ok ? 'Nusxa olindi. Word’da Ctrl+V bosing' : 'Nusxa olib bo‘lmadi. “Word yuklab olish” tugmasidan foydalaning');
+}
+function exportPrint(parts){
+  $('#printArea').innerHTML = parts.map((p, i) => `<div class="${i ? 'pb' : ''}">${p}</div>`).join('');
+  window.print();
+}
+async function exportPdf(parts, name, btn){
+  if (!window.html2canvas || !window.jspdf){
+    toast('PDF kutubxonasi yuklanmadi (internet yo‘q). Chop etish oynasida “PDF sifatida saqlash”ni tanlang', 4500);
+    setTimeout(() => exportPrint(parts), 900); return;
+  }
+  const old = btn.innerHTML; btn.disabled = true; btn.textContent = 'Tayyorlanmoqda…';
+  const stage = $('#pdfStage');
+  try{
+    stage.style.display = 'block';
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: 'pt', format: 'a4' });
+    const W = pdf.internal.pageSize.getWidth(), H = pdf.internal.pageSize.getHeight(), M = 36;
+    const PW = 720, iw = W - 2 * M, availCss = (H - 2 * M) * PW / iw;
+    let pages = 0;
+    for (let i = 0; i < parts.length; i++){
+      btn.textContent = `Tayyorlanmoqda… ${i + 1}/${parts.length}`;
+      stage.innerHTML = `<div style="position:relative;width:${PW}px;background:#fff;color:#000;padding:1px 0">${parts[i]}</div>`;
+      const pg = stage.firstChild;
+      const canvas = await html2canvas(pg, { scale: 2, backgroundColor: '#ffffff' });
+      const cssH = pg.offsetHeight, k = canvas.height / cssH;
+      const cuts = [0]; let startY = 0;
+      for (const el of pg.children){
+        const top = el.offsetTop, bot = top + el.offsetHeight;
+        if (bot - startY > availCss && top > startY){ cuts.push(top); startY = top; }
+        while (bot - startY > availCss){ startY += availCss; cuts.push(startY); }
+      }
+      cuts.push(cssH);
+      for (let j = 0; j + 1 < cuts.length; j++){
+        const y0 = Math.round(cuts[j] * k), y1 = Math.min(canvas.height, Math.round(cuts[j + 1] * k));
+        if (y1 - y0 < 4) continue;
+        const slice = document.createElement('canvas'); slice.width = canvas.width; slice.height = y1 - y0;
+        slice.getContext('2d').drawImage(canvas, 0, y0, canvas.width, y1 - y0, 0, 0, canvas.width, y1 - y0);
+        if (pages++) pdf.addPage();
+        pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', M, M, iw, (y1 - y0) * iw / canvas.width);
+      }
+      await new Promise(r => setTimeout(r, 0));
+    }
+    pdf.save(name + '.pdf');
+    toast('PDF yuklab olindi');
+  } catch (e){
+    console.error(e); toast('PDF yaratishda xato. “Chop etish” orqali PDF saqlang', 4500);
+  } finally {
+    stage.innerHTML = ''; stage.style.display = 'none';
+    btn.disabled = false; btn.innerHTML = old;
+  }
+}
+
+/* ================= TEST UI ================= */
+const T_SAMPLE = `1. Kompyuterning asosiy hisoblash qurilmasi qaysi?
+A) Monitor
+B) Printer
+*C) Protsessor
+D) Klaviatura
+
+2. Quyidagilardan qaysi biri kiritish qurilmasi?
+A) Monitor   B) Printer   *C) Klaviatura   D) Karnay
+
+3. 1 bayt necha bitga teng?
+A) 4
+B) 8
+C) 16
+D) 32
+Javob: B
+
+4. Excel dasturida formula qaysi belgi bilan boshlanadi?
+A) #
+B) =
+C) +
+D) @
+Javob: B
+
+5. Quyidagi formulaning natijasini toping:
+=SUM(2;3)*2
+A) 7
+*B) 10
+C) 12
+D) 5
+
+6. Qaysi dastur matn muharriri hisoblanadi?
+A) Microsoft Word
+B) Notepad
+C) WordPad
+*D) Barcha javoblar to‘g‘ri
+
+7. Qaysilari brauzer hisoblanadi?
+A) Google Chrome
+B) Mozilla Firefox
+C) Microsoft Excel
+*D) A va B javoblar
+
+8. Fayl nomi va kengaytmasi qanday belgi bilan ajratiladi?
+A) vergul
++B) nuqta
+C) tire
+D) ikki nuqta
+
+9. Internetdagi sahifa manzili nima deb ataladi?
+A) URL
+B) CPU
+C) RAM
+D) USB
+E) HDMI
+Javob: A
+
+10. Ctrl+C tugmalar birikmasi nima vazifani bajaradi?
+A) Qirqib olish
+*B) Nusxa olish
+C) Qo‘yish
+D) Bekor qilish
+
+11. Ctrl+Z tugmalar birikmasi nima qiladi?
+A) Saqlash
+B) Chop etish
+*C) Oxirgi amalni bekor qilish
+D) Yangi hujjat ochish
+
+12. Kompyuter o‘chirilganda qaysi xotiradagi ma’lumotlar yo‘qoladi?
+*A) Operativ xotira (RAM)
+B) Qattiq disk (HDD)
+C) Fleshka
+D) Hech biri`;
+
+let tParsed = { bank: [], issues: [] }, tVars = [], tSel = 0, tView = 'v';
+
+function tCfg(){
+  const perRaw = parseInt($('#tPerV').value, 10);
+  return {
+    title: $('#tTitle').value.trim(), sub: $('#tSub').value.trim(), instr: $('#tInstr').value.trim(),
+    count: Math.max(1, Math.min(60, parseInt($('#tVarN').value, 10) || 1)),
+    perVariant: perRaw > 0 ? perRaw : 0,
+    shuffleQ: $('#tShufQ').checked, shuffleO: $('#tShufO').checked, balance: $('#tBal').checked,
+    name: $('#tName').checked, blank: $('#tBlank').checked,
+    font: +$('#tFont').value, time: Math.max(0, parseInt($('#tTime').value, 10) || 0)
+  };
+}
+
+function tParse(){
+  tParsed = parseTestText($('#tText').value);
+  const { bank, issues } = tParsed;
+  const e = issues.filter(i => i.sev === 'err').length, w = issues.filter(i => i.sev === 'warn').length;
+  const st = $('#tStatus');
+  st.innerHTML = `<span class="pill ${bank.length ? 'ok' : ''}">${bank.length} ta savol tayyor</span>`
+    + (e ? `<span class="pill err">${e} ta xato (bu savollar olinmaydi)</span>` : '')
+    + (w ? `<span class="pill warn">${w} ta ogohlantirish</span>` : '')
+    + (tParsed.mode === 'tsv' ? `<span class="pill">Excel jadvali sifatida o‘qildi</span>` : '');
+  const list = $('#tIssues');
+  list.innerHTML = issues.slice(0, 80).map(i =>
+    `<li class="${i.sev}"><button data-line="${i.line}">${i.line}-qator</button> · ${i.no}-savol: ${esc(i.msg)}</li>`).join('')
+    + (issues.length > 80 ? `<li>…yana ${issues.length - 80} ta</li>` : '');
+  list.hidden = !issues.length;
+  const per = parseInt($('#tPerV').value, 10);
+  if (per > bank.length && bank.length) $('#tPerV').title = `Bankda ${bank.length} ta savol bor`;
+}
+function gotoLine(n){
+  const ta = $('#tText'), lines = ta.value.split('\n');
+  let pos = 0; for (let i = 0; i < n - 1 && i < lines.length; i++) pos += lines[i].length + 1;
+  ta.focus(); ta.setSelectionRange(pos, pos + (lines[n - 1] || '').length);
+  const lh = parseFloat(getComputedStyle(ta).lineHeight) || 22;
+  ta.scrollTop = Math.max(0, (n - 4) * lh);
+}
+$('#tIssues').addEventListener('click', e => { const b = e.target.closest('button[data-line]'); if (b) gotoLine(+b.dataset.line); });
+
+const TF = "'Times New Roman',Times,serif";
+function qTextHTML(t){ return esc(t).replace(/\n/g, '<br>'); }
+function testHeader(cfg, label){
+  const fs = cfg.font;
+  let h = `<p style="text-align:center;margin:0;font-family:${TF};font-size:${fs + 3}pt;font-weight:bold">${esc(cfg.title || 'Test')}</p>`;
+  if (cfg.sub) h += `<p style="text-align:center;margin:2pt 0 0;font-family:${TF};font-size:${fs}pt">${esc(cfg.sub)}</p>`;
+  h += `<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;margin-top:10pt;border-bottom:1.5pt solid #000"><tr>`
+    + `<td style="border:none;padding:0 0 6pt;font-family:${TF};font-size:${fs}pt;vertical-align:bottom">`
+    + (cfg.name ? `Ism-familiya: ____________________________<br>Sinf: __________ &nbsp; Sana: ______________` : '&nbsp;')
+    + `</td><td style="border:none;padding:0 0 6pt;text-align:right;vertical-align:bottom;font-family:${TF};font-size:${fs + 2}pt;font-weight:bold;white-space:nowrap">${label}</td></tr></table>`;
+  if (cfg.instr) h += `<p style="margin:6pt 0 0;font-family:${TF};font-size:${fs - 1}pt;font-style:italic">${esc(cfg.instr)}</p>`;
+  return h;
+}
+function optionsHTML(item, fs){
+  const texts = item.order.map(k => item.q.options[k]);
+  const m = texts.length;
+  const maxLen = Math.max(...texts.map(t => t.length));
+  const cols = (maxLen <= 14 && m <= 5) ? m : (maxLen <= 34 ? 2 : 1);
+  const cell = (t, k) => `<b>${LET[k]})</b> ${esc(t)}`;
+  if (cols === 1){
+    return texts.map((t, k) => `<p style="margin:1pt 0 0 16pt;font-family:${TF};font-size:${fs}pt;line-height:1.25">${cell(t, k)}</p>`).join('');
+  }
+  let h = `<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;margin:1pt 0 0"><tr>`;
+  const w = Math.floor(100 / cols);
+  texts.forEach((t, k) => {
+    if (k && k % cols === 0) h += `</tr><tr>`;
+    h += `<td style="width:${w}%;border:none;padding:1pt 6pt 1pt ${k % cols === 0 ? 16 : 0}pt;vertical-align:top;font-family:${TF};font-size:${fs}pt;line-height:1.25">${cell(t, k)}</td>`;
+  });
+  const rem = (cols - m % cols) % cols;
+  for (let i = 0; i < rem; i++) h += `<td style="border:none"></td>`;
+  return h + `</tr></table>`;
+}
+function testPart(v, cfg){
+  const fs = cfg.font;
+  let h = testHeader(cfg, `${v.n}-variant`);
+  v.items.forEach((it, i) => {
+    h += `<div style="margin:${i ? 7 : 10}pt 0 0;page-break-inside:avoid">`
+      + `<p style="margin:0;font-family:${TF};font-size:${fs}pt;line-height:1.3;page-break-after:avoid"><b>${i + 1}.</b> ${qTextHTML(it.q.text)}</p>`
+      + optionsHTML(it, fs) + `</div>`;
+  });
+  return h;
+}
+function keyPart(vars, cfg){
+  const fs = Math.min(cfg.font, 11);
+  let h = `<p style="text-align:center;margin:0;font-family:${TF};font-size:${cfg.font + 3}pt;font-weight:bold">${esc(cfg.title || 'Test')} — javoblar kaliti</p>`;
+  if (cfg.sub) h += `<p style="text-align:center;margin:2pt 0 0;font-family:${TF};font-size:${cfg.font}pt">${esc(cfg.sub)}</p>`;
+  const maxQ = Math.max(...vars.map(v => v.items.length));
+  const CH = 15;
+  const td = 'border:1px solid #000;padding:2pt 3pt;text-align:center;font-family:' + TF + ';font-size:' + fs + 'pt';
+  for (let s = 0; s < maxQ; s += CH){
+    const e = Math.min(maxQ, s + CH);
+    h += `<div style="margin-top:10pt"><table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%">`;
+    h += `<tr><td style="${td};background:#e8e8e8;font-weight:bold;width:62pt">Variant</td>`;
+    for (let q = s; q < e; q++) h += `<td style="${td};background:#e8e8e8;font-weight:bold">${q + 1}</td>`;
+    h += `</tr>`;
+    for (const v of vars){
+      h += `<tr><td style="${td};font-weight:bold">${v.n}</td>`;
+      for (let q = s; q < e; q++) h += `<td style="${td}">${v.items[q] ? LET[v.items[q].ans] : ''}</td>`;
+      h += `</tr>`;
+    }
+    h += `</table></div>`;
+  }
+  const n = vars[0] ? vars[0].items.length : 0;
+  h += `<p style="margin:12pt 0 0;font-family:${TF};font-size:${fs}pt;color:#333">Baholash (${n} ta savol): 86–100% — “5”, 71–85% — “4”, 56–70% — “3”, 55% va undan past — “2”.</p>`;
+  return h;
+}
+function blankPart(v, cfg){
+  const fs = cfg.font;
+  let h = testHeader(cfg, `${v.n}-variant`)
+    + `<p style="text-align:center;margin:10pt 0 0;font-family:${TF};font-size:${fs + 1}pt;font-weight:bold">JAVOBLAR VARAQASI</p>`
+    + `<p style="text-align:center;margin:2pt 0 0;font-family:${TF};font-size:${fs - 1}pt">To‘g‘ri javob harfi ostidagi doirachani to‘liq bo‘yang.</p>`;
+  const maxO = Math.max(...v.items.map(it => it.order.length));
+  const ROWS = 15, groups = [];
+  for (let s = 0; s < v.items.length; s += ROWS) groups.push([s, Math.min(v.items.length, s + ROWS)]);
+  const td = `border:1px solid #000;padding:2pt 4pt;text-align:center;font-family:${TF};font-size:${fs}pt`;
+  const grpTable = ([s, e]) => {
+    let t = `<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;margin:0 auto"><tr><td style="${td};background:#e8e8e8;font-weight:bold">№</td>`;
+    for (let k = 0; k < maxO; k++) t += `<td style="${td};background:#e8e8e8;font-weight:bold">${LET[k]}</td>`;
+    t += `</tr>`;
+    for (let q = s; q < e; q++){
+      t += `<tr><td style="${td};font-weight:bold">${q + 1}</td>`;
+      for (let k = 0; k < maxO; k++) t += `<td style="${td};font-size:${fs + 2}pt">${k < v.items[q].order.length ? '○' : ''}</td>`;
+      t += `</tr>`;
+    }
+    return t + `</table>`;
+  };
+  const PER_ROW = Math.min(groups.length, maxO > 4 ? 2 : 3);
+  for (let g = 0; g < groups.length; g += PER_ROW){
+    h += `<div style="margin-top:12pt"><table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse"><tr>`;
+    for (let j = 0; j < PER_ROW; j++){
+      const grp = groups[g + j];
+      h += `<td style="border:none;vertical-align:top;width:${Math.floor(100 / PER_ROW)}%">${grp ? grpTable(grp) : ''}</td>`;
+    }
+    h += `</tr></table></div>`;
+  }
+  h += `<p style="margin:16pt 0 0;font-family:${TF};font-size:${fs}pt">To‘g‘ri javoblar: ______ / ${v.items.length} &nbsp;&nbsp;&nbsp; Baho: ______ &nbsp;&nbsp;&nbsp; O‘qituvchi imzosi: ____________</p>`;
+  return h;
+}
+function tParts(what){
+  const cfg = tCfg();
+  const parts = [];
+  const vars = what === 'cur' ? [tVars[tSel]] : tVars;
+  if (what !== 'key') for (const v of vars){ parts.push(testPart(v, cfg)); if (cfg.blank) parts.push(blankPart(v, cfg)); }
+  if (what === 'all' || what === 'key') parts.push(keyPart(tVars, cfg));
+  return parts;
+}
+function tNeed(){ if (!tVars.length){ toast('Avval savollarni kiriting va variantlarni tuzing'); return false; } return true; }
+function tFileName(){
+  const base = safeName($('#tTitle').value, 'test');
+  const what = $('#tWhat').value;
+  return base + (what === 'key' ? ' — kalitlar' : what === 'cur' ? ` — ${tSel + 1}-variant` : what === 'tests' ? ' — variantlar' : '');
+}
+
+function tRenderChips(){
+  const box = $('#tChips');
+  $('#tEmpty').hidden = tVars.length > 0;
+  box.innerHTML = tVars.map((v, i) => `<button class="chip" id="tv${i}" aria-pressed="${tView === 'v' && i === tSel}" data-i="${i}">${v.n}-variant</button>`).join('')
+    + (tVars.length ? `<button class="chip alt" id="tvKey" aria-pressed="${tView === 'key'}" data-k="key">Kalitlar</button>`
+      + `<button class="chip alt" id="tvBlank" aria-pressed="${tView === 'blank'}" data-k="blank">Javoblar varaqasi</button>` : '');
+}
+$('#tChips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.i != null){ tSel = +b.dataset.i; tView = 'v'; } else tView = b.dataset.k;
+  tRenderChips(); tRenderPreview();
+});
+function tRenderPreview(){
+  const p = $('#tPaper');
+  if (!tVars.length){ p.innerHTML = `<p style="font-family:${TF};color:#666;margin:0">Bu yerda test ko‘rinadi.</p>`; return; }
+  const cfg = tCfg();
+  p.innerHTML = tView === 'key' ? keyPart(tVars, cfg) : tView === 'blank' ? blankPart(tVars[tSel], cfg) : testPart(tVars[tSel], cfg);
+}
+function tGenerate(silent){
+  tParse();
+  const { bank } = tParsed;
+  if (!bank.length){ tVars = []; tRenderChips(); tRenderPreview(); if (!silent) toast('Tayyor savol yo‘q. Chapdagi xatolarni tuzating'); return; }
+  const cfg = tCfg();
+  if (cfg.perVariant > bank.length && !silent) toast(`Bankda ${bank.length} ta savol bor, har variantga shuncha olindi`, 3500);
+  tVars = makeTestVariants(bank, cfg);
+  if (tSel >= tVars.length) tSel = 0;
+  tRenderChips(); tRenderPreview();
+  if (!silent) toast(`${tVars.length} ta variant tuzildi, har birida ${tVars[0].items.length} ta savol`);
+}
+
+let tDeb;
+$('#tText').addEventListener('input', () => {
+  store.set('test', $('#tText').value);
+  clearTimeout(tDeb);
+  tDeb = setTimeout(() => { if (tVars.length) tGenerate(true); else tParse(); }, 500);
+});
+const T_SETTINGS = ['tTitle', 'tSub', 'tInstr', 'tVarN', 'tPerV', 'tFont', 'tTime', 'tShufQ', 'tShufO', 'tBal', 'tName', 'tBlank', 'tWhat'];
+const T_STRUCT = new Set(['tVarN', 'tPerV', 'tShufQ', 'tShufO', 'tBal']);
+T_SETTINGS.forEach(id => {
+  const el = $('#' + id);
+  const saved = store.get('s_' + id, null);
+  if (saved != null){ if (el.type === 'checkbox') el.checked = saved === '1'; else el.value = saved; }
+  el.addEventListener('input', () => {
+    store.set('s_' + id, el.type === 'checkbox' ? (el.checked ? '1' : '0') : el.value);
+    if (!tVars.length) return;
+    if (T_STRUCT.has(id)) tGenerate(true); else tRenderPreview();
+  });
+});
+$('#tGen').onclick = () => { tGenerate(); revealOnMobile('#tPaper'); };
+$('#tRegen').onclick = () => tGenerate();
+$('#tSample').onclick = () => { $('#tText').value = T_SAMPLE; store.set('test', T_SAMPLE); tGenerate(true); };
+$('#tClear').onclick = () => { $('#tText').value = ''; store.set('test', ''); tVars = []; tParse(); tRenderChips(); tRenderPreview(); $('#tText').focus(); };
+$('#tPdf').onclick = () => { if (tNeed()) exportPdf(tParts($('#tWhat').value), tFileName(), $('#tPdf')); };
+$('#tDoc').onclick = () => { if (tNeed()) exportWord(tParts($('#tWhat').value), tFileName(), tCfg().title); };
+$('#tCopy').onclick = () => { if (tNeed()) exportCopy(tParts($('#tWhat').value)); };
+$('#tPrint').onclick = () => { if (tNeed()) exportPrint(tParts($('#tWhat').value)); };
+
+/* fayldan yuklash: .txt / .csv / .tsv / .docx */
+$('#tLoad').onclick = () => $('#tFile').click();
+function loadScript(src){
+  return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
+}
+$('#tFile').addEventListener('change', async e => {
+  const f = e.target.files[0]; e.target.value = '';
+  if (!f) return;
+  try{
+    let text;
+    if (/\.docx$/i.test(f.name)){
+      if (!window.mammoth){
+        toast('Word faylni o‘qish uchun modul yuklanmoqda…');
+        await loadScript('https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js');
+      }
+      const r = await window.mammoth.extractRawText({ arrayBuffer: await f.arrayBuffer() });
+      text = r.value.replace(/\r/g, '').replace(/\n\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+    } else {
+      text = await f.text();
+      if (/\.csv$/i.test(f.name)){
+        const sep = (text.split('\n')[0].match(/;/g) || []).length >= 3 ? ';' : ',';
+        text = text.split(/\r?\n/).map(l => l.split(sep).map(c => c.replace(/^"|"$/g, '')).join('\t')).join('\n');
+      }
+    }
+    $('#tText').value = text; store.set('test', text);
+    tGenerate(true);
+    const n = tParsed.bank.length;
+    toast(n ? `${n} ta savol o‘qildi` : 'Savollar topilmadi. Word’da avtomatik raqamlangan bo‘lsa, matnni nusxa olib qo‘ying', 4500);
+  } catch (err){
+    console.error(err);
+    toast('Faylni o‘qib bo‘lmadi. Matnni nusxa olib shu yerga qo‘ying', 4500);
+  }
+});
+
+/* ================= ONLAYN TOPSHIRISH ================= */
+let qz = null;
+function gradeOf(pct){ return pct >= 86 ? 5 : pct >= 71 ? 4 : pct >= 56 ? 3 : 2; }
+function openQuiz(){
+  if (!tNeed()) return;
+  const v = tVars[tSel], cfg = tCfg();
+  qz = { v, answers: Array(v.items.length).fill(-1), done: false, warned: false, end: cfg.time ? Date.now() + cfg.time * 60000 : 0, timer: null };
+  $('#qzTitle').textContent = cfg.title || 'Test';
+  $('#qzSub').textContent = `· ${v.n}-variant · ${v.items.length} ta savol`;
+  $('#qzBody').innerHTML = v.items.map((it, i) =>
+    `<fieldset class="qcard" id="qc${i}"><legend>${i + 1}. ${esc(it.q.text)}</legend><div class="choices">`
+    + it.order.map((k, j) => `<label id="qo${i}_${j}"><input type="radio" name="q${i}" value="${j}"><span><b>${LET[j]})</b> ${esc(it.q.options[k])}</span></label>`).join('')
+    + `</div></fieldset>`).join('');
+  $('#qzSubmit').textContent = 'Yakunlash'; $('#qzNote').textContent = '';
+  $('#quiz').hidden = false; document.body.style.overflow = 'hidden';
+  $('#quiz').scrollTop = 0;
+  qzProgress(); qzTick();
+  if (qz.end) qz.timer = setInterval(qzTick, 1000);
+}
+function qzProgress(){
+  const a = qz.answers.filter(x => x >= 0).length;
+  $('#qzProg').textContent = `${a}/${qz.answers.length} javob berildi`;
+}
+function qzTick(){
+  const el = $('#qzTimer');
+  if (!qz || !qz.end){ el.textContent = ''; return; }
+  const left = Math.max(0, qz.end - Date.now());
+  const m = Math.floor(left / 60000), s = Math.floor(left / 1000) % 60;
+  el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  el.classList.toggle('low', left < 60000);
+  if (!left && !qz.done){ toast('Vaqt tugadi'); qzFinish(); }
+}
+function qzFinish(){
+  clearInterval(qz.timer); qz.done = true;
+  const n = qz.v.items.length;
+  let ok = 0, miss = 0;
+  qz.v.items.forEach((it, i) => {
+    const a = qz.answers[i];
+    if (a === it.ans) ok++; else if (a < 0) miss++;
+    document.querySelectorAll(`input[name="q${i}"]`).forEach(r => r.disabled = true);
+    $(`#qo${i}_${it.ans}`).classList.add('ok');
+    if (a >= 0 && a !== it.ans) $(`#qo${i}_${a}`).classList.add('bad');
+    if (a < 0) $(`#qc${i}`).classList.add('miss');
+  });
+  const pct = Math.round(ok / n * 100), g = gradeOf(pct);
+  $('#qzBody').insertAdjacentHTML('afterbegin',
+    `<div class="result" id="qzResult"><span class="big">${ok} / ${n}</span><span class="grade">${pct}% · Baho: ${g}</span>`
+    + `<span class="count">${n - ok - miss} ta xato${miss ? `, ${miss} ta javobsiz` : ''}. Yashil — to‘g‘ri javob, qizil — sizning xato javobingiz.</span></div>`);
+  $('#quiz').scrollTop = 0;
+  $('#qzSubmit').textContent = 'Qaytadan boshlash'; $('#qzNote').textContent = '';
+  $('#qzTimer').textContent = '';
+}
+$('#qzBody').addEventListener('change', e => {
+  if (!qz || qz.done || e.target.type !== 'radio') return;
+  qz.answers[+e.target.name.slice(1)] = +e.target.value;
+  qz.warned = false; $('#qzNote').textContent = '';
+  $(`#qc${e.target.name.slice(1)}`).classList.remove('miss');
+  qzProgress();
+});
+$('#qzSubmit').onclick = () => {
+  if (!qz) return;
+  if (qz.done){ openQuiz(); return; }
+  const miss = qz.answers.filter(x => x < 0).length;
+  if (miss && !qz.warned){
+    qz.warned = true;
+    $('#qzNote').textContent = `${miss} ta savol javobsiz qoldi. Baribir yakunlash uchun yana bosing.`;
+    qz.answers.forEach((a, i) => { if (a < 0) $(`#qc${i}`).classList.add('miss'); });
+    return;
+  }
+  qzFinish();
+};
+function closeQuiz(){ if (qz) clearInterval(qz.timer); qz = null; $('#quiz').hidden = true; document.body.style.overflow = ''; }
+$('#qzClose').onclick = closeQuiz;
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#quiz').hidden) closeQuiz(); });
+$('#tQuiz').onclick = openQuiz;
+
+/* ================= boshlash ================= */
+$('#tText').value = store.get('test', T_SAMPLE);
+tGenerate(true);
+
+/* ================= TELEFON: qog'oz ko'rinishini ekran eniga sig'diramiz ================= */
+const MOBILE_MQ = window.matchMedia('(max-width:920px)');
+function fitPapers() {
+  document.querySelectorAll('.paperwrap').forEach(w => {
+    const cs = getComputedStyle(w);
+    const avail = w.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    w.querySelectorAll('.paper').forEach(p => {
+      p.style.zoom = '';
+      const natural = Math.max(p.scrollWidth, p.offsetWidth);
+      const k = Math.min(1, avail / natural);
+      if (k < 0.999) p.style.zoom = k.toFixed(3);
+    });
+  });
+}
+let fitT;
+const queueFit = () => { clearTimeout(fitT); fitT = setTimeout(fitPapers, 60); };
+document.querySelectorAll('.paperwrap').forEach(w => new MutationObserver(queueFit).observe(w, { childList: true, subtree: true, characterData: true }));
+window.addEventListener('resize', queueFit);
+queueFit();
+
+/* pastki panel tugmalari */
+document.getElementById('mbar').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.go) { const t = document.querySelector(b.dataset.go); (t.closest('.paperwrap') || t.closest('.panel')).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  if (b.dataset.click) document.querySelector(b.dataset.click).click();
+});
+/* telefonda natijani ko'rsatish uchun shu bo'limga suriladi */
+function revealOnMobile(sel) {
+  if (!MOBILE_MQ.matches) return;
+  const el = document.querySelector(sel); if (!el) return;
+  setTimeout(() => el.closest('.panel').scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+}
+</script>
+</body>
+</html>

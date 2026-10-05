@@ -1,623 +1,1648 @@
 <!DOCTYPE html>
-<html lang="uz" data-theme="dark">
-
+<html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="G'anisher Raximov — Ofis dasturlarida ishlash kurs o'qituvchisi, Dasturchi va Iqtisodchi. Shaxsiy portfolio va akademik markaz.">
-  <meta name="author" content="G'anisher Raximov">
-  <meta name="keywords"
-    content="G'anisher Raximov, portfolio, dasturchi, iqtisodchi, kompyuter savodxonligi, AppSheet, VBA, AI">
-  <title>G'anisher Raximov - Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ganisher Raximov — Excel va Google Sheets tizimlari</title>
+<meta name="description" content="G'anisher Raximov — Excel va Google Sheets o'qituvchisi. Biznes uchun kirim-chiqim, ombor va qarzdorlik hisob tizimlari, Apps Script va Telegram bot orqali avtomatlashtirish.">
+<meta name="author" content="G'anisher Raximov">
+<meta name="theme-color" content="#0A0A0A">
 
-  <link rel="stylesheet" href="style.css?v=2.3">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css">
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='15' y='20' width='70' height='45' rx='6' fill='%230d1117' stroke='%2314b8a6' stroke-width='8'/><path d='M5 75h90a5 5 0 015 5v5H0v-5a5 5 0 015-5z' fill='%23a855f7'/><rect x='42' y='75' width='16' height='5' fill='%2314b8a6'/></svg>">
+<!-- Open Graph (Telegram, Facebook va boshqalarda ulashganda chiqadigan karta) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ganisher.uz/">
+<meta property="og:title" content="Ganisher Raximov — Excel va Google Sheets tizimlari">
+<meta property="og:description" content="Biznesingiz uchun aqlli jadval va avtomatlashtirish tizimlari. Excel va Google Sheets kurslari.">
+<meta property="og:image" content="https://ganisher.uz/images/ganisher.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Favicon: oltin olti burchakli "G" belgisi (alohida fayl shart emas) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2.5 27.7 9.25v13.5L16 29.5 4.3 22.75V9.25z' fill='%230A0A0A' stroke='%23F5B83D' stroke-width='2.4'/%3E%3Ctext x='16' y='21.2' font-family='Arial,sans-serif' font-weight='800' font-size='13' text-anchor='middle' fill='%23F5B83D'%3EG%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+
+<!-- JS ishlayotganini belgilaymiz: scroll animatsiyalari faqat shunda yoqiladi -->
+<script>document.documentElement.classList.add('js');</script>
+
+<style>
+/* ==========================================================================
+   DIZAYN TIZIMI
+   Joylashuv: bir-birining ustiga terilgan yumaloq "panel"lar (bo'limlar),
+   ichida #141310 kartalar. Fon deyarli qora, aksent — oltin.
+   ========================================================================== */
+:root {
+  --bg:           #0A0A0A;   /* sahifa foni */
+  --panel:        #0F0E0C;   /* bo'lim paneli */
+  --card:         #141310;   /* ichki kartalar */
+  --card-hi:      #1B1914;   /* karta hover / input fokus */
+  --line:         rgba(245, 184, 61, 0.15);  /* karta chegarasi */
+  --line-soft:    rgba(245, 184, 61, 0.09);  /* panel chegarasi */
+  --line-strong:  rgba(245, 184, 61, 0.50);  /* hover chegarasi */
+  --gold:         #F5B83D;   /* aksent */
+  --gold-hover:   #FFC94D;
+  --gold-soft:    rgba(245, 184, 61, 0.12);
+  --gold-glow:    rgba(245, 184, 61, 0.28);
+  --ink:          #FFFFFF;   /* sarlavhalar */
+  --text:         #A1A1A1;   /* oddiy matn */
+  --muted:        #8C877C;   /* ikkinchi darajali matn (kartada ~5:1 kontrast) */
+  --on-gold:      #0A0A0A;   /* oltin tugma ustidagi matn */
+  --ok:           #3DDC84;   /* "ochiqman" nuqtasi, muvaffaqiyat */
+  --err:          #FF7A6B;
+
+  --font: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --r-card: 16px;
+  --r-panel: 22px;
+  --r-btn: 10px;
+  --nav-h: 72px;
+  --gap: 16px;
+
+  color-scheme: dark;
+}
+
+/* ---------- Asos ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 16px/1.65 var(--font);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; cursor: pointer; }
+h1, h2, h3, h4, p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+h1, h2, h3 { color: var(--ink); text-wrap: balance; letter-spacing: -0.02em; }
+.gold { color: var(--gold); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.icon { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.wrap { width: 100%; max-width: 1240px; margin-inline: auto; padding-inline: clamp(16px, 3vw, 32px); }
+main.wrap { display: flex; flex-direction: column; gap: var(--gap); padding-block: 16px 24px; }
+
+/* ---------- Panel (har bir bo'lim) ---------- */
+.panel {
+  position: relative;
+  background:
+    radial-gradient(90% 70% at 0% 0%, rgba(245, 184, 61, 0.055), transparent 55%),
+    var(--panel);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-panel);
+  padding: clamp(22px, 3.2vw, 36px);
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Bo'lim yorlig'i: "01 — MEN HAQIMDA" */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold);
+}
+.eyebrow b {
+  display: inline-grid; place-items: center;
+  min-width: 30px; height: 24px; padding-inline: 6px;
+  border: 1px solid var(--line); border-radius: 7px;
+  font-weight: 700; letter-spacing: 0.04em; color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+.eyebrow i { width: 18px; height: 1px; background: currentColor; opacity: 0.6; }
+
+.sec-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; margin-bottom: 28px; }
+.sec-head > div { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.sec-title { font-size: clamp(28px, 3.2vw, 36px); line-height: 1.15; font-weight: 700; }
+
+/* ---------- Karta (umumiy) ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  padding: clamp(20px, 2.2vw, 28px);
+  transition: transform .3s ease, border-color .3s ease, background-color .3s ease, box-shadow .3s ease;
+  min-width: 0;
+}
+.card.lift:hover { transform: translateY(-4px); border-color: var(--line-strong); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45); }
+
+/* ---------- Tugmalar ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  height: 50px; padding-inline: 24px;
+  border-radius: var(--r-btn); border: 1px solid transparent;
+  font-size: 15px; font-weight: 700; white-space: nowrap;
+  transition: background-color .25s ease, border-color .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+.btn .icon { width: 18px; height: 18px; }
+.btn-gold { background: var(--gold); color: var(--on-gold); }
+.btn-gold:hover { background: var(--gold-hover); transform: translateY(-2px); box-shadow: 0 10px 28px var(--gold-glow); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: rgba(245, 184, 61, 0.45); }
+.btn-ghost:hover { background: var(--gold-soft); border-color: var(--gold); transform: translateY(-2px); }
+.btn-sm { height: 42px; padding-inline: 18px; font-size: 14px; }
+.btn[disabled] { opacity: .6; pointer-events: none; }
+
+.icon-btn {
+  display: inline-grid; place-items: center;
+  width: 42px; height: 42px; border-radius: 11px;
+  background: var(--card); border: 1px solid var(--line); color: var(--text);
+  transition: color .25s ease, border-color .25s ease, background-color .25s ease, transform .25s ease;
+}
+.icon-btn:hover { color: var(--gold); border-color: var(--line-strong); transform: translateY(-2px); }
+.icon-btn[disabled] { opacity: .35; pointer-events: none; }
+
+/* ==========================================================================
+   NAVBAR
+   ========================================================================== */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+  height: var(--nav-h);
+  transition: background-color .3s ease, border-color .3s ease, backdrop-filter .3s ease;
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(10, 10, 10, 0.72);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  border-bottom-color: var(--line-soft);
+}
+.nav .wrap { height: 100%; display: flex; align-items: center; gap: 20px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; letter-spacing: 0.06em; color: var(--ink); flex-shrink: 0; }
+.logo svg { width: 30px; height: 30px; }
+.logo-text span { color: var(--gold); }
+
+.menu { display: flex; align-items: center; gap: 2px; margin-inline: auto; }
+.menu a {
+  position: relative; padding: 8px 12px; border-radius: 8px;
+  font-size: 14px; font-weight: 500; color: var(--text); white-space: nowrap;
+  transition: color .2s ease;
+}
+.menu a:hover { color: var(--ink); }
+.menu a.active { color: var(--gold); }
+.menu a.active::after {
+  content: ""; position: absolute; left: 50%; bottom: 0; width: 16px; height: 2px; translate: -50% 0;
+  background: var(--gold); border-radius: 2px; box-shadow: 0 0 10px var(--gold);
+}
+
+.nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.lang { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--card); }
+.lang button {
+  border: 0; background: transparent; color: var(--muted);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 5px 8px; border-radius: 6px;
+}
+.lang button[aria-pressed="true"] { background: var(--gold-soft); color: var(--gold); }
+.lang button:hover { color: var(--ink); }
+
+.burger { display: none; }
+.mobile-menu { display: none; }
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero { padding: clamp(28px, 5vw, 64px); }
+.hero::after { /* yuqori o'ng burchakdagi yengil nur */
+  content: ""; position: absolute; inset: -40% -20% auto auto; width: 70%; height: 140%;
+  background: linear-gradient(118deg, transparent 42%, rgba(245, 184, 61, 0.07) 50%, transparent 58%);
+  pointer-events: none;
+}
+.hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.08fr 0.92fr; gap: clamp(28px, 4vw, 56px); align-items: center; }
+.hero-text { display: flex; flex-direction: column; gap: 26px; min-width: 0; }
+
+.badge {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 10px;
+  padding: 7px 14px; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--line);
+  font-size: 13px; font-weight: 500; color: var(--ink);
+}
+.badge .dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+.badge .dot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--ok); opacity: 0; animation: ping 2.2s ease-out infinite; }
+@keyframes ping { 0% { transform: scale(.5); opacity: .7; } 100% { transform: scale(1.6); opacity: 0; } }
+
+.hero h1 { font-size: clamp(32px, 5.1vw, 62px); line-height: 1.07; font-weight: 800; letter-spacing: -0.03em; }
+.hero-lead { font-size: clamp(16px, 1.4vw, 18px); max-width: 52ch; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.follow { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--ink); }
+.follow .socials { display: flex; gap: 8px; }
+
+.hero-visual { position: relative; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.photo-ring { position: relative; width: min(100%, 420px); aspect-ratio: 1; }
+.photo-ring::before { /* orqadagi oltin nur */
+  content: ""; position: absolute; inset: 6%; border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 184, 61, 0.35), transparent 68%);
+  filter: blur(30px);
+}
+.ring {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 1px solid rgba(245, 184, 61, 0.75);
+  box-shadow: 0 0 40px rgba(245, 184, 61, 0.22), inset 0 0 30px rgba(245, 184, 61, 0.10);
+}
+.orbit { position: absolute; inset: 0; animation: spin 16s linear infinite; }
+.orbit::before {
+  content: ""; position: absolute; top: -4px; left: 50%; width: 8px; height: 8px; margin-left: -4px;
+  border-radius: 50%; background: var(--gold); box-shadow: 0 0 14px 3px var(--gold-glow);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.photo {
+  position: absolute; inset: 7%; border-radius: 50%; overflow: hidden;
+  background: radial-gradient(circle at 50% 35%, #2a2418, #12110e 70%);
+  display: grid; place-items: center;
+}
+.photo::before { /* rasm yuklanmasa ko'rinadigan monogramma */
+  content: "GR"; font-size: clamp(48px, 9vw, 96px); font-weight: 800; letter-spacing: 0.04em; color: rgba(245, 184, 61, 0.35);
+}
+.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.stats {
+  position: relative; z-index: 2;
+  margin-top: -44px; width: min(100%, 460px);
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  background: rgba(20, 19, 16, 0.86);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border: 1px solid var(--line); border-radius: var(--r-card);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+.stat { padding: 16px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.stat + .stat { border-left: 1px solid var(--line-soft); }
+.stat .icon { width: 18px; height: 18px; color: var(--gold); margin-bottom: 6px; }
+.stat strong { font-size: 24px; line-height: 1.1; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.stat span { font-size: 12.5px; line-height: 1.35; }
+
+/* miltillovchi oltin nuqtalar */
+.sparks { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.spark {
+  position: absolute; width: 3px; height: 3px; border-radius: 50%;
+  background: var(--gold); box-shadow: 0 0 8px 2px var(--gold-glow);
+  opacity: 0; animation: twinkle var(--d, 4s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(.6); } 50% { opacity: .9; transform: scale(1); } }
+
+/* ==========================================================================
+   MEN HAQIMDA + KO'NIKMALAR (yonma-yon)
+   ========================================================================== */
+.duo { display: grid; grid-template-columns: 1.18fr 1fr; gap: var(--gap); }
+.about { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); gap: clamp(20px, 2.6vw, 32px); align-items: stretch; }
+.about .sec-title { font-size: clamp(26px, 2.5vw, 32px); }
+.about-photo {
+  position: relative; min-height: 340px; border-radius: var(--r-card); overflow: hidden;
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, #221d13, #12110e);
+  display: grid; place-items: center;
+}
+.about-photo::before { content: "GR"; font-size: 64px; font-weight: 800; color: rgba(245, 184, 61, 0.25); }
+.about-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.about-photo::after { /* pastki qorong'ilik */
+  content: ""; position: absolute; inset: auto 0 0 0; height: 40%;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.7), transparent); pointer-events: none;
+}
+.about-body { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.about-body p { font-size: 15px; }
+.checks { display: flex; flex-direction: column; gap: 10px; }
+.checks li { display: flex; align-items: flex-start; gap: 10px; color: var(--ink); font-size: 14.5px; font-weight: 500; }
+.checks .icon { width: 18px; height: 18px; color: var(--gold); margin-top: 2px; }
+
+#skills { display: flex; flex-direction: column; }
+#skills .sec-head { margin-bottom: 22px; }
+.skills-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 12px; flex-grow: 1; }
+.skill { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 18px 8px 14px; text-align: center; }
+.skill svg { width: 44px; height: 44px; }
+.skill span { font-size: 12.5px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+.skill-more { border-style: dashed; background: transparent; }
+.more-ic { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 10px; background: var(--gold-soft); color: var(--gold); flex-shrink: 0; }
+.more-ic .icon { width: 22px; height: 22px; }
+.skill-more span:last-child { color: var(--gold); }
+
+/* ==========================================================================
+   XIZMATLAR
+   ========================================================================== */
+.services-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+.svc { display: flex; flex-direction: column; gap: 12px; }
+.svc-icon {
+  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 12px;
+  border: 1px solid var(--line); background: var(--gold-soft); color: var(--gold);
+  margin-bottom: 4px;
+}
+.svc-icon .icon { width: 22px; height: 22px; }
+.svc h3 { font-size: 17px; line-height: 1.3; font-weight: 700; }
+.svc p { font-size: 14px; line-height: 1.6; flex-grow: 1; }
+
+/* ==========================================================================
+   LOYIHALAR
+   ========================================================================== */
+/* ustunlar soni loyihalar soniga qarab JS'da tanlanadi (--cols): 2 yoki 4 ta bo'lsa 2 ustun, aks holda 3 */
+.projects-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: var(--gap); }
+.proj { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.proj-media {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(80% 90% at 50% 0%, rgba(245, 184, 61, 0.14), transparent 70%),
+    #12110e;
+  display: grid; place-items: center; text-align: center;
+  width: 100%; padding: 0; border-top: 0; border-left: 0; border-right: 0; color: inherit; font: inherit;
+}
+button.proj-media { cursor: zoom-in; }
+.proj-media .ph { /* rasm yuklanmasa: qaysi fayl kerakligini ko'rsatadi */
+  display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px;
+  font-size: 12px; color: var(--muted);
+}
+.proj-media .ph .icon { width: 28px; height: 28px; color: rgba(245, 184, 61, 0.55); }
+.proj-media .ph code { font-family: ui-monospace, Consolas, monospace; color: var(--text); }
+.proj-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform .6s ease; }
+.proj:hover .proj-media img { transform: scale(1.04); }
+.proj-body { display: flex; flex-direction: column; gap: 10px; padding: 20px 22px 22px; flex-grow: 1; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { font-size: 11.5px; font-weight: 600; color: var(--gold); padding: 3px 10px; border-radius: 6px; background: var(--gold-soft); border: 1px solid var(--line); }
+.proj-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-grow: 1; }
+.proj h3 { font-size: 18px; line-height: 1.3; font-weight: 700; margin-bottom: 6px; }
+.projects-grid[style*="--cols: 4"] .proj h3 { font-size: 16px; }
+.projects-grid[style*="--cols: 4"] .proj-body { padding: 18px 18px 20px; }
+.proj p { font-size: 14px; line-height: 1.6; }
+.proj-zoom, .proj-count {
+  position: absolute; z-index: 2; display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(10, 10, 10, 0.78); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border: 1px solid var(--line); color: var(--ink); border-radius: 999px; font-size: 12.5px; font-weight: 700;
+}
+.proj-count { left: 12px; bottom: 12px; padding: 5px 10px; font-variant-numeric: tabular-nums; }
+.proj-count .icon { width: 15px; height: 15px; color: var(--gold); }
+.proj-zoom { right: 12px; top: 12px; width: 38px; height: 38px; justify-content: center; opacity: 0; transform: scale(.85); transition: opacity .25s ease, transform .25s ease; }
+.proj-zoom .icon { width: 18px; height: 18px; color: var(--gold); }
+.proj:hover .proj-zoom, .proj-media:focus-visible .proj-zoom { opacity: 1; transform: none; }
+@media (hover: none) { .proj-zoom { opacity: 1; transform: none; } }
+.proj-loading { position: absolute; inset: 0; background: linear-gradient(100deg, #12110e 30%, #1b1914 50%, #12110e 70%); background-size: 250% 100%; animation: shimmer 1.4s linear infinite; }
+.proj-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.proj-links .btn { height: 38px; padding-inline: 14px; font-size: 13px; }
+.proj-links .btn .icon { width: 15px; height: 15px; }
+.proj-body .proj-text { flex-grow: 1; }
+
+.sec-note { font-size: 14px; color: var(--text); max-width: 34ch; }
+
+/* ==========================================================================
+   TA'LIM XIZMATLARI
+   ========================================================================== */
+.edu-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+.edu { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.edu-media {
+  position: relative; aspect-ratio: 16 / 9; overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(110% 90% at 50% 0%, rgba(245, 184, 61, 0.18), transparent 70%),
+    #12110e;
+}
+.edu-media::before { /* nozik nuqtali fon */
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(245, 184, 61, 0.16) 1px, transparent 1px);
+  background-size: 18px 18px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 95%);
+  mask-image: linear-gradient(to bottom, #000 30%, transparent 95%);
+}
+.edu-media svg { position: relative; width: 100%; height: 100%; transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
+.edu:hover .edu-media svg { transform: translateY(-6px) scale(1.03); }
+.edu-body { display: flex; flex-direction: column; gap: 12px; padding: 24px 26px 26px; flex-grow: 1; }
+.edu-tag { align-self: flex-start; font-size: 12px; font-weight: 600; color: var(--gold); padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--gold-soft); }
+.edu h3 { font-size: 20px; line-height: 1.25; font-weight: 700; }
+.edu p { font-size: 15px; }
+.edu-features { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+.edu-features li { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--ink); padding: 6px 12px 6px 9px; border-radius: 999px; background: var(--card-hi); border: 1px solid var(--line-soft); }
+.edu-features .icon { width: 15px; height: 15px; color: var(--gold); }
+.edu-cta { align-self: flex-start; margin-top: auto; }
+.edu:hover .edu-cta { background: var(--gold-hover); box-shadow: 0 10px 28px var(--gold-glow); }
+@media (max-width: 1100px) {
+  .edu-grid { grid-template-columns: 1fr; }
+  .edu { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); }
+  .edu-media { aspect-ratio: auto; min-height: 100%; border-bottom: 0; border-right: 1px solid var(--line); }
+}
+@media (max-width: 640px) {
+  .edu { display: flex; }
+  .edu-media { aspect-ratio: 16 / 9; min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+}
+
+/* ==========================================================================
+   PREZENTATSIYALAR
+   ========================================================================== */
+.pres-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); gap: var(--gap); }
+.pres { display: flex; flex-direction: column; gap: 12px; }
+.pres-badge {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--gold); padding: 4px 10px; border-radius: 6px; background: var(--gold-soft); border: 1px solid var(--line);
+}
+.pres-badge .icon { width: 14px; height: 14px; }
+.pres h3 { font-size: 18px; line-height: 1.3; font-weight: 700; }
+.pres p { font-size: 14px; flex-grow: 1; }
+.pres .btn { align-self: flex-start; margin-top: 4px; }
+.skeleton {
+  min-height: 190px;
+  background: linear-gradient(100deg, var(--card) 30%, var(--card-hi) 50%, var(--card) 70%);
+  background-size: 250% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+@keyframes shimmer { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+.pres-state { grid-column: 1 / -1; text-align: center; padding: 28px 16px; border: 1px dashed var(--line); border-radius: var(--r-card); }
+
+.placeholder { color: var(--muted); font-style: italic; }
+
+/* ==========================================================================
+   VIDEOLAR
+   ========================================================================== */
+.video-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr) minmax(0, 1fr); gap: var(--gap); }
+.vid { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.video-grid .vid:first-child { grid-row: span 2; }
+.vid-thumb {
+  position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; overflow: hidden; cursor: pointer;
+  background: radial-gradient(80% 90% at 50% 0%, rgba(245, 184, 61, 0.16), transparent 70%), #12110e;
+}
+.video-grid .vid:first-child .vid-thumb { aspect-ratio: auto; flex-grow: 1; min-height: 240px; }
+/* katta video: rasm kesilmasdan to'liq ko'rinadi, orqasida shu rasmning xira nusxasi */
+.video-grid .vid:first-child .vid-thumb::before { content: ""; position: absolute; inset: -30px; background: var(--bg) center / cover no-repeat; filter: blur(26px) brightness(.45); }
+.video-grid .vid:first-child .vid-thumb img { object-fit: contain; }
+.vid-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.vid:hover .vid-thumb img { transform: scale(1.04); }
+.vid-thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent 55%); }
+.vid-play {
+  position: absolute; z-index: 1; left: 50%; top: 50%; translate: -50% -50%;
+  display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%;
+  background: var(--gold); color: var(--on-gold); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  transition: transform .25s ease, background-color .25s ease;
+}
+.vid-play .icon { width: 24px; height: 24px; margin-left: 3px; }
+.vid:hover .vid-play, .vid-thumb:focus-visible .vid-play { transform: scale(1.08); background: var(--gold-hover); }
+.video-grid .vid:first-child .vid-play { width: 76px; height: 76px; }
+.vid-body { display: flex; flex-direction: column; gap: 10px; padding: 16px 18px 18px; }
+.vid h3 { font-size: 15.5px; line-height: 1.35; font-weight: 700; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.video-grid .vid:first-child h3 { font-size: 20px; }
+.vid-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--gold); align-self: flex-start; }
+.vid-link .icon { width: 15px; height: 15px; }
+.vid-link:hover { color: var(--gold-hover); }
+/* qolgan videolar: kichik kartalar to'ri */
+.video-more { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); margin-top: var(--gap); }
+.video-more .vid h3 { font-size: 14.5px; }
+.video-more .vid-play { width: 48px; height: 48px; }
+.video-more .vid-play .icon { width: 20px; height: 20px; }
+
+/* ==========================================================================
+   ALOQA (faqat kontaktlar)
+   ========================================================================== */
+.contact-grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.6fr); gap: clamp(24px, 3vw, 44px); align-items: center; }
+.contact-intro { display: flex; flex-direction: column; gap: 18px; }
+.contact-intro h2 { font-size: clamp(30px, 3.4vw, 40px); line-height: 1.12; font-weight: 800; }
+.contact-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.contact-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.info { display: flex; gap: 14px; align-items: center; padding: 18px; }
+.info-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; border: 1px solid var(--line); background: var(--gold-soft); color: var(--gold); }
+.info-icon .icon { width: 20px; height: 20px; }
+.info > div { min-width: 0; }
+.info small { display: block; font-size: 12.5px; color: var(--text); }
+.info strong { display: block; font-size: 14.5px; font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+a.info:hover strong { color: var(--gold); }
+
+/* ==========================================================================
+   RASM VA VIDEO OYNALARI
+   ========================================================================== */
+.lb {
+  position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; gap: 12px;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  background: rgba(6, 6, 6, 0.95); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  animation: lbIn .2s ease;
+}
+@keyframes lbIn { from { opacity: 0; } to { opacity: 1; } }
+.lb-top { display: flex; align-items: center; gap: 12px; max-width: 1240px; width: 100%; margin-inline: auto; }
+.lb-title { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.lb-title strong { color: var(--ink); font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.lb-title span { color: var(--gold); font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.lb-stage { position: relative; flex: 1; min-height: 0; touch-action: pan-y; }
+.lb-stage img { position: absolute; inset: 0; margin: auto; max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 10px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); user-select: none; -webkit-user-drag: none; }
+.lb-nav { position: absolute; top: 50%; translate: 0 -50%; width: 48px; height: 48px; border-radius: 50%; background: rgba(20, 19, 16, 0.85); z-index: 1; }
+.lb-nav:hover { transform: none; }
+.lb-prev { left: 4px; } .lb-next { right: 4px; }
+.lb-thumbs { display: flex; justify-content: center; gap: 8px; overflow-x: auto; padding: 4px; scrollbar-width: thin; }
+.lb-thumbs button { flex-shrink: 0; width: 72px; height: 50px; padding: 0; border-radius: 8px; overflow: hidden; border: 2px solid transparent; background: var(--card); opacity: .55; transition: opacity .2s ease, border-color .2s ease; }
+.lb-thumbs button[aria-current="true"] { border-color: var(--gold); opacity: 1; }
+.lb-thumbs button:hover { opacity: 1; }
+.lb-thumbs img { width: 100%; height: 100%; object-fit: cover; }
+.vm-wrap { flex: 1; min-height: 0; display: grid; place-items: center; }
+.vm-frame { width: min(100%, 1100px, calc((100vh - 140px) * 16 / 9)); aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); }
+.vm-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+body.lb-open { overflow: hidden; }
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.footer { border-top: 1px solid var(--line-soft); }
+.footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; padding-block: 22px; }
+.footer p { font-size: 13.5px; }
+
+/* ==========================================================================
+   SCROLL ANIMATSIYASI (faqat JS bor bo'lsa)
+   ========================================================================== */
+.js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, .7, .2, 1); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js .reveal { opacity: 1; transform: none; }
+}
+
+/* ==========================================================================
+   RESPONSIVE: 1440 (asosiy) / 1180 / 1024 / 768 / 375
+   ========================================================================== */
+@media (max-width: 1180px) {
+  /* menyu hamburgerga o'tadi */
+  .menu, .nav-right .lang, .nav-right .btn { display: none; }
+  .burger { display: inline-grid; margin-left: auto; }
+  .nav-right { margin-left: auto; }
+  .mobile-menu {
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+    padding: 12px clamp(16px, 3vw, 32px) 20px;
+    max-height: calc(100vh - var(--nav-h)); overflow-y: auto;
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-menu nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
+  .mobile-menu nav a { padding: 12px 14px; border-radius: 10px; font-weight: 600; color: var(--ink); background: var(--card); border: 1px solid var(--line-soft); }
+  .mobile-menu nav a.active { color: var(--gold); border-color: var(--line); }
+  .mobile-menu .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
+  .nav.menu-open { background: var(--bg); border-bottom-color: var(--line-soft); }
+
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-intro { max-width: 640px; }
+  .contact-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-visual { order: -1; }
+  .photo-ring { width: min(100%, 340px); }
+  .duo { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .projects-grid { --cols: 2 !important; }
+  .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .video-grid .vid:first-child { grid-row: auto; grid-column: 1 / -1; }
+  .video-grid .vid:first-child .vid-thumb { aspect-ratio: 16 / 9; min-height: 0; }
+  .video-grid .vid:first-child .vid-thumb img { object-fit: cover; }
+  .video-more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 820px) {
+  .projects-grid { --cols: 1 !important; }
+  .proj { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); }
+  .proj-media { aspect-ratio: auto; min-height: 100%; border-bottom: 0; border-right: 1px solid var(--line); }
+}
+
+@media (max-width: 768px) {
+  .about { grid-template-columns: 1fr; }
+  .about-photo { min-height: 0; aspect-ratio: 4 / 3; }
+  .contact-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lb-nav { top: auto; bottom: 0; translate: none; }
+  .lb-stage img { bottom: 58px; max-height: calc(100% - 58px); }
+}
+
+@media (max-width: 600px) {
+  .services-grid { grid-template-columns: 1fr; }
+  .proj { display: flex; }
+  .proj-media { aspect-ratio: 16 / 10; min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+  .video-grid { grid-template-columns: 1fr; }
+  .video-more { grid-template-columns: 1fr; }
+  .contact-cards { grid-template-columns: 1fr; }
+  .contact-actions .btn { flex: 1 1 100%; }
+  .lb-thumbs { justify-content: flex-start; }
+  .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skill { flex-direction: row; justify-content: flex-start; padding: 12px; text-align: left; }
+  .skill svg, .more-ic { width: 36px; height: 36px; flex-shrink: 0; }
+  .more-ic .icon { width: 18px; height: 18px; }
+  .hero-actions .btn { flex: 1 1 100%; }
+  .stats { margin-top: -30px; }
+  .stat { padding: 12px 10px; }
+  .stat strong { font-size: 20px; }
+  .stat span { font-size: 11.5px; }
+  .mobile-menu nav { grid-template-columns: 1fr; }
+  .footer .wrap { justify-content: center; text-align: center; }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- ════════════ MOUSE GLOW & CURSOR ════════════ -->
-  <div id="mouse-glow"></div>
-  <div id="custom-cursor">
-    <div class="cursor-star"><span>✦</span></div>
-    <div class="cursor-ring"></div>
-  </div>
+<!-- ==========================================================================
+     IKONKALAR (bir marta yoziladi, <use href="#i-..."> bilan ishlatiladi)
+     Chiziqli ikonkalar Lucide uslubida.
+     ========================================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></symbol>
+    <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-sheet" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 9v12M15 9v12"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10v6"/><path d="M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.6L19.5 10.5l-5.6 1.9L12 18l-1.9-5.6L4.5 10.5l5.6-1.9z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-zoom" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="m21 21-4.6-4.6M11 8v6M8 11h6"/></symbol>
+    <symbol id="i-images" viewBox="0 0 24 24"><rect x="7" y="3" width="14" height="14" rx="2"/><path d="M3 7v12a2 2 0 0 0 2 2h12"/><circle cx="12" cy="8" r="1.5"/><path d="m21 13-3.5-3.5L11 16"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  </defs>
+</svg>
 
-  <!-- ════════════ LOADER ════════════ -->
-  <div id="gloader">
-    <div class="loader-initials">GR</div>
-    <div class="loader-spinner"></div>
-  </div>
+<!-- ==========================================================================
+     NAVBAR
+     ========================================================================== -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#home" class="logo" aria-label="GANISHER.UZ — bosh sahifa">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2.5 27.7 9.25v13.5L16 29.5 4.3 22.75V9.25z" fill="#141310" stroke="#F5B83D" stroke-width="2"/><text x="16" y="21.2" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="13" text-anchor="middle" fill="#F5B83D">G</text></svg>
+      <span class="logo-text">GANISHER<span>.UZ</span></span>
+    </a>
 
-  <!-- ════════════ PARTICLES ════════════ -->
-  <div id="particles-bg"></div>
+    <!-- Joy yetishi uchun katta ekran menyusida "Bosh sahifa" (logotip shu vazifani bajaradi)
+         va "Ko'nikmalar" (Men haqimda yonida turadi) yo'q; mobil menyuda hammasi bor. -->
+    <nav class="menu" aria-label="Asosiy menyu">
+      <a href="#about" data-i18n="nav.about">Men haqimda</a>
+      <a href="#services" data-i18n="nav.services">Xizmatlar</a>
+      <a href="#education" data-i18n="nav.edu">Ta'lim</a>
+      <a href="#projects" data-i18n="nav.projects">Loyihalar</a>
+      <a href="#presentations" data-i18n="nav.pres">Prezentatsiyalar</a>
+      <a href="#videos" data-i18n="nav.videos">Videolar</a>
+      <a href="#contact" data-i18n="nav.contact">Aloqa</a>
+    </nav>
 
-  <!-- ════════════ NAVBAR ════════════ -->
-  <nav id="navbar">
-    <div class="nav-container">
-      <a href="#hero" class="nav-logo">ganisher.uz</a>
-
-      <div class="nav-menu" id="navMenu">
-        <a href="#hero" class="nav-link active" data-section="hero">Bosh sahifa</a>
-        <a href="#about" class="nav-link" data-section="about">Men haqimda</a>
-        <a href="#portfolio" class="nav-link" data-section="portfolio">Loyihalar</a>
-        <a href="#presentations" class="nav-link" data-section="presentations">Prezentatsiyalar</a>
-        <a href="#channels" class="nav-link" data-section="channels">Kanallarim</a>
-        <a href="#contact" class="nav-link" data-section="contact">Aloqa</a>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Til / Язык / Language">
+        <button type="button" data-lang="uz" aria-pressed="true">UZ</button>
+        <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
       </div>
-
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div id="navClock" class="nav-clock" aria-label="Joriy vaqt">
-          <!-- JS fills this -->
-        </div>
-        <button class="theme-toggle" id="themeToggle" aria-label="Rejimni almashtirish">
-          <span id="themeIcon"><i class="ri-moon-fill"></i></span>
-        </button>
-        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menyu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+      <a href="#contact" class="btn btn-ghost btn-sm"><span data-i18n="nav.cta">Bog'lanish</span><svg class="icon"><use href="#i-send"/></svg></a>
+      <button type="button" class="icon-btn burger" id="burger" aria-expanded="false" aria-controls="mobileMenu" data-i18n-aria="nav.menu" aria-label="Menyu">
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
     </div>
-  </nav>
+  </div>
 
-  <!-- ════════════ HERO ════════════ -->
-  <section id="hero">
-    <div class="hero-bg-gradient"></div>
-    <div class="hero-content-full">
+  <!-- Mobil menyu (≤1180px) -->
+  <div class="mobile-menu" id="mobileMenu">
+    <nav aria-label="Mobil menyu">
+      <a href="#home" data-i18n="nav.home">Bosh sahifa</a>
+      <a href="#about" data-i18n="nav.about">Men haqimda</a>
+      <a href="#skills" data-i18n="nav.skills">Ko'nikmalar</a>
+      <a href="#services" data-i18n="nav.services">Xizmatlar</a>
+      <a href="#education" data-i18n="nav.edu">Ta'lim</a>
+      <a href="#projects" data-i18n="nav.projects">Loyihalar</a>
+      <a href="#presentations" data-i18n="nav.pres">Prezentatsiyalar</a>
+      <a href="#videos" data-i18n="nav.videos">Videolar</a>
+      <a href="#contact" data-i18n="nav.contact">Aloqa</a>
+    </nav>
+    <div class="row">
+      <div class="lang" role="group" aria-label="Til / Язык / Language">
+        <button type="button" data-lang="uz" aria-pressed="true">UZ</button>
+        <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a href="#contact" class="btn btn-gold btn-sm"><span data-i18n="nav.cta">Bog'lanish</span><svg class="icon"><use href="#i-send"/></svg></a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ========================================================================
+       1. HERO
+       ======================================================================== -->
+  <section id="home" class="panel hero">
+    <div class="sparks" data-sparks="22" aria-hidden="true"></div>
+    <div class="hero-grid">
       <div class="hero-text">
-        <div class="hero-badge">
-          <span class="dot"></span>
-          <span>Yangi loyihalar ustida ishlamoqda...</span>
+        <span class="badge"><span class="dot"></span><span data-i18n="hero.badge">Yangi loyihalarga ochiqman</span></span>
+        <h1 data-i18n-html="hero.title">Biznesingiz uchun aqlli <span class="gold">jadval va avtomatlashtirish</span> tizimlari</h1>
+        <p class="hero-lead" data-i18n="hero.text">Excel va Google Sheets bo'yicha o'qituvchiman. Biznes uchun hisob tizimlari yarataman va kundalik ishlarni avtomatlashtiraman.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-gold"><span data-i18n="hero.order">Buyurtma berish</span><svg class="icon"><use href="#i-arrow-right"/></svg></a>
+          <a href="#projects" class="btn btn-ghost"><span data-i18n="hero.work">Ishlarimni ko'rish</span><svg class="icon"><use href="#i-layers"/></svg></a>
         </div>
-        <h1 class="hero-name">
-          Assalomu alaykum, men <span class="highlight">G'anisher Raximov</span>
-        </h1>
-        <h2 class="hero-dynamic-text">
-          Men sizga <span id="typed-text" class="typed-text"></span> yordam beraman
-        </h2>
-        <div class="hero-tagline" style="margin-top: 16px;">
-          <span class="tag"><i class="ri-computer-line"></i> Ofis dasturlari o'qituvchisi</span>
-          <span class="tag"><i class="ri-code-s-slash-line"></i> Dasturchi</span>
-          <span class="tag"><i class="ri-bar-chart-box-line"></i> Iqtisodchi</span>
-          <span class="tag"><i class="ri-calculator-line"></i> Buxgalter</span>
-        </div>
-        <div class="hero-buttons">
-          <a href="#portfolio" class="btn btn-primary">
-            <span class="btn-icon"><i class="ri-rocket-2-fill"></i></span>
-            Loyihalarni ko'rish
-          </a>
-          <a href="#presentations" class="btn btn-secondary">
-            <span class="btn-icon"><i class="ri-slideshow-3-line"></i></span>
-            Prezentatsiyalarga o'tish
-          </a>
+        <div class="follow">
+          <span data-i18n="hero.follow">Kuzating:</span>
+          <div class="socials">
+            <a class="icon-btn" href="https://t.me/raximovganisher" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg class="icon"><use href="#i-send"/></svg></a>
+            <a class="icon-btn" href="https://www.instagram.com/ganisher.raximovv/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="icon"><use href="#i-instagram"/></svg></a>
+            <a class="icon-btn" href="https://www.youtube.com/@raximovganisher" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><svg class="icon"><use href="#i-youtube"/></svg></a>
+          </div>
         </div>
       </div>
-      <div class="hero-image-wrapper" id="tilt-wrapper">
-        <img src="profile.jpg" alt="G'anisher Raximov" class="hero-image" id="heroImage">
-      </div>
-    </div>
 
-    <!-- ════════════ MARQUEE TICKER ════════════ -->
-    <div class="hero-marquee">
-      <div class="marquee-content">
-        <div class="marquee-item"><i class="ri-file-excel-2-fill"></i> Microsoft Excel</div>
-        <div class="marquee-item"><i class="ri-apps-2-fill"></i> AppSheet</div>
-        <div class="marquee-item"><i class="ri-robot-2-fill"></i> ChatGPT</div>
-        <div class="marquee-item"><i class="ri-sparkling-fill"></i> Gemini</div>
-        <div class="marquee-item"><i class="ri-terminal-box-fill"></i> Python</div>
-        <div class="marquee-item"><i class="ri-file-excel-2-fill"></i> Microsoft Excel</div>
-        <div class="marquee-item"><i class="ri-apps-2-fill"></i> AppSheet</div>
-        <div class="marquee-item"><i class="ri-robot-2-fill"></i> ChatGPT</div>
-        <div class="marquee-item"><i class="ri-sparkling-fill"></i> Gemini</div>
-        <div class="marquee-item"><i class="ri-terminal-box-fill"></i> Python</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════ STATS ════════════ -->
-  <section class="stats-section">
-    <div class="section-full">
-      <div class="stats-grid">
-        <div class="glass-card stat-card reveal">
-          <span class="stat-icon"><i class="ri-macbook-line"></i></span>
-          <div class="stat-number" data-target="3" data-suffix=" yil">0</div>
-          <div class="stat-label">Tajriba</div>
-        </div>
-        <div class="glass-card stat-card reveal reveal-delay-1">
-          <span class="stat-icon"><i class="ri-team-fill"></i></span>
-          <div class="stat-number" data-target="100" data-suffix="+">0</div>
-          <div class="stat-label">O'quvchilar</div>
-        </div>
-        <div class="glass-card stat-card reveal reveal-delay-2">
-          <span class="stat-icon"><i class="ri-rocket-fill"></i></span>
-          <div class="stat-number" data-target="10" data-suffix="+">0</div>
-          <div class="stat-label">Loyihalar</div>
-        </div>
-        <div class="glass-card stat-card reveal reveal-delay-3">
-          <span class="stat-icon"><i class="ri-youtube-fill"></i></span>
-          <div class="stat-number" data-target="1000" data-suffix="+">0</div>
-          <div class="stat-label">YouTube obunachilari</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════ ABOUT ════════════ -->
-  <section id="about" class="section">
-    <div class="section-full">
-      <h2 class="section-title reveal">Men haqimda</h2>
-      <p class="section-subtitle reveal">Texnologiya va ta'lim sohasidagi tajribam haqida</p>
-
-      <div class="about-grid">
-        <div class="about-text reveal">
-          <p class="about-intro">
-            Men biznes jarayonlaridagi tartibsizliklarni aniq, vaqtni tejaydigan va avtomatlashtirilgan tizimlarga
-            aylantiraman.
-            Asosiy maqsadim — murakkab ishlarni oddiy va xatosiz ishlaydigan mexanizmga o'tkazish.
-          </p>
-
-          <h3 class="services-title">Mijozlar va bizneslar uchun nima qilib bera olaman?</h3>
-
-          <div class="services-list">
-            <div class="service-item">
-              <div class="service-icon"><i class="ri-line-chart-fill"></i></div>
-              <div class="service-content">
-                <h4>Moliya va Tahlil</h4>
-                <p>Excel va Google Sheets yordamida korxonangizning pul aylanmasini (cash flow) va aniq moliyaviy
-                  holatini ko'rsatib beruvchi interaktiv tizimlar (dashboard'lar) yarataman. Buxgalteriya hisobini
-                  to'g'ri yo'lga qo'yaman.</p>
-              </div>
-            </div>
-
-            <div class="service-item">
-              <div class="service-icon"><i class="ri-smartphone-fill"></i></div>
-              <div class="service-content">
-                <h4>Ilovalar va Botlar (No-code)</h4>
-                <p>Ma'lumotlarni yig'ish va boshqarishni osonlashtirish uchun AppSheet orqali mustaqil mobil ilovalar,
-                  shuningdek, Google Sheets bilan integratsiya qilingan aqlli Telegram botlar tuzib beraman.</p>
-              </div>
-            </div>
-
-            <div class="service-item">
-              <div class="service-icon"><i class="ri-global-fill"></i></div>
-              <div class="service-content">
-                <h4>Veb va So'rovnomalar</h4>
-                <p>Kompaniyalar uchun zamonaviy veb-saytlar va mijozlar bilan ishlash uchun mukammal Google Forms
-                  so'rovnomalari ishlab chiqaman.</p>
-              </div>
-            </div>
-
-            <div class="service-item">
-              <div class="service-icon"><i class="ri-graduation-cap-fill"></i></div>
-              <div class="service-content">
-                <h4>Amaliy Ta'lim</h4>
-                <p>Ofis dasturlari bo'yicha quruq nazariyadan xoli, faqat real biznes jarayonlarida asqotadigan,
-                  natijaga yo'naltirilgan amaliy darslar o'taman.</p>
-              </div>
-            </div>
+      <div class="hero-visual">
+        <div class="photo-ring">
+          <div class="ring"></div>
+          <div class="orbit" aria-hidden="true"></div>
+          <div class="photo">
+            <img src="images/ganisher.jpg" alt="G'anisher Raximov" width="420" height="420" fetchpriority="high" onerror="this.remove()">
           </div>
         </div>
-
-        <div class="skills-grid reveal reveal-delay-2">
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">Microsoft Excel & VBA</span>
-              <span class="skill-percent">95%</span>
-            </div>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="95"></div>
-            </div>
+        <!-- Statistika: raqamni data-count ga yozing -->
+        <div class="stats">
+          <div class="stat">
+            <svg class="icon"><use href="#i-calendar"/></svg>
+            <strong data-count="3" data-suffix="+">3+</strong>
+            <span data-i18n="stat.years">yil tajriba</span>
           </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">Sun'iy Intellekt (AI)</span>
-              <span class="skill-percent">85%</span>
-            </div>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="85"></div>
-            </div>
+          <div class="stat">
+            <svg class="icon"><use href="#i-briefcase"/></svg>
+            <strong data-count="10" data-suffix="+">10+</strong>
+            <span data-i18n="stat.projects">loyiha</span>
           </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">AppSheet (No-code)</span>
-              <span class="skill-percent">90%</span>
-            </div>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="90"></div>
-            </div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">Raqamli Marketing</span>
-              <span class="skill-percent">80%</span>
-            </div>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="80"></div>
-            </div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">Python dasturlash</span>
-              <span class="skill-percent">75%</span>
-            </div>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="75"></div>
-            </div>
-          </div>
-
-          <!-- Neon 2D Chart SVG -->
-          <div class="glass-card neon-chart-wrapper reveal reveal-delay-3" style="padding: 24px;">
-            <div class="chart-header"
-              style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-              <div>
-                <span class="skill-name" style="display: block; margin-bottom: 4px;">Biznes Avtomatlashtirish</span>
-                <span style="color: var(--text-muted); font-size: 0.8rem;">Samaradorlik va Vaqt tejamkorligi</span>
-              </div>
-              <div
-                style="background: rgba(20, 184, 166, 0.1); padding: 6px 12px; border-radius: var(--radius-full); border: 1px solid rgba(20, 184, 166, 0.2); display: flex; align-items: center; gap: 6px;">
-                <i class="ri-arrow-right-up-line" style="color: var(--accent-teal);"></i>
-                <span
-                  style="color: var(--accent-teal); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.9rem;">+140%</span>
-              </div>
-            </div>
-
-            <div class="svg-chart-container"
-              style="position: relative; width: 100%; height: 160px; pointer-events: none;">
-              <!-- Y axis grid lines -->
-              <div
-                style="position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; z-index: 0;">
-                <div
-                  style="width: 100%; height: 1px; background: linear-gradient(90deg, var(--border-glass), transparent); opacity: 0.4;">
-                </div>
-                <div
-                  style="width: 100%; height: 1px; background: linear-gradient(90deg, var(--border-glass), transparent); opacity: 0.4;">
-                </div>
-                <div
-                  style="width: 100%; height: 1px; background: linear-gradient(90deg, var(--border-glass), transparent); opacity: 0.4;">
-                </div>
-                <div
-                  style="width: 100%; height: 1px; background: linear-gradient(90deg, var(--border-glass), transparent); opacity: 0.4;">
-                </div>
-              </div>
-
-              <svg viewBox="0 0 400 160" preserveAspectRatio="none"
-                style="width: 100%; height: 100%; position: relative; z-index: 1; overflow: visible;">
-                <!-- Gradient Defs -->
-                <defs>
-                  <linearGradient id="neonArea" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="rgba(20, 184, 166, 0.3)" />
-                    <stop offset="100%" stop-color="rgba(20, 184, 166, 0.0)" />
-                  </linearGradient>
-                  <filter id="neonChartGlow">
-                    <feGaussianBlur stdDeviation="4" result="coloredBlur" />
-                    <feMerge>
-                      <feMergeNode in="coloredBlur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-
-                <!-- Area Fill -->
-                <path class="chart-area-anim"
-                  d="M0,160 L0,130 C50,130 80,90 130,100 C150,104 180,110 220,50 C250,5 270,60 320,70 C360,78 380,20 400,10 L400,160 Z"
-                  fill="url(#neonArea)" />
-
-                <!-- Glowing Line -->
-                <path class="chart-line-anim"
-                  d="M0,130 C50,130 80,90 130,100 C150,104 180,110 220,50 C250,5 270,60 320,70 C360,78 380,20 400,10"
-                  fill="none" stroke="var(--accent-teal)" stroke-width="3" filter="url(#neonChartGlow)" />
-
-                <!-- Points -->
-                <circle cx="130" cy="100" r="4" fill="var(--bg-primary)" stroke="var(--accent-teal)" stroke-width="2"
-                  class="chart-point p1" />
-                <circle cx="220" cy="50" r="4" fill="var(--bg-primary)" stroke="var(--accent-teal)" stroke-width="2"
-                  class="chart-point p2" />
-                <circle cx="320" cy="70" r="4" fill="var(--bg-primary)" stroke="var(--accent-teal)" stroke-width="2"
-                  class="chart-point p3" />
-                <circle cx="400" cy="10" r="6" fill="#fff" stroke="var(--accent-purple)" stroke-width="3"
-                  filter="url(#neonChartGlow)" class="chart-point pulse p4" />
-              </svg>
-            </div>
-          </div>
-
-          <div class="skill-tags reveal reveal-delay-3" style="margin-top: 0;">
-            <span class="skill-tag"><i class="ri-bar-chart-grouped-fill"></i> Excel</span>
-            <span class="skill-tag"><i class="ri-robot-2-fill"></i> Sun'iy Intellekt</span>
-            <span class="skill-tag"><i class="ri-apps-2-fill"></i> AppSheet</span>
-            <span class="skill-tag"><i class="ri-terminal-box-fill"></i> Python</span>
-            <span class="skill-tag"><i class="ri-line-chart-fill"></i> Marketing</span>
-            <span class="skill-tag"><i class="ri-video-fill"></i> Kontent yaratish</span>
-            <span class="skill-tag"><i class="ri-bank-fill"></i> Iqtisodiyot</span>
-            <span class="skill-tag"><i class="ri-hand-heart-fill"></i> Ta'lim</span>
+          <div class="stat">
+            <svg class="icon"><use href="#i-users"/></svg>
+            <strong data-count="100" data-suffix="+">100+</strong>
+            <span data-i18n="stat.students">o'quvchi</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ════════════ TECH STACK ════════════ -->
-  <section id="techstack" class="section">
-    <div class="section-full">
-      <h2 class="section-title reveal">Texnologik Malakam</h2>
-      <p class="section-subtitle reveal">Asosiy ish qurollarim va texnologiyalar to'plami</p>
-
-      <div class="techstack-grid">
-        <!-- 1: Excel va Avtomatlashtirish -->
-        <div class="glass-card techstack-card reveal" style="--card-accent: #22c55e;">
-          <div class="techstack-icon-wrapper">
-            <span class="techstack-icon"><i class="ri-bar-chart-grouped-fill"></i></span>
-          </div>
-          <h3>Excel va Avtomatlashtirish</h3>
-          <p>Korxona va bizneslar uchun Excelda hisob-kitoblarni avtomatlashtiruvchi tayyor tizimlar yarataman. Bunga
-            ombor hisobi, qarzdorlik nazorati, tovarlarning kirim-chiqimi va moliyaviy monitoringni yurituvchi qulay
-            jadvallar hamda boshqaruv panellari (dashboard) kiradi.</p>
+  <!-- ========================================================================
+       2–3. MEN HAQIMDA + KO'NIKMALAR (katta ekranda yonma-yon)
+       ======================================================================== -->
+  <div class="duo">
+    <section id="about" class="panel reveal">
+      <div class="about">
+        <div class="about-photo">
+          <img src="images/ganisher-2.jpg" alt="G'anisher Raximov ish jarayonida" loading="lazy" decoding="async" onerror="this.remove()">
         </div>
-
-        <!-- 2: No-code Ilovalar (AppSheet) -->
-        <div class="glass-card techstack-card reveal reveal-delay-1" style="--card-accent: #a855f7;">
-          <div class="techstack-icon-wrapper">
-            <span class="techstack-icon"><i class="ri-apps-2-fill"></i></span>
-          </div>
-          <h3>No-code Ilovalar (AppSheet)</h3>
-          <p>Kod yozmasdan turib ishingizni yengillashtiruvchi mobil ilovalar tuzaman. "Qarz daftar", ombor nazorati,
-            kutubxona yoki mijozlar bazasini yurituvchi ilovalarni aynan sizning biznesingiz talablariga moslashtirib
-            yaratib beraman.</p>
-        </div>
-
-        <!-- 3: Sun'iy Intellekt va AI -->
-        <div class="glass-card techstack-card reveal reveal-delay-2" style="--card-accent: #3b82f6;">
-          <div class="techstack-icon-wrapper">
-            <span class="techstack-icon"><i class="ri-robot-2-fill"></i></span>
-          </div>
-          <h3>Sun'iy Intellekt va AI</h3>
-          <p>ChatGPT, Gemini, Claude kabi neyrotarmoqlarni kundalik ishga to'g'ri integratsiya qilishni o'rgataman.
-            Sun'iy intellekt yordamida ishdagi unumdorlikni oshirish va ta'lim sifatini yaxshilash bo'yicha amaliy
-            darslar o'taman.</p>
-        </div>
-
-        <!-- 4: Telegram Botlar -->
-        <div class="glass-card techstack-card reveal" style="--card-accent: #14b8a6;">
-          <div class="techstack-icon-wrapper">
-            <span class="techstack-icon"><i class="ri-telegram-fill"></i></span>
-          </div>
-          <h3>Telegram Botlar</h3>
-          <p>Mijozlar bilan ishlash va ma'lumotlarni yig'ish jarayonini osonlashtirish uchun Telegram botlar yarataman.
-            Shuningdek, botlarni to'g'ridan-to'g'ri Google Sheets bazasiga ulab, sizning maxsus talablaringiz asosida
-            moslashtirib beraman.</p>
-        </div>
-
-        <!-- 5: Google Workspace -->
-        <div class="glass-card techstack-card reveal reveal-delay-1" style="--card-accent: #f59e0b;">
-          <div class="techstack-icon-wrapper">
-            <span class="techstack-icon"><i class="ri-google-fill"></i></span>
-          </div>
-          <h3>Google Workspace</h3>
-          <p>Jamoaviy ishlashni va ma'lumot yig'ishni tartibga solish uchun Google Sheets (jadvallar), Google Forms
-            (so'rovnomalar) hamda Google Docs vositalaridan unumli foydalanishni yo'lga qo'yib beraman.</p>
-        </div>
-
-        <!-- 6: Zamonaviy Veb-saytlar -->
-        <div class="glass-card techstack-card reveal reveal-delay-2" style="--card-accent: #0ea5e9;">
-          <div class="techstack-icon-wrapper">
-            <span class="techstack-icon"><i class="ri-global-line"></i></span>
-          </div>
-          <h3>Zamonaviy Veb-saytlar</h3>
-          <p>Kompaniyangiz yoki shaxsiy brendingizni internetda munosib ko'rsatish uchun zamonaviy, tez ishlaydigan va
-            barcha qurilmalarga moslashuvchi veb-saytlar yarataman. Mijozlarni jalb qiluvchi 'landing' sahifalar hamda
-            interaktiv vizual yechimlar bilan boyitilgan premium darajadagi portfoliolar tuzib beraman.</p>
-        </div>
-
-        <!-- 7: Hujjatlarni Avtomatlashtirish (Word & Docs) -->
-        <div class="glass-card techstack-card reveal" style="--card-accent: #ec4899;">
-          <div class="techstack-icon-wrapper">
-            <span class="techstack-icon"><i class="ri-file-paper-2-fill"></i></span>
-          </div>
-          <h3>Hujjatlarni Avtomatlashtirish (Word & Docs)</h3>
-          <p>Korxona hujjatlar aylanmasini (HR buyruqlari, shartnomalar) tezlashtirish uchun aqlli shablonlar yarataman.
-            Bitta ma'lumotlar bazasi orqali bir vaqtning o'zida o'nlab (30-40 ta) xodimlar uchun tayyor hujjatlarni
-            avtomatik generatsiya qiluvchi tizimlar tuzib beraman. Shuningdek, akademik va ofis ishlari uchun
-            professional qoliplar tayyorlayman.</p>
+        <div class="about-body">
+          <span class="eyebrow"><b>01</b><i></i><span data-i18n="about.label">Men haqimda</span></span>
+          <h2 class="sec-title" data-i18n-html="about.title">Murakkab hisobni <span class="gold">oddiy tizimga</span> aylantiraman</h2>
+          <p data-i18n="about.p1">Biznes jarayonlaridagi tartibsizliklarni aniq, vaqtni tejaydigan va avtomatlashtirilgan tizimlarga aylantiraman. Asosiy maqsadim — murakkab ishlarni oddiy va xatosiz ishlaydigan mexanizmga o'tkazish.</p>
+          <ul class="checks">
+            <li><svg class="icon"><use href="#i-check-circle"/></svg><span data-i18n="about.f1">Real biznes jarayonlariga mos yechimlar</span></li>
+            <li><svg class="icon"><use href="#i-check-circle"/></svg><span data-i18n="about.f2">Tushunarli va xatosiz ishlaydigan jadvallar</span></li>
+            <li><svg class="icon"><use href="#i-check-circle"/></svg><span data-i18n="about.f3">Quruq nazariyasiz, amaliy darslar</span></li>
+          </ul>
         </div>
       </div>
+    </section>
+
+    <section id="skills" class="panel reveal">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow"><b>02</b><i></i><span data-i18n="skills.label">Ko'nikmalar</span></span>
+          <h2 class="sec-title" data-i18n-html="skills.title">Ish <span class="gold">qurollarim</span></h2>
+        </div>
+      </div>
+      <!-- Ikonkalar: toza SVG (rasmiy logotiplar uslubida soddalashtirilgan) -->
+      <div class="skills-grid">
+        <div class="card lift skill">
+          <svg viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="10" fill="#107C41"/><rect x="24" y="11" width="11" height="22" rx="2" fill="#21A366"/><path d="M24 15.5h11M24 20h11M24 24.5h11M24 29h11" stroke="#107C41" stroke-width="1.4"/><rect x="8" y="12" width="18" height="20" rx="2.5" fill="#fff"/><path d="m12.5 16.5 9 11M21.5 16.5l-9 11" stroke="#107C41" stroke-width="2.6" stroke-linecap="round"/></svg>
+          <span>Excel</span>
+        </div>
+        <div class="card lift skill">
+          <svg viewBox="0 0 44 44" aria-hidden="true"><path d="M12 5h14l9 9v23a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="#0F9D58"/><path d="M26 5v7a2 2 0 0 0 2 2h7z" fill="#87CEAC"/><rect x="15" y="20" width="15" height="12" rx="1" fill="#fff"/><path d="M15 24h15M15 28h15M21 20v12" stroke="#0F9D58" stroke-width="1.5"/></svg>
+          <span>Google Sheets</span>
+        </div>
+        <div class="card lift skill">
+          <svg viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="10" fill="#1A1A1A" stroke="#333" /><path d="M15 14c-3 0-4 1.5-4 4v1.5c0 1.5-.8 2.5-2 2.5 1.2 0 2 1 2 2.5V26c0 2.5 1 4 4 4" stroke="#4285F4" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M29 14c3 0 4 1.5 4 4v1.5c0 1.5.8 2.5 2 2.5-1.2 0-2 1-2 2.5V26c0 2.5-1 4-4 4" stroke="#FBBC04" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="18" cy="22" r="1.8" fill="#34A853"/><circle cx="22" cy="22" r="1.8" fill="#EA4335"/><circle cx="26" cy="22" r="1.8" fill="#4285F4"/></svg>
+          <span>Apps Script</span>
+        </div>
+        <div class="card lift skill">
+          <svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="20" fill="#2AABEE"/><path d="M31.5 13.2 11.8 20.8c-1.3.5-1.3 1.3-.2 1.6l5 1.6 1.9 5.9c.2.7.4.9.9.9s.7-.2 1-.5l2.4-2.3 5 3.7c.9.5 1.6.2 1.8-.9l3.3-15.5c.3-1.4-.5-2-1.4-1.6z" fill="#fff"/><path d="m17.4 23.8 10.1-6.4c.5-.3.9-.1.5.3l-8.6 7.8-.4 3.7z" fill="#C8DAEA"/></svg>
+          <span data-i18n="skill.bot">Telegram bot</span>
+        </div>
+        <div class="card lift skill">
+          <svg viewBox="0 0 44 44" aria-hidden="true"><path d="M8 5h28l-2.6 29L22 39l-11.4-5z" fill="#E44D26"/><path d="M22 8v28.5l9.1-2.6L33.4 8z" fill="#F16529"/><path d="m17.5 17-4 5 4 5M26.5 17l4 5-4 5M23.6 15l-3.2 14" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>HTML / CSS / JS</span>
+        </div>
+        <div class="card lift skill">
+          <svg viewBox="0 0 44 44" aria-hidden="true"><defs><linearGradient id="g-canva" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00C4CC"/><stop offset=".55" stop-color="#5A32FA"/><stop offset="1" stop-color="#7D2AE8"/></linearGradient></defs><circle cx="22" cy="22" r="20" fill="url(#g-canva)"/><path d="M27.5 16.5c-1.2-1.6-3-2.4-5-2.4-4.3 0-7.5 3.6-7.5 8.1 0 4.2 2.8 7.6 6.9 7.6 2.5 0 4.6-1.2 6-3.1" stroke="#fff" stroke-width="2.8" fill="none" stroke-linecap="round"/></svg>
+          <span>Canva</span>
+        </div>
+        <div class="card lift skill">
+          <svg viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="10" fill="#1A1A1A" stroke="#333"/><rect x="6" y="11.5" width="32" height="21" rx="6.5" fill="#FF0000"/><path d="m19 17 8.5 5-8.5 5z" fill="#fff"/></svg>
+          <span>YouTube</span>
+        </div>
+        <div class="card skill skill-more">
+          <span class="more-ic"><svg class="icon"><use href="#i-sparkle"/></svg></span>
+          <span data-i18n="skills.note">Doim o'rganaman</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========================================================================
+       4. XIZMATLAR
+       ======================================================================== -->
+  <section id="services" class="panel reveal">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow"><b>03</b><i></i><span data-i18n="services.label">Xizmatlar</span></span>
+        <h2 class="sec-title" data-i18n-html="services.title">Biznesingiz uchun <span class="gold">tayyor yechimlar</span></h2>
+      </div>
+    </div>
+    <div class="services-grid">
+      <article class="card lift svc">
+        <span class="svc-icon"><svg class="icon"><use href="#i-sheet"/></svg></span>
+        <h3 data-i18n="s1.t">Google Sheets hisob tizimlari</h3>
+        <p data-i18n="s1.d">Kirim-chiqim, ombor qoldig'i va qarzdorlik hisobini bitta tartibli jadvalda yuritish.</p>
+      </article>
+      <article class="card lift svc">
+        <span class="svc-icon"><svg class="icon"><use href="#i-zap"/></svg></span>
+        <h3 data-i18n="s2.t">Avtomatlashtirish</h3>
+        <p data-i18n="s2.d">Apps Script yordamida takroriy ishlarni avtomatlashtirish va Telegram botni jadvalga ulash.</p>
+      </article>
+      <article class="card lift svc">
+        <span class="svc-icon"><svg class="icon"><use href="#i-chart"/></svg></span>
+        <h3 data-i18n="s3.t">Dashboard va hisobotlar</h3>
+        <p data-i18n="s3.d">Pul aylanmasi va asosiy ko'rsatkichlarni bir qarashda ko'rsatadigan interaktiv hisobotlar.</p>
+      </article>
+      <article class="card lift svc">
+        <span class="svc-icon"><svg class="icon"><use href="#i-cap"/></svg></span>
+        <h3 data-i18n="s4.t">Excel / Google Sheets kurslari</h3>
+        <p data-i18n="s4.d">Quruq nazariyasiz, real biznes vazifalari ustida o'tiladigan amaliy darslar.</p>
+      </article>
     </div>
   </section>
 
-  <!-- ════════════ PORTFOLIO ════════════ -->
-  <section id="portfolio" class="section">
-    <div class="section-full">
-      <h2 class="section-title reveal">Mening Loyihalarim</h2>
-      <p class="section-subtitle reveal">Amaliy loyihalar va ishlanmalar</p>
 
-      <div class="portfolio-filters reveal">
-        <button class="filter-btn active" data-filter="all">Barchasi</button>
-        <button class="filter-btn" data-filter="appsheet">AppSheet</button>
-        <button class="filter-btn" data-filter="excel">Excel</button>
-        <button class="filter-btn" data-filter="sheets">Google Sheets</button>
-        <button class="filter-btn" data-filter="bot">Botlar</button>
+  <!-- ========================================================================
+       5. TA'LIM XIZMATLARI — xizmatlar/ papkasidagi krossvord, test va obyektivka sahifalari
+       ======================================================================== -->
+  <section id="education" class="panel reveal">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow"><b>04</b><i></i><span data-i18n="edu.label">Ta'lim xizmatlari</span></span>
+        <h2 class="sec-title" data-i18n-html="edu.title">Vaqtni tejaydigan <span class="gold">onlayn vositalar</span></h2>
       </div>
-
-      <div class="portfolio-grid-v2" id="portfolio-grid">
-        <!-- Card 1 -->
-        <div class="portfolio-card-v2 reveal" data-category="appsheet">
-          <div class="portfolio-card-img">
-            <!-- Shu joydagi 'src' dagi rasmni o'zingizning rasmingiz bilan almashtirasiz -->
-            <img src="qarzdaftar.png" alt="AppSheet" class="card-image">
-          </div>
-          <div class="portfolio-card-content">
-            <h3>Qarz Daftar Ilovasi</h3>
-            <p>Mijozlar bilan ishlash, qarz va to'lovlarni nazorat qilish dasturi.</p>
-            <div class="portfolio-card-tags">
-              <span>AppSheet</span>
-              <span>Google Drive</span>
-            </div>
-          </div>
+      <p class="sec-note" data-i18n="edu.note">Brauzerda ishlaydi, ro'yxatdan o'tish shart emas.</p>
+    </div>
+    <div class="edu-grid">
+      <a class="card lift edu" href="xizmatlar/krossvord.html" target="_blank" rel="noopener">
+        <div class="edu-media">
+          <svg viewBox="0 0 480 270" fill="none" font-family="Arial, Helvetica, sans-serif" aria-hidden="true">
+            <defs>
+              <filter id="kr-sh" x="-30%" y="-20%" width="160%" height="150%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".45"/></filter>
+              <filter id="kr-shs" x="-30%" y="-40%" width="160%" height="200%"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#000" flood-opacity=".35"/></filter>
+            </defs>
+            <rect x="150" y="20" width="220" height="246" rx="10" fill="#E6DFD0" transform="rotate(6 260 143)" filter="url(#kr-sh)"/>
+            <rect x="130" y="12" width="220" height="246" rx="10" fill="#fff" filter="url(#kr-sh)"/>
+            <rect x="186" y="24" width="108" height="9" rx="4.5" fill="#16130c"/>
+            <g stroke="#16130c" stroke-width="1.5" fill="#fff">
+              <rect x="180" y="44" width="24" height="24"/><rect x="180" y="92" width="24" height="24"/><rect x="252" y="92" width="24" height="24"/>
+              <rect x="180" y="116" width="24" height="24"/><rect x="252" y="116" width="24" height="24"/>
+              <rect x="180" y="140" width="24" height="24"/><rect x="204" y="140" width="24" height="24"/><rect x="228" y="140" width="24" height="24"/><rect x="252" y="140" width="24" height="24"/><rect x="276" y="140" width="24" height="24"/><rect x="300" y="140" width="24" height="24"/>
+              <rect x="180" y="164" width="24" height="24"/><rect x="252" y="164" width="24" height="24"/>
+              <rect x="204" y="188" width="24" height="24"/><rect x="228" y="188" width="24" height="24"/><rect x="252" y="188" width="24" height="24"/>
+            </g>
+            <g stroke="#16130c" stroke-width="1.5" fill="#FCEFD0">
+              <rect x="156" y="68" width="24" height="24"/><rect x="180" y="68" width="24" height="24"/><rect x="204" y="68" width="24" height="24"/><rect x="228" y="68" width="24" height="24"/><rect x="252" y="68" width="24" height="24"/><rect x="276" y="68" width="24" height="24"/>
+            </g>
+            <g fill="#8A5A00" font-size="13" font-weight="700" text-anchor="middle">
+              <text x="168" y="85">M</text><text x="192" y="85">A</text><text x="216" y="85">N</text><text x="240" y="85">T</text><text x="264" y="85">I</text><text x="288" y="85">Q</text>
+            </g>
+            <g fill="#16130c" font-size="7" font-weight="700">
+              <text x="183" y="52">1</text><text x="159" y="76">2</text><text x="255" y="76">3</text><text x="183" y="148">4</text><text x="207" y="196">5</text>
+            </g>
+            <g fill="#D6CFC0"><rect x="156" y="226" width="78" height="6" rx="3"/><rect x="246" y="226" width="78" height="6" rx="3"/><rect x="156" y="240" width="60" height="6" rx="3"/><rect x="246" y="240" width="66" height="6" rx="3"/></g>
+            <g filter="url(#kr-shs)"><rect x="34" y="78" width="118" height="34" rx="17" fill="#fff"/><rect x="322" y="178" width="128" height="34" rx="17" fill="#fff"/></g>
+            <circle cx="54" cy="95" r="6" fill="#F5B83D"/><text x="68" y="100" fill="#16130c" font-size="13" font-weight="700">6 ta variant</text>
+            <circle cx="342" cy="195" r="6" fill="#F5B83D"/><text x="356" y="200" fill="#16130c" font-size="13" font-weight="700">PDF · Word</text>
+          </svg>
         </div>
-
-        <!-- Card 2 -->
-        <div class="portfolio-card-v2 reveal reveal-delay-1" data-category="excel">
-          <div class="portfolio-card-img">
-            <img src="ombor.png" alt="Excel Dashboard" class="card-image">
-          </div>
-          <div class="portfolio-card-content">
-            <h3>Ombor va Savdo Avtomatizatsiyasi</h3>
-            <p>Tovarlar qoldig'i, daromad va harajatlarning to'liq hisobi.</p>
-            <div class="portfolio-card-tags">
-              <span>MS Excel</span>
-              <span>Dashboard</span>
-              <span>VBA</span>
-            </div>
-          </div>
+        <div class="edu-body">
+          <span class="edu-tag" data-i18n="edu.tag">O'qituvchilar uchun</span>
+          <h3 data-i18n="edu1.t">Krossvord tuzuvchi</h3>
+          <p data-i18n="edu1.d">So'z va savollarni yozasiz — dastur bir necha xil variant tuzib beradi. Tayyor krossvordni PDF yoki Word'da yuklab olasiz yoki chop etasiz.</p>
+          <ul class="edu-features">
+            <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="edu1.f1">Bir nechta variant</span></li>
+            <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="edu1.f2">Javoblar varag'i</span></li>
+            <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="edu1.f3">PDF, Word, chop etish</span></li>
+          </ul>
+          <span class="btn btn-gold btn-sm edu-cta"><span data-i18n="edu.open">Ochish</span><svg class="icon"><use href="#i-arrow-up-right"/></svg></span>
         </div>
-
-        <!-- Card 3 -->
-        <div class="portfolio-card-v2 reveal reveal-delay-2" data-category="sheets">
-          <div class="portfolio-card-img">
-            <img src="moliya.png" alt="Google Sheets" class="card-image">
-          </div>
-          <div class="portfolio-card-content">
-            <h3>Moliya va Cash Flow Tizimi</h3>
-            <p>Korxonaning barcha pul oqimlarini vizual tarzda monitoring qilish.</p>
-            <div class="portfolio-card-tags">
-              <span>Google Sheets</span>
-              <span>Formulalar</span>
-            </div>
-          </div>
+      </a>
+      <a class="card lift edu" href="xizmatlar/test.html" target="_blank" rel="noopener">
+        <div class="edu-media">
+          <svg viewBox="0 0 480 270" fill="none" font-family="Arial, Helvetica, sans-serif" aria-hidden="true">
+            <defs>
+              <filter id="ts-sh" x="-30%" y="-20%" width="160%" height="150%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".45"/></filter>
+              <filter id="ts-shs" x="-30%" y="-40%" width="160%" height="200%"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#000" flood-opacity=".35"/></filter>
+            </defs>
+            <rect x="150" y="20" width="220" height="246" rx="10" fill="#E6DFD0" transform="rotate(6 260 143)" filter="url(#ts-sh)"/>
+            <rect x="130" y="12" width="220" height="246" rx="10" fill="#fff" filter="url(#ts-sh)"/>
+            <rect x="186" y="24" width="108" height="9" rx="4.5" fill="#16130c"/>
+            <rect x="152" y="42" width="96" height="5" rx="2.5" fill="#D6CFC0"/><rect x="290" y="40" width="40" height="9" rx="4.5" fill="#16130c"/>
+            <rect x="152" y="54" width="176" height="1.5" fill="#16130c"/>
+            <g fill="#16130c"><rect x="152" y="66" width="150" height="6" rx="3"/><rect x="152" y="122" width="128" height="6" rx="3"/><rect x="152" y="178" width="140" height="6" rx="3"/></g>
+            <g fill="#D6CFC0">
+              <rect x="172" y="83" width="52" height="5" rx="2.5"/><rect x="262" y="83" width="44" height="5" rx="2.5"/><rect x="172" y="99" width="40" height="5" rx="2.5"/><rect x="262" y="99" width="56" height="5" rx="2.5"/>
+              <rect x="172" y="139" width="46" height="5" rx="2.5"/><rect x="262" y="139" width="50" height="5" rx="2.5"/><rect x="172" y="155" width="56" height="5" rx="2.5"/><rect x="262" y="155" width="38" height="5" rx="2.5"/>
+              <rect x="172" y="195" width="42" height="5" rx="2.5"/><rect x="262" y="195" width="52" height="5" rx="2.5"/><rect x="172" y="211" width="50" height="5" rx="2.5"/><rect x="262" y="211" width="46" height="5" rx="2.5"/>
+            </g>
+            <g stroke="#16130c" stroke-width="1.5" fill="#fff">
+              <circle cx="162" cy="85.5" r="5"/><circle cx="252" cy="101.5" r="5"/><circle cx="162" cy="101.5" r="5"/>
+              <circle cx="162" cy="141.5" r="5"/><circle cx="252" cy="141.5" r="5"/><circle cx="162" cy="157.5" r="5"/>
+              <circle cx="252" cy="197.5" r="5"/><circle cx="162" cy="213.5" r="5"/><circle cx="252" cy="213.5" r="5"/>
+            </g>
+            <g fill="#E0A21F" stroke="#B57F0F" stroke-width="1.5"><circle cx="252" cy="85.5" r="5"/><circle cx="252" cy="157.5" r="5"/><circle cx="162" cy="197.5" r="5"/></g>
+            <rect x="152" y="232" width="70" height="14" rx="7" fill="#FCEFD0"/>
+            <text x="187" y="242.5" fill="#8A5A00" font-size="9" font-weight="700" text-anchor="middle">Baho: 5</text>
+            <g filter="url(#ts-shs)"><rect x="30" y="70" width="122" height="34" rx="17" fill="#fff"/><rect x="318" y="176" width="136" height="34" rx="17" fill="#fff"/></g>
+            <circle cx="50" cy="87" r="6" fill="#F5B83D"/><text x="64" y="92" fill="#16130c" font-size="13" font-weight="700">4 ta variant</text>
+            <circle cx="338" cy="193" r="6" fill="#F5B83D"/><text x="352" y="198" fill="#16130c" font-size="13" font-weight="700">Onlayn test</text>
+          </svg>
         </div>
-
-        <!-- Card 4 -->
-        <div class="portfolio-card-v2 reveal reveal-delay-3" data-category="bot">
-          <div class="portfolio-card-img">
-            <img src="bot.png" alt="Telegram Bot" class="card-image">
-          </div>
-          <div class="portfolio-card-content">
-            <h3>Mijozlar Bazasi Boti</h3>
-            <p>Yangi klientlarni qabul qilish va ma'lumotlarni Sheetsga yozish.</p>
-            <div class="portfolio-card-tags">
-              <span>Telegram API</span>
-              <span>Google Apps Script</span>
-            </div>
-          </div>
+        <div class="edu-body">
+          <span class="edu-tag" data-i18n="edu.tag">O'qituvchilar uchun</span>
+          <h3 data-i18n="edu2.t">Test tuzuvchi</h3>
+          <p data-i18n="edu2.d">Savollarni yozing yoki Word va Excel'dan qo'ying — aralashtirilgan variantlar, javoblar kaliti va blankalar tayyor bo'ladi. Testni shu yerda onlayn topshirish ham mumkin.</p>
+          <ul class="edu-features">
+            <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="edu2.f1">Variantlar va kalitlar</span></li>
+            <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="edu2.f2">Onlayn topshirish</span></li>
+            <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="edu2.f3">Word va Excel'dan import</span></li>
+          </ul>
+          <span class="btn btn-gold btn-sm edu-cta"><span data-i18n="edu.open">Ochish</span><svg class="icon"><use href="#i-arrow-up-right"/></svg></span>
         </div>
-      </div>
+      </a>
+      <a class="card lift edu" href="xizmatlar/obyektivka.html" target="_blank" rel="noopener">
+        <div class="edu-media">
+          <svg viewBox="0 0 480 270" fill="none" font-family="Arial, Helvetica, sans-serif" aria-hidden="true">
+            <defs>
+              <filter id="ob-sh" x="-30%" y="-20%" width="160%" height="150%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".45"/></filter>
+              <filter id="ob-shs" x="-30%" y="-40%" width="160%" height="200%"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#000" flood-opacity=".35"/></filter>
+            </defs>
+            <rect x="150" y="20" width="220" height="246" rx="10" fill="#E6DFD0" transform="rotate(6 260 143)" filter="url(#ob-sh)"/>
+            <rect x="130" y="12" width="220" height="246" rx="10" fill="#fff" filter="url(#ob-sh)"/>
+            <rect x="196" y="24" width="88" height="8" rx="4" fill="#16130c"/>
+            <rect x="150" y="46" width="112" height="8" rx="4" fill="#16130c"/>
+            <rect x="150" y="62" width="70" height="5" rx="2.5" fill="#D6CFC0"/><rect x="150" y="72" width="118" height="5" rx="2.5" fill="#D6CFC0"/>
+            <rect x="289" y="42" width="44" height="58" rx="3" fill="#FCEFD0" stroke="#E0A21F" stroke-width="1.5"/>
+            <circle cx="311" cy="64" r="9" fill="#E0A21F"/><path d="M296 99c0-11 6.5-17 15-17s15 6 15 17z" fill="#E0A21F"/>
+            <g fill="#16130c"><rect x="150" y="112" width="44" height="5" rx="2.5"/><rect x="246" y="112" width="40" height="5" rx="2.5"/><rect x="150" y="132" width="34" height="5" rx="2.5"/><rect x="246" y="132" width="48" height="5" rx="2.5"/><rect x="150" y="152" width="40" height="5" rx="2.5"/><rect x="246" y="152" width="36" height="5" rx="2.5"/></g>
+            <g fill="#D6CFC0"><rect x="150" y="120" width="56" height="5" rx="2.5"/><rect x="246" y="120" width="76" height="5" rx="2.5"/><rect x="150" y="140" width="40" height="5" rx="2.5"/><rect x="246" y="140" width="30" height="5" rx="2.5"/><rect x="150" y="160" width="62" height="5" rx="2.5"/><rect x="246" y="160" width="70" height="5" rx="2.5"/></g>
+            <rect x="200" y="180" width="80" height="6" rx="3" fill="#16130c"/>
+            <g fill="#E0A21F"><rect x="150" y="196" width="28" height="5" rx="2.5"/><rect x="150" y="208" width="28" height="5" rx="2.5"/><rect x="150" y="220" width="28" height="5" rx="2.5"/><rect x="150" y="232" width="28" height="5" rx="2.5"/></g>
+            <g fill="#D6CFC0"><rect x="186" y="196" width="120" height="5" rx="2.5"/><rect x="186" y="208" width="96" height="5" rx="2.5"/><rect x="186" y="220" width="134" height="5" rx="2.5"/><rect x="186" y="232" width="104" height="5" rx="2.5"/></g>
+            <g filter="url(#ob-shs)"><rect x="34" y="78" width="112" height="34" rx="17" fill="#fff"/><rect x="322" y="178" width="128" height="34" rx="17" fill="#fff"/></g>
+            <circle cx="54" cy="95" r="6" fill="#F5B83D"/><text x="68" y="100" fill="#16130c" font-size="13" font-weight="700">3×4 rasm</text>
+            <circle cx="342" cy="195" r="6" fill="#F5B83D"/><text x="356" y="200" fill="#16130c" font-size="13" font-weight="700">PDF · Word</text>
+          </svg>
+        </div>
+        <div class="edu-body">
+          <span class="edu-tag" data-i18n="edu3.tag">Xodimlar va HR uchun</span>
+          <h3 data-i18n="edu3.t">Obyektivka tuzuvchi</h3>
+          <p data-i18n="edu3.d">Rasmiy ma'lumotnoma shaklini to'ldiring — 3×4 rasm, mehnat faoliyati va qarindoshlar jadvali bilan tayyor hujjatni PDF yoki Word'da yuklab oling.</p>
+          <ul class="edu-features">
+            <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="edu3.f1">3×4 rasm bilan</span></li>
+            <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="edu3.f2">Qarindoshlar jadvali</span></li>
+            <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="edu3.f3">PDF, Word, chop etish</span></li>
+          </ul>
+          <span class="btn btn-gold btn-sm edu-cta"><span data-i18n="edu.open">Ochish</span><svg class="icon"><use href="#i-arrow-up-right"/></svg></span>
+        </div>
+      </a>
     </div>
   </section>
 
-  <!-- ════════════ PRESENTATIONS ════════════ -->
-  <section id="presentations" class="section">
-    <div class="section-full">
-      <h2 class="section-title reveal">Prezentatsiyalar</h2>
-      <p class="section-subtitle reveal">Ilmiy va akademik taqdimotlarim</p>
-
-      <div class="presentations-grid" id="dynamic-presentations">
-        <p style="text-align: center; width: 100%; color: var(--text-secondary);">Ma'lumotlar yuklanmoqda <i
-            class="ri-loader-4-line" style="animation: spin 1s linear infinite;"></i></p>
+  <!-- ========================================================================
+       6. LOYIHALAR — kartalar loyihalar/royxat.js dan chiziladi.
+       Har bir loyiha: loyihalar/<papka>/ ichida 1.jpg, 2.jpg ... va (ixtiyoriy) link.txt
+       ======================================================================== -->
+  <section id="projects" class="panel reveal">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow"><b>05</b><i></i><span data-i18n="projects.label">Loyihalar</span></span>
+        <h2 class="sec-title" data-i18n-html="projects.title">Tanlangan <span class="gold">loyihalar</span></h2>
       </div>
+      <p class="sec-note" data-i18n="projects.note">Rasm ustiga bosing — barcha rasmlar kattalashib ochiladi.</p>
+    </div>
+    <div class="projects-grid" id="projGrid" aria-live="polite"></div>
+  </section>
+
+  <!-- ========================================================================
+       7. PREZENTATSIYALAR — Google Sheets'dagi "Prezentatsiyalar" varag'idan
+       Ustunlar: A — turi, B — (eski ikonka, ishlatilmaydi), C — nomi, D — tavsif, E — havola
+       ======================================================================== -->
+  <section id="presentations" class="panel reveal">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow"><b>06</b><i></i><span data-i18n="pres.label">Prezentatsiyalar</span></span>
+        <h2 class="sec-title" data-i18n-html="pres.title">Ilmiy va akademik <span class="gold">taqdimotlar</span></h2>
+      </div>
+    </div>
+    <div class="pres-grid" id="presGrid" aria-live="polite" aria-busy="true">
+      <div class="card skeleton"></div>
+      <div class="card skeleton"></div>
+      <div class="card skeleton"></div>
     </div>
   </section>
 
-  <!-- ════════════ CHANNELS ════════════ -->
-  <section id="channels" class="section">
-    <div class="section-full">
-      <h2 class="section-title reveal" style="text-align:center;">Kanallarim</h2>
-      <p class="section-subtitle reveal" style="text-align:center;margin-left:auto;margin-right:auto;">
-        Foydali kontent va ta'limiy materiallar uchun kanallarimga obuna bo'ling
-      </p>
-
-      <div class="channels-grid">
-        <a href="https://www.youtube.com/@raximovganisher" target="_blank" rel="noopener noreferrer"
-          class="glass-card channel-card reveal" style="--channel-color: #FF0000;">
-          <div class="channel-icon-wrapper"><i class="ri-youtube-fill"></i></div>
-          <h3>YouTube kanal</h3>
-          <p class="channel-handle">@raximovganisher</p>
-          <span class="channel-desc">Excel sirlari, AI vositalari va texnologiya bo'yicha video darsliklar</span>
-        </a>
-
-        <a href="https://t.me/raximovganisher" target="_blank" rel="noopener noreferrer"
-          class="glass-card channel-card reveal reveal-delay-1" style="--channel-color: #2AABEE;">
-          <div class="channel-icon-wrapper"><i class="ri-telegram-fill"></i></div>
-          <h3>Telegram kanal</h3>
-          <p class="channel-handle">@raximovganisher</p>
-          <span class="channel-desc">Kundalik foydali postlar, shablonlar va yangiliklar</span>
-        </a>
-
-        <a href="https://www.instagram.com/tezkor_excel/" target="_blank" rel="noopener noreferrer"
-          class="glass-card channel-card reveal reveal-delay-2" style="--channel-color: #E4405F;">
-          <div class="channel-icon-wrapper"><i class="ri-instagram-fill"></i></div>
-          <h3>Instagram</h3>
-          <p class="channel-handle">@tezkor_excel</p>
-          <span class="channel-desc">Tezkor Excel sirlari va qisqa video ko'rsatmalar</span>
-        </a>
-
-        <a href="https://t.me/tezkor_excel" target="_blank" rel="noopener noreferrer"
-          class="glass-card channel-card reveal reveal-delay-3" style="--channel-color: #22c55e;">
-          <div class="channel-icon-wrapper"><i class="ri-telegram-fill"></i></div>
-          <h3>Tezkor Excel</h3>
-          <p class="channel-handle">@tezkor_excel</p>
-          <span class="channel-desc">Faqat Excel bo'yicha amaliy qisqa videolar va tezkor yechimlar</span>
-        </a>
+  <!-- ========================================================================
+       8. VIDEOLAR — ro'yxat skriptdagi VIDEOS massivida (yangi video qo'shish oson)
+       ======================================================================== -->
+  <section id="videos" class="panel reveal">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow"><b>07</b><i></i><span data-i18n="vid.label">Videolar</span></span>
+        <h2 class="sec-title" data-i18n-html="vid.title">YouTube'dagi <span class="gold">darslarim</span></h2>
       </div>
+      <a class="btn btn-ghost btn-sm" href="https://www.youtube.com/@raximovganisher" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-youtube"/></svg><span data-i18n="vid.channel">YouTube kanalga o'tish</span></a>
     </div>
+    <div class="video-grid" id="videoGrid"></div>
+    <div class="video-more" id="videoMore"></div>
   </section>
 
-  <!-- ════════════ CONTACT ════════════ -->
-  <section id="contact" class="section">
-    <div class="section-full">
-      <h2 class="section-title reveal" style="text-align:center;">Aloqa</h2>
-      <p class="section-subtitle reveal"
-        style="text-align:center; margin: 0 auto 50px auto; max-width: 800px; width: 100%; font-size: 1.15rem;">
-        <span class="neon-text-animate">Men bilan bog'laning — yangi loyihalar va hamkorlik uchun doimo tayyorman</span>
-      </p>
-
-      <div class="contact-grid">
-        <a href="https://t.me/raximov_ganisher" target="_blank" rel="noopener noreferrer"
-          class="glass-card contact-card reveal">
-          <span class="contact-icon"><i class="ri-telegram-fill"></i></span>
-          <h3>Telegram</h3>
-          <p>@raximov_ganisher</p>
+  <!-- ========================================================================
+       9. ALOQA — faqat kontaktlar
+       ======================================================================== -->
+  <section id="contact" class="panel reveal">
+    <div class="sparks" data-sparks="10" aria-hidden="true"></div>
+    <div class="contact-grid">
+      <div class="contact-intro">
+        <span class="eyebrow"><b>08</b><i></i><span data-i18n="c.label">Aloqa</span></span>
+        <h2 data-i18n-html="c.title">Keling, <span class="gold">birga</span> yarataylik</h2>
+        <p data-i18n="c.text">Loyiha g'oyangiz yoki savolingiz bormi? O'zingizga qulay usulda bog'laning — tez orada javob beraman.</p>
+        <div class="contact-actions">
+          <a class="btn btn-gold" href="https://t.me/raximov_ganisher" target="_blank" rel="noopener noreferrer"><span data-i18n="c.tg">Telegram'da yozish</span><svg class="icon"><use href="#i-send"/></svg></a>
+          <a class="btn btn-ghost" href="tel:+998942274464"><span data-i18n="c.call">Qo'ng'iroq qilish</span><svg class="icon"><use href="#i-phone"/></svg></a>
+        </div>
+      </div>
+      <div class="contact-cards">
+        <a class="card lift info" href="https://t.me/raximov_ganisher" target="_blank" rel="noopener noreferrer">
+          <span class="info-icon"><svg class="icon"><use href="#i-send"/></svg></span>
+          <div><small>Telegram</small><strong>@raximov_ganisher</strong></div>
         </a>
-
-        <a href="https://www.instagram.com/raximov.ganisherr/" target="_blank" rel="noopener noreferrer"
-          class="glass-card contact-card reveal reveal-delay-1">
-          <span class="contact-icon"><i class="ri-instagram-fill"></i></span>
-          <h3>Instagram</h3>
-          <p>@raximov.ganisherr</p>
+        <a class="card lift info" href="tel:+998942274464">
+          <span class="info-icon"><svg class="icon"><use href="#i-phone"/></svg></span>
+          <div><small data-i18n="c.phone">Telefon</small><strong>+998 94 227 44 64</strong></div>
         </a>
-
-        <a href="tel:+998942274464" class="glass-card contact-card reveal reveal-delay-2">
-          <span class="contact-icon"><i class="ri-phone-fill"></i></span>
-          <h3>Telefon</h3>
-          <p>+998 94 227 44 64</p>
+        <a class="card lift info" href="mailto:ganisherbuxgalter@gmail.com">
+          <span class="info-icon"><svg class="icon"><use href="#i-mail"/></svg></span>
+          <div><small data-i18n="c.email">Email</small><strong>ganisherbuxgalter@gmail.com</strong></div>
         </a>
-
-        <a href="mailto:ganisherbuxgalter@gmail.com" class="glass-card contact-card reveal reveal-delay-3">
-          <span class="contact-icon"><i class="ri-mail-fill"></i></span>
-          <h3>Elektron pochta</h3>
-          <p>ganisherbuxgalter@gmail.com</p>
+        <a class="card lift info" href="https://www.instagram.com/ganisher.raximovv/" target="_blank" rel="noopener noreferrer">
+          <span class="info-icon"><svg class="icon"><use href="#i-instagram"/></svg></span>
+          <div><small>Instagram</small><strong>@ganisher.raximovv</strong></div>
+        </a>
+        <div class="card info">
+          <span class="info-icon"><svg class="icon"><use href="#i-pin"/></svg></span>
+          <div><small data-i18n="c.addr">Manzil</small><strong data-i18n="c.addrVal">Urganch, Xorazm</strong></div>
+        </div>
+        <a class="card lift info" href="https://www.youtube.com/@raximovganisher" target="_blank" rel="noopener noreferrer">
+          <span class="info-icon"><svg class="icon"><use href="#i-youtube"/></svg></span>
+          <div><small>YouTube</small><strong>@raximovganisher</strong></div>
         </a>
       </div>
     </div>
   </section>
+</main>
 
-  <!-- ════════════ FOOTER ════════════ -->
-  <footer class="footer">
-    <div class="section-full">
-      <p>&copy; 2026 G'anisher Raximov. Barcha huquqlar himoyalangan. <span
-          style="font-size:1.2rem;vertical-align:top;margin-left:4px;display:inline-block;"><i class="ri-macbook-line"
-            style="color:var(--accent-teal);"></i></span></p>
-    </div>
-  </footer>
+<!-- ==========================================================================
+     FOOTER
+     ========================================================================== -->
+<footer class="footer">
+  <div class="wrap">
+    <a href="#home" class="logo" aria-label="GANISHER.UZ">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2.5 27.7 9.25v13.5L16 29.5 4.3 22.75V9.25z" fill="#141310" stroke="#F5B83D" stroke-width="2"/><text x="16" y="21.2" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="13" text-anchor="middle" fill="#F5B83D">G</text></svg>
+      <span class="logo-text">GANISHER<span>.UZ</span></span>
+    </a>
+    <p>© 2026 Raximov G'anisher. <span data-i18n="footer.rights">Barcha huquqlar himoyalangan.</span></p>
+    <a href="#home" class="icon-btn" data-i18n-aria="footer.top" aria-label="Tepaga"><svg class="icon"><use href="#i-arrow-up"/></svg></a>
+  </div>
+</footer>
 
-  <!-- ════════════ FLOATING TELEGRAM ════════════ -->
-  <a href="https://t.me/raximov_ganisher" target="_blank" rel="noopener noreferrer" class="floating-telegram"
-    id="floatingTelegram" aria-label="Telegram orqali bog'lanish">
-    <i class="ri-telegram-fill"></i>
-    <span class="tooltip">Telegram orqali bog'lanish</span>
-  </a>
+<!-- Loyiha rasmlari katta oynada -->
+<div class="lb" id="lightbox" hidden role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+  <div class="lb-top">
+    <div class="lb-title"><strong id="lbTitle"></strong><span id="lbCount"></span></div>
+    <button type="button" class="icon-btn" id="lbClose" data-i18n-aria="lb.close" aria-label="Yopish"><svg class="icon"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="lb-stage" id="lbStage">
+    <button type="button" class="icon-btn lb-nav lb-prev" id="lbPrev" data-i18n-aria="lb.prev" aria-label="Oldingi"><svg class="icon"><use href="#i-chev-left"/></svg></button>
+    <img id="lbImg" alt="">
+    <button type="button" class="icon-btn lb-nav lb-next" id="lbNext" data-i18n-aria="lb.next" aria-label="Keyingi"><svg class="icon"><use href="#i-chev-right"/></svg></button>
+  </div>
+  <div class="lb-thumbs" id="lbThumbs"></div>
+</div>
 
-  <script src="script.js"></script>
+<!-- Video shu yerning o'zida -->
+<div class="lb" id="videoModal" hidden role="dialog" aria-modal="true" aria-labelledby="vmTitle">
+  <div class="lb-top">
+    <div class="lb-title"><strong id="vmTitle"></strong></div>
+    <a class="btn btn-ghost btn-sm vm-yt" id="vmYt" href="#" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-youtube"/></svg><span data-i18n="vid.watch">YouTube'da ochish</span></a>
+    <button type="button" class="icon-btn" id="vmClose" data-i18n-aria="lb.close" aria-label="Yopish"><svg class="icon"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="vm-wrap"><div class="vm-frame" id="vmFrame"></div></div>
+</div>
+
+<script src="loyihalar/royxat.js"></script>
+<script>
+/* ==========================================================================
+   VIDEOLAR — yangi video qo'shish uchun ro'yxatga bitta qator yozing:
+     { id: "VIDEO_ID", title: "Video nomi" },
+   VIDEO_ID — havoladagi kod: https://youtu.be/VIDEO_ID  yoki  ...watch?v=VIDEO_ID
+   Birinchi video katta bo'lib chiqadi, keyingi 4 tasi uning yonida,
+   qolganlari pastda kichik kartalar bo'lib turadi.
+   ========================================================================== */
+const YT_CHANNEL = "https://www.youtube.com/@raximovganisher";
+const VIDEOS = [
+  { id: "SeAiwA4iGrY", title: "Kichik biznesingizni Excel'da boshqaring! KIRIM-CHIQIM tayyor shablon" },
+  { id: "qC62JNVju5Q", title: "Google Docs'ga qanday kirish mumkin va u Word'dan nimasi bilan farq qiladi?" },
+  { id: "tDfy62WEON8", title: "Kompyuterga Microsoft Office 2021 o'rnatish — eng oson usul" },
+  { id: "Je41zeQnyEg", title: "Elektron kalit olishni bilasizmi? E-IMZO'ni qanday olish mumkin? 1-qism" },
+  { id: "eMIjiqGvlBo", title: "ERIni Soliq uz ilovasi orqali tasdiqlashni bilasizmi? 2-qism" },
+  { id: "UBsmQ3U__GU", title: "Kirim–Chiqim tizimi Google Sheets'da!" },
+  { id: "jKRyc09u92Y", title: "Google Chrome lifehacklari — har bir foydalanuvchi bilishi kerak!" },
+  { id: "whq51Uc6t78", title: "12% kontrakt haqida to'liq tushuntirish — talabalar uchun foydali video" },
+  { id: "-xPiLWcD-dM", title: "Telegramni kompyuterga yuklab olish va o'rnatish" },
+  { id: "5yZgor4KEYA", title: "Telegram sozlamalari (Settings) bilan tanishish — 1-qism" },
+  { id: "krjMLszYayA", title: "Gmail orqali fayl yuborish — boshlang'ich qo'llanma" },
+  { id: "YDCFV2eMJJk", title: "Windows va Microsoft Office'ni aktivatsiya qilish — to'liq qo'llanma" },
+  { id: "Xhs9hNnddJg", title: "AnyDesk qanday o'rnatiladi? — bosqichma-bosqich qo'llanma" }
+];
+
+/* ==========================================================================
+   TARJIMALAR
+   O'zbekcha matnlar HTML'ning o'zida turadi va avtomatik o'qib olinadi,
+   shuning uchun bu yerda faqat RU va EN yozilgan. Kalitlar HTML'dagi
+   data-i18n / data-i18n-html / data-i18n-ph / data-i18n-aria bilan bir xil.
+   ========================================================================== */
+const I18N = {
+  uz: {}, // HTML'dan to'ldiriladi
+  ru: {
+    "nav.home": "Главная", "nav.about": "Обо мне", "nav.skills": "Навыки", "nav.services": "Услуги",
+    "nav.projects": "Проекты", "nav.contact": "Контакты", "nav.videos": "Видео",
+    "nav.cta": "Связаться", "nav.menu": "Меню", "nav.edu": "Обучение", "nav.pres": "Презентации",
+    "hero.badge": "Открыт для новых проектов",
+    "hero.title": 'Умные <span class="gold">таблицы и системы автоматизации</span> для вашего бизнеса',
+    "hero.text": "Преподаю Excel и Google Sheets. Создаю учётные системы для бизнеса и автоматизирую рутинную работу.",
+    "hero.order": "Заказать", "hero.work": "Смотреть работы", "hero.follow": "Подписывайтесь:",
+    "stat.years": "лет опыта", "stat.projects": "проектов", "stat.students": "учеников",
+    "about.label": "Обо мне",
+    "about.title": 'Превращаю сложный учёт в <span class="gold">простую систему</span>',
+    "about.p1": "Превращаю хаос в бизнес-процессах в понятные автоматизированные системы, которые экономят время. Моя главная цель — сделать сложную работу простым механизмом, который работает без ошибок.",
+    "about.f1": "Решения под реальные бизнес-процессы", "about.f2": "Понятные таблицы, которые работают без ошибок",
+    "about.f3": "Практические занятия без сухой теории",
+    "skills.label": "Навыки", "skills.title": 'Мои <span class="gold">инструменты</span>',
+    "skills.note": "Всегда учусь", "skill.bot": "Telegram-бот",
+    "services.label": "Услуги", "services.title": 'Готовые <span class="gold">решения</span> для бизнеса',
+    "s1.t": "Учётные системы в Google Sheets", "s1.d": "Приход и расход, остатки на складе и долги — в одной аккуратной таблице.",
+    "s2.t": "Автоматизация", "s2.d": "Автоматизация рутинных задач с помощью Apps Script и подключение Telegram-бота к таблице.",
+    "s3.t": "Дашборды и отчёты", "s3.d": "Интерактивные отчёты, где движение денег и ключевые показатели видны с одного взгляда.",
+    "s4.t": "Курсы Excel / Google Sheets", "s4.d": "Практические занятия на реальных бизнес-задачах, без сухой теории.",
+    "projects.label": "Проекты", "projects.title": 'Избранные <span class="gold">проекты</span>',
+    "projects.note": "Нажмите на фото — все снимки откроются крупно.",
+    "proj.open": "Открыть", "proj.sheet": "Открыть таблицу", "proj.video": "Смотреть видео", "proj.view": "Смотреть фото", "proj.empty": "Пока нет проектов.",
+    "lb.close": "Закрыть", "lb.prev": "Предыдущее", "lb.next": "Следующее",
+    "edu.label": "Образовательные сервисы", "edu.title": 'Онлайн-инструменты, которые <span class="gold">экономят время</span>',
+    "edu.note": "Работают в браузере, регистрация не нужна.", "edu.tag": "Для учителей", "edu.open": "Открыть",
+    "edu1.t": "Конструктор кроссвордов",
+    "edu1.d": "Введите слова и вопросы — программа составит несколько вариантов. Готовый кроссворд можно скачать в PDF или Word либо распечатать.",
+    "edu1.f1": "Несколько вариантов", "edu1.f2": "Лист с ответами", "edu1.f3": "PDF, Word, печать",
+    "edu2.t": "Конструктор тестов",
+    "edu2.d": "Напишите вопросы или вставьте их из Word и Excel — получите перемешанные варианты, ключи ответов и бланки. Тест можно пройти и онлайн.",
+    "edu2.f1": "Варианты и ключи", "edu2.f2": "Онлайн-прохождение", "edu2.f3": "Импорт из Word и Excel",
+    "edu3.tag": "Для сотрудников и HR", "edu3.t": "Конструктор объективки",
+    "edu3.d": "Заполните официальную форму справки-объективки — с фото 3×4, трудовой деятельностью и таблицей родственников. Готовый документ скачивается в PDF или Word.",
+    "edu3.f1": "С фото 3×4", "edu3.f2": "Таблица родственников", "edu3.f3": "PDF, Word, печать",
+    "pres.label": "Презентации", "pres.title": 'Научные и учебные <span class="gold">презентации</span>',
+    "pres.open": "Открыть", "pres.default": "Презентация",
+    "pres.empty": "Пока нет презентаций.", "pres.error": "Не удалось загрузить презентации. Обновите страницу.",
+    "vid.label": "Видео", "vid.title": 'Мои <span class="gold">уроки</span> на YouTube',
+    "vid.channel": "Перейти на канал", "vid.watch": "Открыть на YouTube", "vid.play": "Смотреть видео",
+    "c.label": "Контакты", "c.title": 'Давайте создадим <span class="gold">вместе</span>',
+    "c.text": "Есть идея проекта или вопрос? Свяжитесь удобным способом — я скоро отвечу.",
+    "c.tg": "Написать в Telegram", "c.call": "Позвонить",
+    "c.email": "Email", "c.phone": "Телефон", "c.addr": "Адрес", "c.addrVal": "Ургенч, Хорезм",
+    "footer.rights": "Все права защищены.", "footer.top": "Наверх"
+  },
+  en: {
+    "nav.home": "Home", "nav.about": "About", "nav.skills": "Skills", "nav.services": "Services",
+    "nav.projects": "Projects", "nav.contact": "Contact", "nav.videos": "Videos",
+    "nav.cta": "Let's talk", "nav.menu": "Menu", "nav.edu": "Education", "nav.pres": "Presentations",
+    "hero.badge": "Open to new projects",
+    "hero.title": 'Smart <span class="gold">spreadsheet and automation</span> systems for your business',
+    "hero.text": "I teach Excel and Google Sheets, build accounting systems for businesses and automate routine work.",
+    "hero.order": "Place an order", "hero.work": "See my work", "hero.follow": "Follow:",
+    "stat.years": "years of experience", "stat.projects": "projects", "stat.students": "students",
+    "about.label": "About me",
+    "about.title": 'I turn complex bookkeeping into <span class="gold">simple systems</span>',
+    "about.p1": "I turn messy business processes into clear, time-saving, automated systems. My main goal is to make complex work a simple mechanism that runs without errors.",
+    "about.f1": "Solutions built around real business processes", "about.f2": "Clear spreadsheets that work without errors",
+    "about.f3": "Hands-on lessons, no dry theory",
+    "skills.label": "Skills", "skills.title": 'My <span class="gold">toolkit</span>',
+    "skills.note": "Always learning", "skill.bot": "Telegram bot",
+    "services.label": "Services", "services.title": 'Ready-made <span class="gold">solutions</span> for your business',
+    "s1.t": "Google Sheets accounting systems", "s1.d": "Income and expenses, stock levels and debts, kept in one tidy spreadsheet.",
+    "s2.t": "Automation", "s2.d": "Automating repetitive tasks with Apps Script and connecting a Telegram bot to your spreadsheet.",
+    "s3.t": "Dashboards and reports", "s3.d": "Interactive reports that show cash flow and key metrics at a glance.",
+    "s4.t": "Excel / Google Sheets courses", "s4.d": "Hands-on lessons built on real business tasks, without dry theory.",
+    "projects.label": "Projects", "projects.title": 'Selected <span class="gold">projects</span>',
+    "projects.note": "Click a photo to open all of them full size.",
+    "proj.open": "Open", "proj.sheet": "Open the spreadsheet", "proj.video": "Watch the video", "proj.view": "View photos", "proj.empty": "No projects yet.",
+    "lb.close": "Close", "lb.prev": "Previous", "lb.next": "Next",
+    "edu.label": "Education tools", "edu.title": 'Online tools that <span class="gold">save time</span>',
+    "edu.note": "Runs in the browser, no sign-up needed.", "edu.tag": "For teachers", "edu.open": "Open",
+    "edu1.t": "Crossword maker",
+    "edu1.d": "Enter words and clues and get several layout variants. Download the finished crossword as PDF or Word, or print it.",
+    "edu1.f1": "Multiple variants", "edu1.f2": "Answer sheet", "edu1.f3": "PDF, Word, print",
+    "edu2.t": "Test maker",
+    "edu2.d": "Type questions or paste them from Word or Excel to get shuffled variants, answer keys and answer sheets. The test can also be taken online.",
+    "edu2.f1": "Variants and keys", "edu2.f2": "Take it online", "edu2.f3": "Import from Word and Excel",
+    "edu3.tag": "For employees and HR", "edu3.t": "Obyektivka maker",
+    "edu3.d": "Fill in the official Uzbek personal record form (obyektivka) with a 3×4 photo, work history and a table of relatives, then download it as PDF or Word.",
+    "edu3.f1": "With a 3×4 photo", "edu3.f2": "Relatives table", "edu3.f3": "PDF, Word, print",
+    "pres.label": "Presentations", "pres.title": 'Academic and research <span class="gold">presentations</span>',
+    "pres.open": "Open", "pres.default": "Presentation",
+    "pres.empty": "No presentations yet.", "pres.error": "Couldn't load the presentations. Try refreshing the page.",
+    "vid.label": "Videos", "vid.title": 'My <span class="gold">lessons</span> on YouTube',
+    "vid.channel": "Visit the channel", "vid.watch": "Watch on YouTube", "vid.play": "Play video",
+    "c.label": "Contact", "c.title": 'Let\'s build it <span class="gold">together</span>',
+    "c.text": "Have a project idea or a question? Reach me whichever way suits you and I'll reply soon.",
+    "c.tg": "Message on Telegram", "c.call": "Call",
+    "c.email": "Email", "c.phone": "Phone", "c.addr": "Location", "c.addrVal": "Urgench, Khorezm",
+    "footer.rights": "All rights reserved.", "footer.top": "Back to top"
+  }
+};
+// HTML'da yo'q, faqat JS'da ishlatiladigan o'zbekcha matnlar
+const UZ_EXTRA = {
+  "pres.open": "Ochish", "pres.default": "Taqdimot",
+  "pres.empty": "Hozircha prezentatsiyalar yo'q.",
+  "pres.error": "Prezentatsiyalarni yuklab bo'lmadi. Sahifani yangilab ko'ring.",
+  "proj.open": "Ochish", "proj.sheet": "Jadvalni ochish", "proj.video": "Videoni ko'rish", "proj.view": "Rasmlarni ko'rish", "proj.empty": "Hozircha loyihalar yo'q.",
+  "vid.play": "Videoni ko'rish"
+};
+const TITLES = {
+  uz: "Ganisher Raximov — Excel va Google Sheets tizimlari",
+  ru: "Ганишер Рахимов — системы на Excel и Google Sheets",
+  en: "Ganisher Raximov — Excel and Google Sheets systems"
+};
+
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+let lang = "uz";
+let presData = null;   // null — yuklanmoqda, [] — bo'sh, "error" — xato
+let projects = [];     // loyihalar/royxat.js + topilgan rasmlar va havolalar
+const escapeHTML = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const t = (key) => (I18N[lang] && I18N[lang][key]) || I18N.uz[key] || key;
+function safeURL(u) {
+  try { const x = new URL(u, location.href); return /^https?:$/.test(x.protocol) ? x.href : ""; } catch (e) { return ""; }
+}
+
+/* ---------- Til almashtirish ---------- */
+function collectUzbek() {
+  $$("[data-i18n]").forEach(el => { I18N.uz[el.dataset.i18n] ??= el.textContent.trim(); });
+  $$("[data-i18n-html]").forEach(el => { I18N.uz[el.dataset.i18nHtml] ??= el.innerHTML.trim(); });
+  $$("[data-i18n-ph]").forEach(el => { I18N.uz[el.dataset.i18nPh] ??= el.placeholder; });
+  $$("[data-i18n-aria]").forEach(el => { I18N.uz[el.dataset.i18nAria] ??= el.getAttribute("aria-label"); });
+  Object.assign(I18N.uz, UZ_EXTRA);
+}
+function setLang(next) {
+  lang = I18N[next] ? next : "uz";
+  document.documentElement.lang = lang;
+  document.title = TITLES[lang];
+  $$("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  $$("[data-i18n-html]").forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
+  $$("[data-i18n-ph]").forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  $$("[data-i18n-aria]").forEach(el => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+  $$(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  renderPresentations(); renderProjects(); renderVideos();
+  try { localStorage.setItem("gn-lang", lang); } catch (e) {}
+}
+
+/* ---------- Navbar: scroll'da fon, mobil menyu, faol havola ---------- */
+const nav = $("#nav"), burger = $("#burger"), mobileMenu = $("#mobileMenu");
+const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 10);
+window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+function setMenu(open) {
+  mobileMenu.classList.toggle("open", open);
+  nav.classList.toggle("menu-open", open);
+  burger.setAttribute("aria-expanded", String(open));
+  burger.querySelector("use").setAttribute("href", open ? "#i-x" : "#i-menu");
+}
+burger.addEventListener("click", () => setMenu(!mobileMenu.classList.contains("open")));
+$$("#mobileMenu a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+window.matchMedia("(min-width: 1181px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
+
+const sectionIds = ["home", "about", "skills", "services", "education", "projects", "presentations", "videos", "contact"];
+const navObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    $$(".menu a, .mobile-menu nav a").forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + entry.target.id));
+  });
+}, { rootMargin: "-45% 0px -54% 0px" });
+sectionIds.forEach(id => { const s = document.getElementById(id); if (s) navObserver.observe(s); });
+
+/* ---------- Bo'limlarning yumshoq paydo bo'lishi ---------- */
+if ("IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add("in"); revealObserver.unobserve(entry.target); } });
+  }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+  $$(".reveal").forEach(el => revealObserver.observe(el));
+} else {
+  $$(".reveal").forEach(el => el.classList.add("in"));
+}
+
+/* ---------- Miltillovchi oltin nuqtalar ---------- */
+$$("[data-sparks]").forEach(box => {
+  const n = +box.dataset.sparks || 12;
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement("span");
+    s.className = "spark";
+    s.style.left = (Math.random() * 100).toFixed(1) + "%";
+    s.style.top = (Math.random() * 100).toFixed(1) + "%";
+    s.style.setProperty("--d", (3 + Math.random() * 4).toFixed(1) + "s");
+    s.style.setProperty("--delay", (-Math.random() * 6).toFixed(1) + "s");
+    if (Math.random() > .7) { s.style.width = s.style.height = "2px"; }
+    box.appendChild(s);
+  }
+});
+
+/* ---------- Statistika raqamlari (0 dan sanaydi) ---------- */
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const countObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    countObserver.unobserve(entry.target);
+    const el = entry.target, end = +el.dataset.count, suffix = el.dataset.suffix || "";
+    if (!end || reduceMotion) return;
+    const t0 = performance.now(), dur = 1400;
+    const step = now => {
+      const p = Math.min((now - t0) / dur, 1);
+      el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  });
+}, { threshold: 0.6 });
+$$("[data-count]").forEach(el => countObserver.observe(el));
+
+/* ---------- Prezentatsiyalar (Google Sheets'dan) ----------
+   Jadval "Havolaga ega har kim ko'ra oladi" rejimida ochiq bo'lishi kerak.
+   Jadvalga yangi qator qo'shsangiz, saytda o'zi paydo bo'ladi. */
+const SHEET_ID = "1WE2WrRNR85G4zcBl09hUd9i7A2ZAdvYBgVnWiyuhlS0";
+const SHEET_NAME = "Prezentatsiyalar";
+
+function renderPresentations() {
+  const grid = $("#presGrid");
+  if (!grid || presData === null) return;          // hali yuklanmoqda — skeletlar turadi
+  grid.setAttribute("aria-busy", "false");
+  if (presData === "error") { grid.innerHTML = `<p class="pres-state">${t("pres.error")}</p>`; return; }
+  if (!presData.length)     { grid.innerHTML = `<p class="pres-state">${t("pres.empty")}</p>`; return; }
+  grid.innerHTML = presData.map(p => {
+    const url = safeURL(p.link);
+    const icon = /tadqiqot|research|исслед/i.test(p.type) ? "#i-chart" : "#i-cap";
+    return `<article class="card lift pres">
+      <span class="pres-badge"><svg class="icon"><use href="${icon}"/></svg>${escapeHTML(p.type || t("pres.default"))}</span>
+      <h3>${escapeHTML(p.title)}</h3>
+      <p>${escapeHTML(p.desc)}</p>
+      ${url ? `<a class="btn btn-ghost btn-sm" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer"><span>${t("pres.open")}</span><svg class="icon"><use href="#i-arrow-up-right"/></svg></a>` : ""}
+    </article>`;
+  }).join("");
+}
+async function loadPresentations() {
+  try {
+    const res = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`);
+    const txt = await res.text();
+    const json = JSON.parse(txt.slice(txt.indexOf("{"), txt.lastIndexOf("}") + 1));
+    presData = (json.table.rows || []).map(r => {
+      const c = n => (r && r.c && r.c[n] && r.c[n].v != null) ? String(r.c[n].v).trim() : "";
+      return { type: c(0), title: c(2), desc: c(3), link: c(4) };
+    }).filter(p => p.title);
+  } catch (err) {
+    console.error("Prezentatsiyalar:", err);
+    presData = "error";
+  }
+  renderPresentations();
+}
+
+/* ==========================================================================
+   LOYIHALAR — loyihalar/royxat.js dagi papkalardan rasm va havolalarni topadi
+   ========================================================================== */
+const IMG_EXTS = ["jpg", "png", "jpeg", "webp", "JPG"];
+const MAX_IMAGES = 12;
+const probe = url => new Promise(res => { const im = new Image(); im.onload = () => res(true); im.onerror = () => res(false); im.src = url; });
+
+/* Rasm nomlari ikki xil bo'lishi mumkin:
+   1.png, 2.png, 3.png ...               — o'zingiz raqamlasangiz
+   1 (1).png, 1 (2).png, 1 (3).png ...    — Windows'da bir nechta faylni birdan qayta nomlaganda */
+const NAME_STYLES = [n => `${n}`, n => `1 (${n})`];
+async function findImages(folder) {
+  const found = [];
+  let last = IMG_EXTS[0], style = null;
+  for (let n = 1; n <= MAX_IMAGES; n++) {
+    let hit = "";
+    const styles = style ? [style] : NAME_STYLES;
+    for (const st of styles) {
+      for (const ext of [last, ...IMG_EXTS.filter(x => x !== last)]) {   // oldingi rasm kengaytmasi birinchi
+        const url = `${folder}/${st(n)}.${ext}`;
+        if (await probe(url)) { hit = url; last = ext; style = st; break; }
+      }
+      if (hit) break;
+    }
+    if (!hit) break;            // raqamlar ketma-ket bo'lishi kerak: 1, 2, 3 ...
+    found.push(hit);
+  }
+  return found;
+}
+/* Havola fayli: link.txt yoki Windows'dagi odatiy nom bilan qoldirilgan matn fayli */
+const LINK_FILES = ["link.txt", "havola.txt", "Текстовый документ.txt", "Новый текстовый документ.txt"];
+async function readLinks(folder) {
+  for (const name of LINK_FILES) {
+    try {
+      const res = await fetch(`${folder}/${name}`, { cache: "no-cache" });
+      if (!res.ok) continue;
+      const text = (await res.text()).replace(/^﻿/, "");
+      return text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(line => {
+        const m = line.match(/^(.*?)\s*\|\s*(\S+)$/);
+        const label = m ? m[1].trim() : "", url = safeURL(m ? m[2] : line);
+        return url ? { label, url, sheet: /docs\.google\.com\/spreadsheets/.test(url) } : null;
+      }).filter(Boolean);
+    } catch (e) { /* keyingi nomni sinaymiz */ }
+  }
+  return [];
+}
+const pick = (p, key) => (p[lang] && p[lang][key]) || p[key] || "";
+
+function renderProjects() {
+  const grid = $("#projGrid");
+  if (!grid) return;
+  if (!projects.length) { grid.innerHTML = `<p class="pres-state">${t("proj.empty")}</p>`; return; }
+  const n = projects.length;
+  grid.style.setProperty("--cols", n === 1 ? 1 : (n === 2 || n === 4) ? 2 : (n === 7 || n === 8) ? 4 : 3);
+  grid.innerHTML = projects.map((p, i) => {
+    const name = pick(p, "nomi") || p.papka;
+    const media = p.loading
+      ? `<div class="proj-media"><span class="proj-loading"></span></div>`
+      : p.images.length
+        ? `<button type="button" class="proj-media" data-proj="${i}" aria-label="${escapeHTML(t("proj.view") + ": " + name)}">
+             <img src="${escapeHTML(encodeURI(p.images[0]))}" alt="${escapeHTML(name)}" loading="lazy" decoding="async">
+             <span class="proj-zoom" aria-hidden="true"><svg class="icon"><use href="#i-zoom"/></svg></span>
+             ${p.images.length > 1 ? `<span class="proj-count" aria-hidden="true"><svg class="icon"><use href="#i-images"/></svg>${p.images.length}</span>` : ""}
+           </button>`
+        : `<div class="proj-media"><span class="ph"><svg class="icon"><use href="#i-image"/></svg><code>${escapeHTML(p.folder)}/1.jpg</code></span></div>`;
+    const vid = ytId(p.video);
+    const links = (vid ? `<button type="button" class="btn btn-ghost btn-sm" data-pvid="${i}"><svg class="icon"><use href="#i-play"/></svg><span>${t("proj.video")}</span></button>` : "")
+      + (p.links || []).map((l, k) =>
+      `<a class="btn ${k ? "btn-ghost" : "btn-gold"} btn-sm" href="${escapeHTML(l.url)}" target="_blank" rel="noopener noreferrer"><span>${escapeHTML(l.label || t(l.sheet ? "proj.sheet" : "proj.open"))}</span><svg class="icon"><use href="#i-arrow-up-right"/></svg></a>`).join("");
+    return `<article class="card lift proj">
+      ${media}
+      <div class="proj-body">
+        ${(p.teglar || []).length ? `<div class="tags">${p.teglar.map(x => `<span>${escapeHTML(x)}</span>`).join("")}</div>` : ""}
+        <div class="proj-text">
+          <h3>${escapeHTML(name)}</h3>
+          ${pick(p, "tavsif") ? `<p>${escapeHTML(pick(p, "tavsif"))}</p>` : ""}
+        </div>
+        ${links ? `<div class="proj-links">${links}</div>` : ""}
+      </div>
+    </article>`;
+  }).join("");
+}
+/* YouTube havolasidan video kodini ajratadi: youtu.be/ID, watch?v=ID, shorts/ID yoki faqat ID */
+function ytId(v) {
+  const s = String(v || "").trim(); if (!s) return "";
+  const m = s.match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/)([\w-]{11})/);
+  return m ? m[1] : (/^[\w-]{11}$/.test(s) ? s : "");
+}
+async function loadProjects() {
+  const list = Array.isArray(window.LOYIHALAR) ? window.LOYIHALAR.filter(p => p && p.papka) : [];
+  projects = list.map(p => Object.assign({}, p, { folder: "loyihalar/" + String(p.papka).replace(/^\/+|\/+$/g, ""), images: [], links: [], loading: true }));
+  renderProjects();
+  await Promise.all(projects.map(async p => {
+    const [images, links] = await Promise.all([
+      Array.isArray(p.rasmlar) && p.rasmlar.length ? p.rasmlar.map(f => `${p.folder}/${f}`) : findImages(p.folder),
+      readLinks(p.folder)
+    ]);
+    Object.assign(p, { images, links, loading: false });
+    renderProjects();
+  }));
+}
+
+/* ---------- Rasmlar oynasi (lightbox) ---------- */
+const lb = { el: $("#lightbox"), img: $("#lbImg"), title: $("#lbTitle"), count: $("#lbCount"), thumbs: $("#lbThumbs"), list: [], i: 0, name: "", back: null };
+function lbShow(i) {
+  const n = lb.list.length; if (!n) return;
+  lb.i = (i + n) % n;
+  lb.img.src = encodeURI(lb.list[lb.i]);
+  lb.img.alt = `${lb.name} — ${lb.i + 1}`;
+  lb.count.textContent = n > 1 ? `${lb.i + 1} / ${n}` : "";
+  $$("button", lb.thumbs).forEach((b, k) => b.setAttribute("aria-current", String(k === lb.i)));
+  const cur = lb.thumbs.children[lb.i]; if (cur) cur.scrollIntoView({ block: "nearest", inline: "center" });
+  $("#lbPrev").hidden = $("#lbNext").hidden = n < 2;
+}
+function lbOpen(images, start, name) {
+  lb.list = images; lb.name = name; lb.back = document.activeElement;
+  lb.title.textContent = name;
+  lb.thumbs.innerHTML = images.length > 1
+    ? images.map((src, k) => `<button type="button" data-k="${k}" aria-label="${k + 1}"><img src="${escapeHTML(encodeURI(src))}" alt=""></button>`).join("")
+    : "";
+  lb.el.hidden = false; document.body.classList.add("lb-open");
+  lbShow(start || 0);
+  $("#lbClose").focus();
+}
+function lbClose() {
+  lb.el.hidden = true; lb.img.removeAttribute("src");
+  if ($("#videoModal").hidden) document.body.classList.remove("lb-open");
+  if (lb.back) lb.back.focus();
+}
+$("#projGrid").addEventListener("click", e => {
+  const v = e.target.closest("[data-pvid]");
+  if (v) { const p = projects[+v.dataset.pvid]; vmOpen({ id: ytId(p.video), title: pick(p, "nomi") || p.papka }); return; }
+  const b = e.target.closest("[data-proj]"); if (!b) return;
+  const p = projects[+b.dataset.proj];
+  lbOpen(p.images, 0, pick(p, "nomi") || p.papka);
+});
+$("#lbClose").addEventListener("click", lbClose);
+$("#lbPrev").addEventListener("click", () => lbShow(lb.i - 1));
+$("#lbNext").addEventListener("click", () => lbShow(lb.i + 1));
+lb.thumbs.addEventListener("click", e => { const b = e.target.closest("[data-k]"); if (b) lbShow(+b.dataset.k); });
+lb.el.addEventListener("click", e => { if (e.target === lb.el || e.target.id === "lbStage") lbClose(); });
+// telefonda barmoq bilan surish
+let swipeX = null;
+$("#lbStage").addEventListener("pointerdown", e => { swipeX = e.clientX; });
+$("#lbStage").addEventListener("pointerup", e => {
+  if (swipeX == null) return;
+  const dx = e.clientX - swipeX; swipeX = null;
+  if (Math.abs(dx) > 50) lbShow(lb.i + (dx < 0 ? 1 : -1));
+});
+
+/* ---------- Videolar ---------- */
+function videoCard(v, i) {
+  return `<article class="card lift vid">
+      <button type="button" class="vid-thumb" data-vid="${i}" aria-label="${escapeHTML(t("vid.play") + ": " + v.title)}"${i === 0 ? ` style="--bg:url('https://i.ytimg.com/vi/${escapeHTML(v.id)}/hqdefault.jpg')"` : ""}>
+        <img src="https://i.ytimg.com/vi/${escapeHTML(v.id)}/${i === 0 ? "maxresdefault" : "hqdefault"}.jpg" alt="" loading="lazy" decoding="async"
+             onerror="if(!this.dataset.f){this.dataset.f=1;this.src='https://i.ytimg.com/vi/${escapeHTML(v.id)}/hqdefault.jpg'}else{this.remove()}">
+        <span class="vid-play" aria-hidden="true"><svg class="icon"><use href="#i-play"/></svg></span>
+      </button>
+      <div class="vid-body">
+        <h3>${escapeHTML(v.title)}</h3>
+        <a class="vid-link" href="https://youtu.be/${escapeHTML(v.id)}" target="_blank" rel="noopener noreferrer"><span>${t("vid.watch")}</span><svg class="icon"><use href="#i-arrow-up-right"/></svg></a>
+      </div>
+    </article>`;
+}
+function renderVideos() {
+  const top = $("#videoGrid"), more = $("#videoMore"); if (!top) return;
+  top.innerHTML = VIDEOS.slice(0, 5).map((v, i) => videoCard(v, i)).join("");
+  more.innerHTML = VIDEOS.slice(5).map((v, i) => videoCard(v, i + 5)).join("");
+  more.hidden = VIDEOS.length <= 5;
+}
+const vm = { el: $("#videoModal"), frame: $("#vmFrame"), back: null };
+function vmOpen(v) {
+  vm.back = document.activeElement;
+  $("#vmTitle").textContent = v.title;
+  $("#vmYt").href = "https://youtu.be/" + v.id;
+  vm.frame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&rel=0" title="${escapeHTML(v.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+  vm.el.hidden = false; document.body.classList.add("lb-open");
+  $("#vmClose").focus();
+}
+function vmClose() {
+  vm.el.hidden = true; vm.frame.innerHTML = "";          // videoni to'xtatadi
+  if (lb.el.hidden) document.body.classList.remove("lb-open");
+  if (vm.back) vm.back.focus();
+}
+["#videoGrid", "#videoMore"].forEach(sel => $(sel).addEventListener("click", e => { const b = e.target.closest("[data-vid]"); if (b) vmOpen(VIDEOS[+b.dataset.vid]); }));
+$("#vmClose").addEventListener("click", vmClose);
+vm.el.addEventListener("click", e => { if (e.target === vm.el || e.target.classList.contains("vm-wrap")) vmClose(); });
+
+/* ---------- Klaviatura: Esc, ← → ---------- */
+document.addEventListener("keydown", e => {
+  if (!lb.el.hidden) {
+    if (e.key === "Escape") lbClose();
+    else if (e.key === "ArrowLeft") lbShow(lb.i - 1);
+    else if (e.key === "ArrowRight") lbShow(lb.i + 1);
+    return;
+  }
+  if (!vm.el.hidden) { if (e.key === "Escape") vmClose(); return; }
+  if (e.key === "Escape") setMenu(false);
+});
+
+/* ---------- Boshlash ---------- */
+collectUzbek();
+renderVideos();
+loadProjects();
+loadPresentations();
+$$(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+try { const saved = localStorage.getItem("gn-lang"); if (saved && saved !== "uz") setLang(saved); } catch (e) {}
+</script>
 </body>
-
 </html>

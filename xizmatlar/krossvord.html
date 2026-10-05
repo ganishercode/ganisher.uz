@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Krossvord tuzuvchi</title>
+<meta name="description" content="So‘z va savollardan bir necha xil krossvord varianti tuzadi. Tayyor krossvordni PDF yoki Word’da yuklab oling yoki chop eting.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='15' y='20' width='70' height='45' rx='6' fill='%230d1117' stroke='%2314b8a6' stroke-width='8'/><path d='M5 75h90a5 5 0 015 5v5H0v-5a5 5 0 015-5z' fill='%23a855f7'/><rect x='42' y='75' width='16' height='5' fill='%2314b8a6'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: yuqorida bo‘lim tablari; har bo‘limda chapda kiritish paneli, o‘ngda sozlamalar, variantlar va qog‘oz ko‘rinishi */
+:root{
+  /* ganisher.uz ranglari: deyarli qora fon, oltin aksent */
+  --bg:#0A0A0A; --panel:#141310; --panel-2:#1B1914; --ink:#FFFFFF; --muted:#A1A1A1; --line:rgba(245,184,61,.16);
+  --accent:#F5B83D; --accent-hover:#FFC94D; --accent-ink:#0A0A0A; --accent-soft:rgba(245,184,61,.12);
+  --warn:#FFC46B; --warn-soft:#3A2A10; --bad:#FF8A80; --bad-soft:#3D1A18; --good:#7AD99A; --good-soft:#15331F;
+  --display:"Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --body:"Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:radial-gradient(1100px 520px at 0% -10%,rgba(245,184,61,.07),transparent 60%),var(--bg);color:var(--ink);font:15px/1.5 var(--body);padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 20px}
+h1{font:700 clamp(22px,3.4vw,32px)/1.1 var(--display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+header p{margin:6px 0 0;color:var(--muted);max-width:62ch}
+.tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px}
+.tabs button{border:none;background:transparent;font:600 14px var(--display);padding:9px 16px;border-radius:7px;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--accent-soft);color:var(--accent)}
+.grid{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:920px){.grid{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:20px;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.step{display:flex;align-items:center;gap:10px;font:700 12px/1 var(--display);text-transform:uppercase;letter-spacing:.14em;color:var(--accent)}
+.step b{display:inline-grid;place-items:center;min-width:28px;height:24px;padding-inline:6px;border:1px solid var(--line);border-radius:7px;background:var(--accent-soft);color:var(--accent);font-size:12px;letter-spacing:.04em}
+.hint{color:var(--muted);font-size:13px;margin:0}
+textarea{width:100%;min-height:340px;resize:vertical;border:1px solid var(--line);border-radius:8px;padding:12px;font:14px/1.6 var(--body);background:var(--bg);color:var(--ink);tab-size:4}
+input[type=text],input[type=number],select{border:1px solid var(--line);border-radius:8px;padding:9px 10px;font:14px var(--body);background:var(--bg);color:var(--ink);width:100%}
+label.row{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px 16px}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 14px var(--body);border-radius:10px;padding:10px 16px;cursor:pointer;border:1px solid var(--line);background:var(--panel-2);color:var(--ink);transition:border-color .2s,background-color .2s,color .2s}
+button:hover{border-color:var(--accent)}
+button:disabled{opacity:.55;cursor:wait}
+button:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.variants{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.vcard{display:flex;flex-direction:column;gap:6px;padding:8px;text-align:left;font-weight:500}
+.vcard canvas{width:100%;aspect-ratio:1;max-width:100%;background:#fff;border-radius:4px;display:block}
+.vcard .t{font:600 13px var(--display)}
+.vcard .m{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.vcard .w{font-size:12px;color:var(--warn)}
+.vcard[aria-pressed="true"],.chip[aria-pressed="true"]{border:2px solid var(--accent);background:var(--accent-soft)}
+.vcard[aria-pressed="true"]{padding:7px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:6px 11px;font-size:13px;border-radius:999px;font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{padding:5px 10px}
+.chip.alt{border-style:dashed}
+.empty{border:1px dashed var(--line);border-radius:8px;padding:28px;text-align:center;color:var(--muted)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
+.paperwrap{overflow-x:auto;background:var(--bg);border-radius:8px;padding:16px}
+.paper{background:#fff;color:#000;padding:32px 36px;margin:0 auto;width:max-content;min-width:min(100%,560px);max-width:100%;box-shadow:0 1px 3px rgba(0,0,0,.12),0 8px 24px rgba(0,0,0,.08)}
+.paper.test{width:720px;max-width:none}
+.warnbox{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 12px;font-size:14px}
+details.help{border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13px}
+details.help summary{cursor:pointer;font-weight:600}
+details.help pre{background:var(--bg);border-radius:6px;padding:8px 10px;margin:6px 0 10px;white-space:pre-wrap;font:12.5px/1.5 ui-monospace,Consolas,monospace;overflow-x:auto}
+details.help p{margin:8px 0 2px}
+.status{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--bg);color:var(--muted);font-variant-numeric:tabular-nums}
+.pill.ok{background:var(--good-soft);color:var(--good)}
+.pill.err{background:var(--bad-soft);color:var(--bad)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.issues{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;max-height:220px;overflow:auto;font-size:13px}
+.issues li{padding:6px 10px;border-radius:6px;border-left:3px solid var(--line);background:var(--bg)}
+.issues li.err{border-left-color:var(--bad)}
+.issues li.warn{border-left-color:var(--warn)}
+.issues li.info{border-left-color:var(--accent)}
+.issues button{padding:0;border:none;background:none;color:var(--accent);font:inherit;font-weight:600;cursor:pointer}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--panel-2);color:var(--ink);border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.5);padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;max-width:calc(100% - 32px)}
+.toast.show{opacity:1}
+#printArea,#pdfStage{display:none}
+#pdfStage{position:fixed;left:-10000px;top:0}
+
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+@media print{
+  @page{size:A4;margin:15mm}
+  body{background:#fff;padding:0}
+  body > *:not(#printArea){display:none!important}
+  #printArea{display:block!important}
+  .pb{page-break-before:always;break-before:page}
+}
+/* sayt bilan bog'lovchi yuqori qator, vositalar menyusi, ikonkalar va pastki qism */
+.gold{color:var(--accent)}
+.ic{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.brand{display:inline-flex;align-items:center;gap:10px;font:800 16px var(--display);letter-spacing:.06em;color:var(--ink);text-decoration:none}
+.brand svg{width:28px;height:28px}
+.brand b{color:var(--accent);font-weight:inherit}
+.tools{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow-x:auto;max-width:100%}
+.tools a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:9px;color:var(--muted);font-weight:600;font-size:14px;text-decoration:none;white-space:nowrap}
+.tools a:hover{color:var(--ink)}
+.tools a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:600;font-size:14px;text-decoration:none}
+.back:hover{color:var(--accent)}
+@media (max-width:760px){.tools{order:3;width:100%}.tools a{flex:1;justify-content:center;padding-inline:10px}}
+@media (max-width:380px){.tools a{padding-inline:8px;gap:0}.tools a .ic{display:none}.brand{font-size:15px}}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:13px}
+.foot a{color:var(--ink);font-weight:600;text-decoration:none}
+.foot a:hover{color:var(--accent)}
+
+/* ================= TELEFON ================= */
+.mbar{display:none}
+input[type=checkbox],input[type=radio]{accent-color:var(--accent)}
+@media (max-width:920px){
+  /* iPhone maydonga bosilganda ekranni kattalashtirmasligi uchun shrift 16px */
+  input[type=text],input[type=number],select,textarea{font-size:16px}
+  input[type=text],input[type=number],select{min-height:44px}
+  input[type=checkbox],input[type=radio]{width:20px;height:20px}
+  button{min-height:44px}
+  .btns > button{flex:1 1 auto}
+  .paper{max-width:none}
+  /* pastki tezkor panel: natijani ko'rish va PDF */
+  .mbar{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(10,10,10,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+  .mbar button{flex:1;white-space:nowrap;padding-inline:12px}
+  body{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8M13 12h8M13 18h8"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h2M15 12h2M7 16h10"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 3l14 9-14 9z"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.6 5.6 1.9-5.6 1.9L12 18l-1.9-5.6-5.6-1.9 5.6-1.9z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-file-down" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></symbol>
+  <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8M16 13H8M16 17H8"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2"/></symbol>
+  <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3h12v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="m10 7 5 3-5 3z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+</defs></svg>
+<div class="wrap">
+  <nav class="topbar" aria-label="Sayt">
+    <a class="brand" href="../index.html" aria-label="GANISHER.UZ — bosh sahifa"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2.5 27.7 9.25v13.5L16 29.5 4.3 22.75V9.25z" fill="#141310" stroke="#F5B83D" stroke-width="2"/><text x="16" y="21.2" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="13" text-anchor="middle" fill="#F5B83D">G</text></svg><span>GANISHER<b>.UZ</b></span></a>
+    <div class="tools" aria-label="Ta'lim xizmatlari">
+      <a href="krossvord.html" aria-current="page"><svg class="ic"><use href="#i-grid"/></svg>Krossvord</a>
+      <a href="test.html"><svg class="ic"><use href="#i-list"/></svg>Test</a>
+      <a href="obyektivka.html"><svg class="ic"><use href="#i-idcard"/></svg>Obyektivka</a>
+    </div>
+    <a class="back" href="../index.html#education"><svg class="ic"><use href="#i-arrow-left"/></svg>Saytga qaytish</a>
+  </nav>
+  <header>
+    <div>
+      <h1>Krossvord <span class="gold">tuzuvchi</span></h1>
+      <p>So‘zlar va savollarni kiriting — dastur bir nechta variant tuzadi. Tayyor krossvordni PDF yoki Word’da yuklab oling, nusxa olib Word’ga qo‘ying yoki chop eting.</p>
+    </div>
+  </header>
+
+  <!-- ================= KROSSVORD ================= -->
+  <div class="grid" id="paneCw">
+    <section class="panel" aria-labelledby="s1">
+      <div class="step" id="s1"><b>1</b>So‘zlar va savollar</div>
+      <p class="hint">Har qatorga bitta so‘z: <strong>so‘z – savol</strong>. Ajratuvchi sifatida “–”, “ - ”, “:” yoki Tab ishlaydi. O‘ va G‘ bitta katakka tushadi.</p>
+      <textarea id="words" spellcheck="false"></textarea>
+      <div class="count" id="wcount"></div>
+      <label class="fld" for="nvar">Variantlar soni
+        <select id="nvar"><option>4</option><option selected>6</option><option>8</option><option>12</option></select>
+      </label>
+      <div class="btns">
+        <button class="primary" id="btnGen"><svg class="ic"><use href="#i-play"/></svg>Krossvord tuzish</button>
+        <button id="btnSample"><svg class="ic"><use href="#i-sparkle"/></svg>Namuna</button>
+        <button id="btnClear"><svg class="ic"><use href="#i-trash"/></svg>Tozalash</button>
+      </div>
+    </section>
+
+    <div class="col">
+      <section class="panel" aria-labelledby="s2">
+        <div class="toolbar">
+          <div class="step" id="s2"><b>2</b>Variantni tanlang</div>
+          <button id="btnRegen"><svg class="ic"><use href="#i-refresh"/></svg>Boshqa variantlar</button>
+        </div>
+        <div id="variants" class="variants"></div>
+        <div id="noVariants" class="empty">“Krossvord tuzish” tugmasini bosing, variantlar shu yerda chiqadi.</div>
+      </section>
+
+      <section class="panel" aria-labelledby="s3">
+        <div class="step" id="s3"><b>3</b>Yuklab olish</div>
+        <label class="fld" for="title">Sarlavha
+          <input type="text" id="title" value="Krossvord">
+        </label>
+        <div class="opts">
+          <label class="row"><input type="checkbox" id="optKey" checked> Javoblar varag‘ini qo‘shish</label>
+          <label class="row"><input type="checkbox" id="optLen" checked> Harflar sonini ko‘rsatish</label>
+          <label class="row"><input type="checkbox" id="optName"> Ism / sinf qatori</label>
+          <label class="row"><input type="checkbox" id="optShow"> Ekranda javoblarni ko‘rsatish</label>
+        </div>
+        <div class="btns">
+          <button class="primary" id="btnPdf"><svg class="ic"><use href="#i-file-down"/></svg>PDF yuklab olish</button>
+          <button class="primary" id="btnDoc"><svg class="ic"><use href="#i-file-text"/></svg>Word yuklab olish</button>
+          <button id="btnCopy"><svg class="ic"><use href="#i-copy"/></svg>Nusxa olish (Word uchun)</button>
+          <button id="btnPrint"><svg class="ic"><use href="#i-printer"/></svg>Chop etish</button>
+        </div>
+        <div id="warn" class="warnbox" hidden></div>
+        <div class="paperwrap"><div class="paper" id="paper"><p style="font-family:Arial;color:#666;margin:0">Bu yerda tanlangan krossvord ko‘rinadi.</p></div></div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <span>&copy; <a href="../index.html">ganisher.uz</a> — G‘anisher Raximov</span>
+    <span>Savol va takliflar: <a href="https://t.me/raximov_ganisher" target="_blank" rel="noopener noreferrer">Telegram</a></span>
+  </footer>
+</div>
+
+<div class="mbar" id="mbar" aria-label="Tezkor amallar">
+  <button type="button" data-go="#paper"><svg class="ic"><use href="#i-eye"/></svg>Natijani ko'rish</button>
+  <button type="button" class="primary" data-click="#btnPdf"><svg class="ic"><use href="#i-file-down"/></svg>PDF yuklash</button>
+</div>
+<div id="printArea"></div>
+<div id="pdfStage"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/*CORE*/
+const APOS = /['‘’ʻʼ`´]/;
+function tokenize(s){
+  const ch = [...String(s).normalize('NFC')];
+  const out = [];
+  for (let i = 0; i < ch.length; i++){
+    const c = ch[i];
+    if (/\p{L}/u.test(c)){
+      const up = c.toUpperCase();
+      if ((up === 'O' || up === 'G') && i + 1 < ch.length && APOS.test(ch[i+1])){ out.push(up + '‘'); i++; }
+      else if (up.length === 1) out.push(up); else out.push(c);
+    } else if (/\p{N}/u.test(c)) out.push(c);
+  }
+  return out;
+}
+function parseWords(text){
+  const res = [], seen = new Set(), skipped = [];
+  for (const raw of String(text).split(/\r?\n/)){
+    const line = raw.trim(); if (!line) continue;
+    const m = line.match(/^(.*?)\s*(?:\t|—|–|\s-\s|:|=)\s*(.*)$/);
+    const word = m ? m[1] : line, clue = m ? m[2].trim() : '';
+    const cells = tokenize(word);
+    if (cells.length < 2){ skipped.push(line); continue; }
+    const k = cells.join('');
+    if (seen.has(k)) continue;
+    seen.add(k);
+    res.push({ cells, text: k, clue });
+  }
+  return { words: res, skipped };
+}
+function buildOnce(words, rnd){
+  const order = words.map(w => ({ w, k: w.cells.length + rnd() * 4 })).sort((a, b) => b.k - a.k).map(o => o.w);
+  const grid = new Map();
+  const K = (r, c) => r + ',' + c;
+  const get = (r, c) => grid.get(K(r, c));
+  const placed = [];
+  const b = { r0: 0, c0: 0, r1: 0, c1: 0 };
+  function canPlace(cells, r, c, dir){
+    const dr = dir === 'd' ? 1 : 0, dc = dir === 'a' ? 1 : 0, n = cells.length;
+    if (get(r - dr, c - dc) || get(r + dr * n, c + dc * n)) return -1;
+    let inter = 0;
+    for (let i = 0; i < n; i++){
+      const rr = r + dr * i, cc = c + dc * i, g = get(rr, cc);
+      if (g){ if (g.ch !== cells[i] || g[dir]) return -1; inter++; }
+      else if (get(rr + dc, cc + dr) || get(rr - dc, cc - dr)) return -1;
+    }
+    return inter;
+  }
+  function place(w, r, c, dir){
+    const dr = dir === 'd' ? 1 : 0, dc = dir === 'a' ? 1 : 0;
+    for (let i = 0; i < w.cells.length; i++){
+      const k = K(r + dr * i, c + dc * i);
+      const g = grid.get(k) || { ch: w.cells[i], a: false, d: false };
+      g[dir] = true; grid.set(k, g);
+    }
+    const er = r + dr * (w.cells.length - 1), ec = c + dc * (w.cells.length - 1);
+    if (!placed.length){ b.r0 = r; b.c0 = c; b.r1 = er; b.c1 = ec; }
+    else { b.r0 = Math.min(b.r0, r); b.c0 = Math.min(b.c0, c); b.r1 = Math.max(b.r1, er); b.c1 = Math.max(b.c1, ec); }
+    placed.push({ w, r, c, dir });
+  }
+  place(order[0], 0, 0, rnd() < .5 ? 'a' : 'd');
+  let pending = order.slice(1), progress = true, inters = 0;
+  while (pending.length && progress){
+    progress = false; const next = [];
+    for (const w of pending){
+      let best = null;
+      const n = w.cells.length;
+      for (const [k, g] of grid){
+        const p = k.split(','), gr = +p[0], gc = +p[1];
+        for (let i = 0; i < n; i++){
+          if (w.cells[i] !== g.ch) continue;
+          for (const dir of ['a', 'd']){
+            if (g[dir]) continue;
+            const r = dir === 'd' ? gr - i : gr, c = dir === 'a' ? gc - i : gc;
+            const inter = canPlace(w.cells, r, c, dir);
+            if (inter <= 0 || inter >= n) continue;
+            const er = r + (dir === 'd' ? n - 1 : 0), ec = c + (dir === 'a' ? n - 1 : 0);
+            const h = Math.max(b.r1, er) - Math.min(b.r0, r) + 1, wd = Math.max(b.c1, ec) - Math.min(b.c0, c) + 1;
+            const growth = h * wd - (b.r1 - b.r0 + 1) * (b.c1 - b.c0 + 1);
+            const score = inter * 12 - growth * 0.6 - Math.abs(h - wd) * 1.5 + rnd() * 8;
+            if (!best || score > best.score) best = { r, c, dir, score, inter };
+          }
+        }
+      }
+      if (best){ place(w, best.r, best.c, best.dir); inters += best.inter; progress = true; }
+      else next.push(w);
+    }
+    pending = next;
+  }
+  return { placed, unplaced: pending, b, inters };
+}
+function finalize(raw){
+  const { b } = raw, rows = b.r1 - b.r0 + 1, cols = b.c1 - b.c0 + 1;
+  const grid = Array.from({ length: rows }, () => Array(cols).fill(null));
+  const num = Array.from({ length: rows }, () => Array(cols).fill(0));
+  const entries = raw.placed.map(p => ({ cells: p.w.cells, text: p.w.text, clue: p.w.clue, r: p.r - b.r0, c: p.c - b.c0, dir: p.dir }));
+  for (const e of entries){
+    for (let i = 0; i < e.cells.length; i++){
+      const r = e.r + (e.dir === 'd' ? i : 0), c = e.c + (e.dir === 'a' ? i : 0);
+      grid[r][c] = e.cells[i];
+    }
+  }
+  const starts = [...new Set(entries.map(e => e.r * 10000 + e.c))].sort((x, y) => x - y);
+  starts.forEach((s, i) => { num[Math.floor(s / 10000)][s % 10000] = i + 1; });
+  for (const e of entries) e.num = num[e.r][e.c];
+  const across = entries.filter(e => e.dir === 'a').sort((x, y) => x.num - y.num);
+  const down = entries.filter(e => e.dir === 'd').sort((x, y) => x.num - y.num);
+  const sig = entries.map(e => e.text + e.dir + e.r + ':' + e.c).sort().join('|');
+  return { rows, cols, grid, num, across, down, unplaced: raw.unplaced, sig, placedCount: entries.length,
+    score: entries.length * 1000 + raw.inters * 8 - rows * cols * 0.7 - Math.abs(rows - cols) * 3 };
+}
+function generateVariants(words, n){
+  const tries = Math.min(400, 60 + n * 25);
+  const found = new Map();
+  for (let t = 0; t < tries; t++){
+    const v = finalize(buildOnce(words, Math.random));
+    const prev = found.get(v.sig);
+    if (!prev || prev.score < v.score) found.set(v.sig, v);
+  }
+  return [...found.values()].sort((a, b) => b.score - a.score).slice(0, n);
+}
+/*ENDCORE*/
+
+/* ================= umumiy ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem('du_' + k); return v == null ? d : v; } catch (e){ return d; } },
+  set(k, v){ try{ localStorage.setItem('du_' + k, v); } catch (e){} }
+};
+function toast(msg, ms = 2800){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), ms);
+}
+function safeName(s, fallback){ return (String(s || '').replace(/[\\/:*?"<>|]+/g, '').trim() || fallback); }
+function download(blob, name){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+}
+const PAGE_BREAK = '<br clear="all" style="page-break-before:always;mso-break-type:page-break">';
+function exportWord(parts, name, title){
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>${esc(title)}</title>`
+    + `<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->`
+    + `<style>@page WordSection1{size:595.3pt 841.9pt;margin:42pt 42pt 42pt 42pt}div.WordSection1{page:WordSection1}p{margin:0}</style></head>`
+    + `<body><div class="WordSection1">${parts.join(PAGE_BREAK)}</div></body></html>`;
+  download(new Blob(['﻿', html], { type: 'application/msword' }), name + '.doc');
+  toast('Word fayl yuklab olindi');
+}
+async function exportCopy(parts){
+  const html = parts.join(PAGE_BREAK);
+  const tmp = document.createElement('div'); tmp.innerHTML = html;
+  tmp.style.cssText = 'position:fixed;left:-10000px;top:0;background:#fff;color:#000';
+  document.body.appendChild(tmp);
+  const text = tmp.innerText;
+  try{
+    if (navigator.clipboard && window.ClipboardItem){
+      await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([text], { type: 'text/plain' }) })]);
+      tmp.remove(); toast('Nusxa olindi. Word’da Ctrl+V bosing'); return;
+    }
+  } catch (e){}
+  tmp.contentEditable = 'true';
+  const range = document.createRange(); range.selectNodeContents(tmp);
+  const s = getSelection(); s.removeAllRanges(); s.addRange(range);
+  let ok = false; try{ ok = document.execCommand('copy'); } catch (e){}
+  s.removeAllRanges(); tmp.remove();
+  toast(ok ? 'Nusxa olindi. Word’da Ctrl+V bosing' : 'Nusxa olib bo‘lmadi. “Word yuklab olish” tugmasidan foydalaning');
+}
+function exportPrint(parts){
+  $('#printArea').innerHTML = parts.map((p, i) => `<div class="${i ? 'pb' : ''}">${p}</div>`).join('');
+  window.print();
+}
+async function exportPdf(parts, name, btn){
+  if (!window.html2canvas || !window.jspdf){
+    toast('PDF kutubxonasi yuklanmadi (internet yo‘q). Chop etish oynasida “PDF sifatida saqlash”ni tanlang', 4500);
+    setTimeout(() => exportPrint(parts), 900); return;
+  }
+  const old = btn.innerHTML; btn.disabled = true; btn.textContent = 'Tayyorlanmoqda…';
+  const stage = $('#pdfStage');
+  try{
+    stage.style.display = 'block';
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: 'pt', format: 'a4' });
+    const W = pdf.internal.pageSize.getWidth(), H = pdf.internal.pageSize.getHeight(), M = 36;
+    const PW = 720, iw = W - 2 * M, availCss = (H - 2 * M) * PW / iw;
+    let pages = 0;
+    for (let i = 0; i < parts.length; i++){
+      btn.textContent = `Tayyorlanmoqda… ${i + 1}/${parts.length}`;
+      stage.innerHTML = `<div style="position:relative;width:${PW}px;background:#fff;color:#000;padding:1px 0">${parts[i]}</div>`;
+      const pg = stage.firstChild;
+      const canvas = await html2canvas(pg, { scale: 2, backgroundColor: '#ffffff' });
+      const cssH = pg.offsetHeight, k = canvas.height / cssH;
+      const cuts = [0]; let startY = 0;
+      for (const el of pg.children){
+        const top = el.offsetTop, bot = top + el.offsetHeight;
+        if (bot - startY > availCss && top > startY){ cuts.push(top); startY = top; }
+        while (bot - startY > availCss){ startY += availCss; cuts.push(startY); }
+      }
+      cuts.push(cssH);
+      for (let j = 0; j + 1 < cuts.length; j++){
+        const y0 = Math.round(cuts[j] * k), y1 = Math.min(canvas.height, Math.round(cuts[j + 1] * k));
+        if (y1 - y0 < 4) continue;
+        const slice = document.createElement('canvas'); slice.width = canvas.width; slice.height = y1 - y0;
+        slice.getContext('2d').drawImage(canvas, 0, y0, canvas.width, y1 - y0, 0, 0, canvas.width, y1 - y0);
+        if (pages++) pdf.addPage();
+        pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', M, M, iw, (y1 - y0) * iw / canvas.width);
+      }
+      await new Promise(r => setTimeout(r, 0));
+    }
+    pdf.save(name + '.pdf');
+    toast('PDF yuklab olindi');
+  } catch (e){
+    console.error(e); toast('PDF yaratishda xato. “Chop etish” orqali PDF saqlang', 4500);
+  } finally {
+    stage.innerHTML = ''; stage.style.display = 'none';
+    btn.disabled = false; btn.innerHTML = old;
+  }
+}
+
+/* ================= KROSSVORD UI ================= */
+let variants = [], sel = -1, lastWords = [];
+const SAMPLE = `KOMPYUTER – Ma’lumotlarni qayta ishlovchi elektron qurilma
+KLAVIATURA – Matn va buyruqlarni kiritish qurilmasi
+SICHQONCHA – Ekrandagi kursorni boshqaruvchi qurilma
+MONITOR – Tasvirni ko‘rsatuvchi qurilma
+PROTSESSOR – Kompyuterning “miyasi”
+PRINTER – Hujjatni qog‘ozga chiqaruvchi qurilma
+INTERNET – Butun dunyo kompyuter tarmog‘i
+BRAUZER – Veb-sahifalarni ochuvchi dastur
+FAYL – Diskda nomlangan ma’lumotlar to‘plami
+PAPKA – Fayllarni guruhlash uchun joy
+XOTIRA – Ma’lumotlar saqlanadigan qism
+O‘CHIRISH – Faylni yo‘q qilish amali
+DASTUR – Kompyuter bajaradigan buyruqlar ketma-ketligi
+EKRAN – Monitorning tasvir chiqadigan yuzasi`;
+
+function updateCount(){
+  const { words, skipped } = parseWords($('#words').value);
+  $('#wcount').textContent = words.length + ' ta so‘z' + (skipped.length ? ' · ' + skipped.length + ' ta qator o‘tkazildi (kamida 2 harf kerak)' : '');
+}
+function cellPtFor(v){ return Math.max(12, Math.min(26, Math.floor(470 / Math.max(v.cols, 1)))); }
+function gridTable(v, withLetters){
+  const s = cellPtFor(v), np = Math.max(5, Math.round(s * 0.3)), lp = Math.max(7, Math.round(s * 0.5));
+  let h = `<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;margin:0 auto;table-layout:fixed">`;
+  for (let r = 0; r < v.rows; r++){
+    h += `<tr style="height:${s}pt">`;
+    for (let c = 0; c < v.cols; c++){
+      const ch = v.grid[r][c];
+      if (!ch){ h += `<td width="${Math.round(s * 1.333)}" style="width:${s}pt;height:${s}pt;border:none;padding:0"></td>`; continue; }
+      const n = v.num[r][c];
+      h += `<td width="${Math.round(s * 1.333)}" style="width:${s}pt;height:${s}pt;border:1px solid #000;padding:0 0 0 1pt;vertical-align:top;background:#ffffff;font-family:Arial,sans-serif">`
+        + `<p style="margin:0;font-size:${np}pt;line-height:1.05;font-family:Arial,sans-serif">${n ? n : '&nbsp;'}</p>`
+        + (withLetters ? `<p style="margin:0;text-align:center;font-size:${lp}pt;line-height:1;font-weight:bold;font-family:Arial,sans-serif">${esc(ch)}</p>` : '')
+        + `</td>`;
+    }
+    h += `</tr>`;
+  }
+  return h + `</table>`;
+}
+function clueList(list, head, o){
+  let h = `<p style="margin:0 0 5pt;font-family:Arial,sans-serif;font-size:12pt;font-weight:bold">${head}</p>`;
+  for (const e of list){
+    h += `<p style="margin:0 0 3pt;font-family:Arial,sans-serif;font-size:11pt;line-height:1.3"><b>${e.num}.</b> ${esc(e.clue || '…')}`
+      + (o.len ? ` <span style="color:#555">(${e.cells.length})</span>` : '') + `</p>`;
+  }
+  return h;
+}
+function cwSections(v, o){
+  const title = esc(o.title || 'Krossvord');
+  const head = `<p style="text-align:center;margin:0 0 8pt;font-family:Arial,sans-serif;font-size:18pt;font-weight:bold">${title}</p>`;
+  const nameLine = o.name ? `<p style="margin:0 0 12pt;font-family:Arial,sans-serif;font-size:11pt">Ism-familiya: ______________________ &nbsp; Sinf: ________ &nbsp; Sana: ____________</p>` : '';
+  const clues = `<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;margin-top:14pt"><tr>`
+    + `<td style="width:50%;vertical-align:top;border:none;padding:0 12pt 0 0">${clueList(v.across, 'Eniga (gorizontal):', o)}</td>`
+    + `<td style="width:50%;vertical-align:top;border:none;padding:0 0 0 12pt">${clueList(v.down, 'Bo‘yiga (vertikal):', o)}</td></tr></table>`;
+  const out = [head + nameLine + gridTable(v, o.answers) + clues];
+  if (o.key){
+    const ans = l => l.map(e => `${e.num}. ${esc(e.text)}`).join(', ');
+    out.push(`<p style="text-align:center;margin:0 0 10pt;font-family:Arial,sans-serif;font-size:16pt;font-weight:bold">${title} — javoblar</p>`
+      + gridTable(v, true)
+      + `<p style="margin:14pt 0 4pt;font-family:Arial,sans-serif;font-size:11pt"><b>Eniga:</b> ${ans(v.across)}</p>`
+      + `<p style="margin:0;font-family:Arial,sans-serif;font-size:11pt"><b>Bo‘yiga:</b> ${ans(v.down)}</p>`);
+  }
+  return out;
+}
+function cwOpts(){ return { title: $('#title').value.trim(), key: $('#optKey').checked, len: $('#optLen').checked, name: $('#optName').checked, answers: false }; }
+function drawThumb(cv, v){
+  const px = 300; cv.width = px; cv.height = px;
+  const ctx = cv.getContext('2d');
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, px, px);
+  const pad = 12, s = (px - pad * 2) / Math.max(v.rows, v.cols);
+  const ox = (px - s * v.cols) / 2, oy = (px - s * v.rows) / 2;
+  ctx.lineWidth = Math.max(1, s * 0.08); ctx.strokeStyle = '#16202e';
+  for (let r = 0; r < v.rows; r++) for (let c = 0; c < v.cols; c++){
+    if (!v.grid[r][c]) continue;
+    ctx.fillStyle = v.num[r][c] ? '#FCEFD0' : '#ffffff';
+    ctx.fillRect(ox + c * s, oy + r * s, s, s);
+    ctx.strokeRect(ox + c * s, oy + r * s, s, s);
+  }
+}
+function renderVariants(){
+  const box = $('#variants'); box.innerHTML = '';
+  $('#noVariants').hidden = variants.length > 0;
+  variants.forEach((v, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'vcard'; btn.id = 'var' + i; btn.setAttribute('aria-pressed', i === sel);
+    const cv = document.createElement('canvas'); drawThumb(cv, v);
+    btn.append(cv);
+    btn.insertAdjacentHTML('beforeend', `<span class="t">Variant ${i + 1}</span><span class="m">${v.placedCount}/${lastWords.length} so‘z · ${v.cols}×${v.rows}</span>`
+      + (v.unplaced.length ? `<span class="w">${v.unplaced.length} ta so‘z sig‘madi</span>` : ''));
+    btn.onclick = () => { sel = i; renderVariants(); renderPreview(); if (MOBILE_MQ.matches) toast('Variant ' + (i + 1) + ' tanlandi — pastda “Ko‘rish” tugmasi bilan qarang'); };
+    box.append(btn);
+  });
+}
+function renderPreview(){
+  const v = variants[sel]; if (!v) return;
+  const o = cwOpts(); o.answers = $('#optShow').checked; o.key = false;
+  $('#paper').innerHTML = cwSections(v, o)[0];
+  const w = $('#warn');
+  if (v.unplaced.length){
+    w.hidden = false;
+    w.textContent = 'Sig‘magan so‘zlar: ' + v.unplaced.map(x => x.text).join(', ') + '. Boshqa variantni tanlang yoki bu so‘zlarni boshqa so‘zlar bilan umumiy harfli qiling.';
+  } else w.hidden = true;
+}
+function generate(silent){
+  const { words } = parseWords($('#words').value);
+  if (words.length < 2){ if (!silent) toast('Kamida 2 ta so‘z kiriting'); return; }
+  lastWords = words;
+  variants = generateVariants(words, +$('#nvar').value);
+  sel = 0; renderVariants(); renderPreview();
+  if (!silent) toast(variants.length + ' ta variant tayyor');
+}
+function cwNeed(){ if (!variants[sel]){ toast('Avval krossvord tuzing va variantni tanlang'); return null; } return variants[sel]; }
+const cwName = () => safeName($('#title').value, 'krossvord');
+
+$('#words').value = store.get('cw', SAMPLE); updateCount();
+$('#words').addEventListener('input', () => { updateCount(); store.set('cw', $('#words').value); });
+$('#btnGen').onclick = () => { generate(); revealOnMobile('#variants'); };
+$('#btnRegen').onclick = () => generate();
+$('#btnSample').onclick = () => { $('#words').value = SAMPLE; store.set('cw', SAMPLE); updateCount(); };
+$('#btnClear').onclick = () => { $('#words').value = ''; store.set('cw', ''); updateCount(); $('#words').focus(); };
+['#title', '#optLen', '#optName', '#optShow'].forEach(s => $(s).addEventListener('input', renderPreview));
+$('#btnDoc').onclick = () => { const v = cwNeed(); if (v) exportWord(cwSections(v, cwOpts()), cwName(), cwOpts().title); };
+$('#btnCopy').onclick = () => { const v = cwNeed(); if (v) exportCopy(cwSections(v, cwOpts())); };
+$('#btnPrint').onclick = () => { const v = cwNeed(); if (v) exportPrint(cwSections(v, cwOpts())); };
+$('#btnPdf').onclick = () => { const v = cwNeed(); if (v) exportPdf(cwSections(v, cwOpts()), cwName(), $('#btnPdf')); };
+
+/* ================= boshlash ================= */
+generate(true);
+
+/* ================= TELEFON: qog'oz ko'rinishini ekran eniga sig'diramiz ================= */
+const MOBILE_MQ = window.matchMedia('(max-width:920px)');
+function fitPapers() {
+  document.querySelectorAll('.paperwrap').forEach(w => {
+    const cs = getComputedStyle(w);
+    const avail = w.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    w.querySelectorAll('.paper').forEach(p => {
+      p.style.zoom = '';
+      const natural = Math.max(p.scrollWidth, p.offsetWidth);
+      const k = Math.min(1, avail / natural);
+      if (k < 0.999) p.style.zoom = k.toFixed(3);
+    });
+  });
+}
+let fitT;
+const queueFit = () => { clearTimeout(fitT); fitT = setTimeout(fitPapers, 60); };
+document.querySelectorAll('.paperwrap').forEach(w => new MutationObserver(queueFit).observe(w, { childList: true, subtree: true, characterData: true }));
+window.addEventListener('resize', queueFit);
+queueFit();
+
+/* pastki panel tugmalari */
+document.getElementById('mbar').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.go) { const t = document.querySelector(b.dataset.go); (t.closest('.paperwrap') || t.closest('.panel')).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  if (b.dataset.click) document.querySelector(b.dataset.click).click();
+});
+/* telefonda natijani ko'rsatish uchun shu bo'limga suriladi */
+function revealOnMobile(sel) {
+  if (!MOBILE_MQ.matches) return;
+  const el = document.querySelector(sel); if (!el) return;
+  setTimeout(() => el.closest('.panel').scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+}
+</script>
+</body>
+</html>
