@@ -1,18 +1,18 @@
 /* ==========================================================================
    FOYDALANUVCHILAR HISOBLAGICHI
-   Test tuzuvchi, Obyektivka va Krossvorddan nechta odam foydalanganini sanaydi
+   Test tuzuvchi, Obyektivka, Krossvord va Rasm → Excel xizmatlaridan nechta odam foydalanganini sanaydi
    va sahifa tepasida ko'rsatadi.
 
    - Hisob bepul Abacus API'da saqlanadi (abacus.jasoncameron.dev), kalit kerak emas.
    - "Foydalandi" = xizmatda haqiqiy amal bajarildi (test/krossvord tuzildi,
-     PDF/Word yuklab olindi, chop etildi). Har bir brauzer har bir xizmatda
+     PDF/Word/Excel yuklab olindi, chop etildi, rasm o'qildi). Har bir brauzer har bir xizmatda
      faqat bir marta sanaladi — ya'ni bu "odamlar soni", sahifa ochilishi emas.
    - ganisher.uz dan boshqa joyda (kompyuterda sinash) alohida "dev" hisob ishlatiladi,
      haqiqiy son buzilmaydi.
 
    Ishlatilishi (HTML):
      <div data-stats="home"></div>          — bosh sahifadagi umumiy panel
-     <div data-stats="test"></div>          — xizmat sahifasidagi panel (test | obyektivka | krossvord)
+     <div data-stats="test"></div>          — xizmat sahifasidagi panel (test | obyektivka | krossvord | rasm)
      <span data-stats-card="test"></span>   — kartadagi kichik yozuv
      <script src="stats.js" defer></script>
    ========================================================================== */
@@ -22,22 +22,23 @@
   const API = "https://abacus.jasoncameron.dev";
   const LIVE = /(^|\.)ganisher\.uz$/.test(location.hostname);
   const NS = LIVE ? "ganisher-uz" : "ganisher-uz-dev";
-  const TOOLS = ["test", "obyektivka", "krossvord"];
+  const TOOLS = ["test", "obyektivka", "krossvord", "rasm"];
   // xizmat sahifasida qaysi tugmalar "foydalanish" deb sanaladi
   const TRIGGERS = {
     test: "#tGen, #tRegen, #tPdf, #tDoc, #tCopy, #tPrint, #tQuiz",
     krossvord: "#btnGen, #btnRegen, #btnPdf, #btnDoc, #btnCopy, #btnPrint",
     obyektivka: "#btnPdf, #btnDoc, #btnPrint",
+    rasm: "#rExcel, #rCopy",                 // muvaffaqiyatli o'qish sahifaning o'zidan GStats.used("rasm") bilan sanaladi
   };
   const REFRESH_MS = 60000;
 
   const TXT = {
     uz: { live: "Jonli", total: "Xizmatlardan foydalanganlar:", people: "kishi", here: "Bu xizmatdan foydalanganlar:", all: "Barcha xizmatlar:",
-          card: "kishi foydalandi", names: { test: "Test tuzuvchi", obyektivka: "Obyektivka", krossvord: "Krossvord" }, you: "Siz ham qo'shildingiz!" },
+          card: "kishi foydalandi", names: { test: "Test tuzuvchi", obyektivka: "Obyektivka", krossvord: "Krossvord", rasm: "Rasm → Excel" }, you: "Siz ham qo'shildingiz!" },
     ru: { live: "Онлайн", total: "Воспользовались сервисами:", people: "чел.", here: "Этим сервисом воспользовались:", all: "Все сервисы:",
-          card: "чел. воспользовались", names: { test: "Тесты", obyektivka: "Объективка", krossvord: "Кроссворд" }, you: "Вы тоже с нами!" },
+          card: "чел. воспользовались", names: { test: "Тесты", obyektivka: "Объективка", krossvord: "Кроссворд", rasm: "Фото → Excel" }, you: "Вы тоже с нами!" },
     en: { live: "Live", total: "People who used our tools:", people: "people", here: "People who used this tool:", all: "All tools:",
-          card: "people used it", names: { test: "Test maker", obyektivka: "Obyektivka", krossvord: "Crossword" }, you: "You're in too!" },
+          card: "people used it", names: { test: "Test maker", obyektivka: "Obyektivka", krossvord: "Crossword", rasm: "Image → Excel" }, you: "You're in too!" },
   };
   const lang = () => (TXT[document.documentElement.lang] ? document.documentElement.lang : "uz");
   const fmt = n => new Intl.NumberFormat(lang() === "en" ? "en-US" : "ru-RU").format(Math.max(0, Math.round(n)));

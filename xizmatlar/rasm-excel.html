@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rasmdan Excel'ga</title>
+<meta name="description" content="Jadval, nakladnoy yoki daftar rasmini yuklang — AI undagi matn va jadvallarni o'qiydi. Tekshirib, Excel'ga yuklab oling yoki Google Sheets'ga nusxa oling.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='6' y='6' width='88' height='88' rx='20' fill='%23141310' stroke='%23F5B83D' stroke-width='7'/><path d='M28 30h44M28 50h44M28 70h44M50 30v40' stroke='%23F5B83D' stroke-width='7' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: chapda rasm yuklash, o'ngda AI natijasi (tahrirlanadigan matn va jadvallar) */
+:root{
+  /* ganisher.uz ranglari: deyarli qora fon, oltin aksent */
+  --bg:#0A0A0A; --panel:#141310; --panel-2:#1B1914; --ink:#FFFFFF; --muted:#A1A1A1; --line:rgba(245,184,61,.16);
+  --accent:#F5B83D; --accent-hover:#FFC94D; --accent-ink:#0A0A0A; --accent-soft:#2B2312; /* = oltin 12% qora fonda */
+  --warn:#FFC46B; --warn-soft:#3A2A10; --bad:#FF8A80; --bad-soft:#3D1A18; --good:#7AD99A; --good-soft:#15331F;
+  --xl:#1D6F42;
+  --display:"Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --body:"Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:radial-gradient(1100px 520px at 0% -10%,rgba(245,184,61,.07),transparent 60%),var(--bg);color:var(--ink);font:15px/1.5 var(--body);padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 20px}
+h1{font:700 clamp(22px,3.4vw,32px)/1.1 var(--display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+header p{margin:6px 0 0;color:var(--muted);max-width:62ch}
+.grid{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:920px){.grid{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:20px;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.step{display:flex;align-items:center;gap:10px;font:700 12px/1 var(--display);text-transform:uppercase;letter-spacing:.14em;color:var(--accent)}
+.step b{display:inline-grid;place-items:center;min-width:28px;height:24px;padding-inline:6px;border:1px solid var(--line);border-radius:7px;background:var(--accent-soft);color:var(--accent);font-size:12px;letter-spacing:.04em}
+.hint{color:var(--muted);font-size:13px;margin:0}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 14px var(--body);border-radius:10px;padding:10px 16px;cursor:pointer;border:1px solid var(--line);background:var(--panel-2);color:var(--ink);transition:border-color .2s,background-color .2s,color .2s}
+button:hover{border-color:var(--accent)}
+button:disabled{opacity:.55;cursor:wait}
+button:focus-visible,textarea:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+button.sm{padding:6px 11px;font-size:13px;border-radius:8px}
+button.danger:hover{border-color:var(--bad);color:var(--bad)}
+label.row{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+input[type=checkbox]{accent-color:var(--accent)}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:28px;text-align:center;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--panel-2);color:var(--ink);border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.5);padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;max-width:calc(100% - 32px)}
+.toast.show{opacity:1}
+.gold{color:var(--accent)}
+.ic{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* qisqa yo'riqnoma */
+.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 22px;margin:0;padding:0;list-style:none;counter-reset:g}
+.guide li{display:flex;gap:12px;font-size:14px;color:#d9d9d9;counter-increment:g}
+.guide li::before{content:counter(g,decimal-leading-zero);font:700 13px var(--display);color:var(--accent);padding-top:1px}
+
+/* rasm yuklash */
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:260px;padding:24px;border:2px dashed rgba(245,184,61,.28);border-radius:16px;text-align:center;cursor:pointer;transition:border-color .2s,background-color .2s}
+.drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop .ico{display:grid;place-items:center;width:56px;height:56px;border-radius:14px;border:1px solid var(--line);background:var(--panel-2);color:var(--accent)}
+.drop .ico .ic{width:26px;height:26px}
+.drop strong{font:700 17px var(--display)}
+.drop span{font-size:13px;color:var(--muted)}
+.prev{position:relative;display:flex;justify-content:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--bg);overflow:hidden}
+.prev img{display:block;max-width:100%;max-height:460px;border-radius:8px;object-fit:contain;transition:opacity .2s}
+.prev.reading img{opacity:.55}
+.scan{position:absolute;left:12px;right:12px;top:12px;height:3px;background:var(--accent);border-radius:2px;display:none}
+.prev.reading .scan{display:block;animation:scan 2.2s ease-in-out infinite alternate}
+@keyframes scan{from{top:12px}to{top:calc(100% - 15px)}}
+.privacy{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted)}
+.privacy .ic{color:var(--accent);margin-top:2px}
+
+/* holat xabarlari */
+.note{display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border-radius:10px;font-size:14px}
+.note.ok{background:var(--good-soft);color:var(--good)}
+.note.err{background:var(--bad-soft);color:var(--bad)}
+.note.info{background:var(--accent-soft);color:#f3dcae}
+.note .ic{margin-top:2px}
+.wait{display:flex;flex-direction:column;align-items:center;gap:12px;padding:34px 20px;text-align:center;color:var(--muted)}
+.wait strong{color:var(--ink);font:700 17px var(--display)}
+.spin{width:42px;height:42px;border-radius:50%;border:3px solid var(--accent-soft);border-top-color:var(--accent);animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* natija */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between}
+.seg{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:999px;background:var(--bg)}
+.seg button{border:none;background:transparent;border-radius:999px;padding:6px 14px;font-size:13px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.blocks{display:flex;flex-direction:column;gap:14px}
+.blk{border:1px solid var(--line);border-radius:12px;padding:12px;transition:opacity .2s}
+.blk.dim{opacity:.4}
+.blk-h{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.blk-h > span{font:700 11px var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.blk textarea{width:100%;resize:vertical;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--ink);font:15px/1.6 var(--body);padding:6px 8px}
+.blk textarea:hover{border-color:var(--line)}
+.blk textarea:focus{border-color:var(--accent);outline:none}
+.twrap{overflow:auto;max-height:560px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+thead th{position:sticky;top:0;background:#1d1b16;z-index:1;padding:6px 4px;text-align:left;vertical-align:top}
+tbody tr{border-top:1px solid rgba(245,184,61,.08)}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+td{padding:3px 4px}
+.cell{width:100%;min-width:84px;height:34px;border:1px solid transparent;border-radius:7px;background:transparent;color:var(--ink);font:14px var(--body);padding:0 8px;font-variant-numeric:tabular-nums}
+.cell.wide{min-width:220px}
+.cell.hand{color:var(--accent);font-weight:600}
+.cell:hover{border-color:var(--line)}
+.cell:focus{border-color:var(--accent);outline:none;background:var(--bg)}
+th .cell{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+th .cell:focus{color:var(--ink)}
+.th{display:flex;align-items:center;gap:2px}
+.x{flex:none;width:28px;height:28px;min-height:0;padding:0;border:none;background:transparent;color:var(--muted);font-size:17px;border-radius:50%}
+.x:hover{background:var(--bad-soft);color:var(--bad)}
+.rownum{color:var(--muted);font-size:12px;text-align:right;padding-right:8px;font-variant-numeric:tabular-nums;user-select:none}
+
+/* sayt bilan bog'lovchi yuqori qator va pastki qism (boshqa xizmatlar bilan bir xil) */
+.topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.brand{display:inline-flex;align-items:center;gap:10px;font:800 16px var(--display);letter-spacing:.06em;color:var(--ink);text-decoration:none}
+.brand svg{width:28px;height:28px}
+.brand b{color:var(--accent);font-weight:inherit}
+.tools{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow-x:auto;max-width:100%}
+.tools a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:9px;color:var(--muted);font-weight:600;font-size:14px;text-decoration:none;white-space:nowrap}
+.tools a:hover{color:var(--ink)}
+.tools a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:600;font-size:14px;text-decoration:none}
+.back:hover{color:var(--accent)}
+@media (max-width:760px){.tools{order:3;width:100%}.tools a{flex:1;justify-content:center;padding-inline:10px}}
+@media (max-width:520px){.tools{scrollbar-width:none}.tools::-webkit-scrollbar{display:none}.tools a{padding-inline:6px;gap:0;font-size:13px}.tools a .ic{display:none}}
+@media (max-width:380px){.brand{font-size:15px}}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:13px}
+.foot a{color:var(--ink);font-weight:600;text-decoration:none}
+.foot a:hover{color:var(--accent)}
+
+/* ================= TELEFON ================= */
+.mbar{display:none}
+@media (max-width:920px){
+  button{min-height:44px}
+  button.sm{min-height:38px}
+  .x{min-height:0}
+  .btns > button{flex:1 1 auto}
+  .cell{font-size:16px;height:40px}
+  .blk textarea{font-size:16px}
+  .mbar{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(10,10,10,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+  .mbar button{flex:1;white-space:nowrap;padding-inline:12px}
+  body{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}.prev.reading .scan{animation:none;top:50%}.spin{animation-duration:2.4s}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8M13 12h8M13 18h8"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h2M15 12h2M7 16h10"/></symbol>
+  <symbol id="i-sheet" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 9v12"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.6 5.6 1.9-5.6 1.9L12 18l-1.9-5.6-5.6-1.9 5.6-1.9z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-file-down" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+</defs></svg>
+<div class="wrap">
+  <nav class="topbar" aria-label="Sayt">
+    <a class="brand" href="../index.html" aria-label="GANISHER.UZ — bosh sahifa"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2.5 27.7 9.25v13.5L16 29.5 4.3 22.75V9.25z" fill="#141310" stroke="#F5B83D" stroke-width="2"/><text x="16" y="21.2" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="13" text-anchor="middle" fill="#F5B83D">G</text></svg><span>GANISHER<b>.UZ</b></span></a>
+    <div class="tools" aria-label="Ta'lim xizmatlari">
+      <a href="krossvord.html"><svg class="ic"><use href="#i-grid"/></svg>Krossvord</a>
+      <a href="test.html"><svg class="ic"><use href="#i-list"/></svg>Test</a>
+      <a href="obyektivka.html"><svg class="ic"><use href="#i-idcard"/></svg>Obyektivka</a>
+      <a href="rasm-excel.html" aria-current="page"><svg class="ic"><use href="#i-sheet"/></svg>Rasm → Excel</a>
+    </div>
+    <a class="back" href="../index.html#education"><svg class="ic"><use href="#i-arrow-left"/></svg>Saytga qaytish</a>
+  </nav>
+  <div data-stats="rasm" hidden></div>
+  <header>
+    <div>
+      <h1>Rasmdan <span class="gold">Excel'ga</span></h1>
+      <p>Jadval, nakladnoy, daftar yoki hujjat rasmini yuklang — AI undagi matn va jadvallarni o'qiydi (bosma ham, qo'lda yozilgan ham). Tekshirasiz, kerak bo'lsa tuzatasiz va Excel faylini yuklab olasiz.</p>
+    </div>
+  </header>
+
+  <section class="panel" aria-label="Qisqa yo'riqnoma">
+    <ol class="guide">
+      <li>Rasmni yuklang: telefonda tushirilgan, qiyshiq yoki burilgan bo'lsa ham bo'ladi.</li>
+      <li>«AI bilan o'qish» tugmasini bosing — 10–40 soniyada natija chiqadi.</li>
+      <li>Natijani tekshiring: katak, ustun nomi va matnni bosib tuzatish mumkin.</li>
+      <li>«Excel'ga yuklab olish» yoki «Nusxa olish» → Excel/Google Sheets'da Ctrl+V.</li>
+    </ol>
+  </section>
+
+  <div class="grid">
+    <section class="panel" aria-labelledby="r1">
+      <div class="step" id="r1"><b>1</b>Rasm</div>
+      <div class="drop" id="drop" role="button" tabindex="0" aria-label="Rasm tanlash">
+        <span class="ico"><svg class="ic"><use href="#i-image"/></svg></span>
+        <strong>Rasmni shu yerga tashlang yoki bosib tanlang</strong>
+        <span>JPG, PNG yoki telefon rasmi. Ctrl+V bilan ham qo'yish mumkin.</span>
+      </div>
+      <div class="prev" id="prev" hidden><i class="scan"></i></div>
+      <input type="file" id="file" accept="image/*" hidden>
+      <div class="btns" id="actions" hidden>
+        <button class="primary" id="rRead"><svg class="ic"><use href="#i-sparkle"/></svg><span>AI bilan o'qish</span></button>
+        <button id="rOther"><svg class="ic"><use href="#i-refresh"/></svg>Boshqa rasm</button>
+      </div>
+      <p class="privacy"><svg class="ic"><use href="#i-lock"/></svg><span>Rasm saqlanmaydi — faqat o'qish uchun Google Gemini AI'ga yuboriladi. Natija faqat sizning brauzeringizda qoladi.</span></p>
+    </section>
+
+    <section class="panel" aria-labelledby="r2" id="resPanel">
+      <div class="toolbar">
+        <div class="step" id="r2"><b>2</b>Natija</div>
+        <div class="seg" id="mode" role="group" aria-label="Nimani olish" hidden>
+          <button type="button" data-v="all" aria-pressed="true">Hammasi</button>
+          <button type="button" data-v="tables" aria-pressed="false">Faqat jadval</button>
+        </div>
+      </div>
+      <div id="msg"></div>
+      <div class="empty" id="empty">Rasmni yuklang va «AI bilan o'qish» tugmasini bosing — matn va jadvallar shu yerda chiqadi.</div>
+      <div class="wait" id="wait" hidden><span class="spin" aria-hidden="true"></span><strong>AI rasmni o'qiyapti…</strong><span id="waitT">Odatda 10–40 soniya</span></div>
+      <div id="out" hidden>
+        <div class="toolbar" style="margin-bottom:14px">
+          <label class="row" id="hdrRow" hidden><input type="checkbox" id="withHeader" checked> Ustun nomlari bilan</label>
+          <div class="btns" style="margin-left:auto">
+            <button class="primary" id="rExcel"><svg class="ic"><use href="#i-file-down"/></svg>Excel'ga yuklab olish</button>
+            <button id="rCopy" title="Excel yoki Google Sheets'da Ctrl+V bilan qo'yish uchun"><svg class="ic"><use href="#i-copy"/></svg>Nusxa olish</button>
+          </div>
+        </div>
+        <div class="blocks" id="blocks"></div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="foot">
+    <span>&copy; <a href="../index.html">ganisher.uz</a> — G‘anisher Raximov</span>
+    <span>Savol va takliflar: <a href="https://t.me/raximov_ganisher" target="_blank" rel="noopener noreferrer">Telegram</a></span>
+  </footer>
+</div>
+
+<div class="mbar" id="mbar" aria-label="Tezkor amallar">
+  <button type="button" id="mView"><svg class="ic"><use href="#i-eye"/></svg>Natijani ko'rish</button>
+  <button type="button" class="primary" id="mExcel"><svg class="ic"><use href="#i-file-down"/></svg>Excel yuklash</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem('rx_' + k); return v == null ? d : v; } catch (e){ return d; } },
+  set(k, v){ try{ localStorage.setItem('rx_' + k, v); } catch (e){} }
+};
+function toast(msg, ms = 2800){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), ms);
+}
+const ICON = n => `<svg class="ic"><use href="#i-${n}"/></svg>`;
+function message(kind, text){ $('#msg').innerHTML = text ? `<div class="note ${kind}">${ICON(kind === 'ok' ? 'check' : 'alert')}<span>${esc(text)}</span></div>` : ''; }
+
+/* ================= rasm tanlash ================= */
+const MAX_SIDE = 2400;
+let file = null, preview = '';
+/** Katta rasmni serverga sig'adigan o'lchamga keltiradi (qo'lda yozuv o'qilishi uchun yetarli sifatda). */
+async function shrink(f){
+  try{
+    const bmp = await createImageBitmap(f);
+    const scale = Math.min(1, MAX_SIDE / Math.max(bmp.width, bmp.height));
+    if (scale === 1 && f.size < 2.8 * 1024 * 1024) return f;
+    const c = document.createElement('canvas');
+    c.width = Math.round(bmp.width * scale); c.height = Math.round(bmp.height * scale);
+    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+    return await new Promise(r => c.toBlob(b => r(b || f), 'image/jpeg', .9));
+  } catch (e){ return f; }      // brauzer o'qiy olmagan format (masalan, HEIC) — aslicha yuboriladi
+}
+function pick(f){
+  if (!f || !/^image\//.test(f.type)) return message('err', 'Bu rasm emas. JPG yoki PNG rasm tanlang.');
+  file = f;
+  if (preview) URL.revokeObjectURL(preview);
+  preview = URL.createObjectURL(f);
+  let img = $('#prev img');
+  if (!img){ img = document.createElement('img'); img.alt = 'Yuklangan rasm'; $('#prev').prepend(img); }
+  img.src = preview;
+  $('#drop').hidden = true; $('#prev').hidden = false; $('#actions').hidden = false;
+  message('', '');
+  if (!doc) { $('#empty').textContent = "Endi «AI bilan o'qish» tugmasini bosing."; }
+}
+const drop = $('#drop');
+drop.addEventListener('click', () => $('#file').click());
+drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); $('#file').click(); } });
+drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); pick(e.dataTransfer.files && e.dataTransfer.files[0]); });
+$('#file').addEventListener('change', e => { pick(e.target.files[0]); e.target.value = ''; });
+$('#rOther').onclick = () => $('#file').click();
+window.addEventListener('paste', e => {
+  const f = [...((e.clipboardData && e.clipboardData.files) || [])].find(x => /^image\//.test(x.type));
+  if (f) pick(f);
+});
+
+/* ================= AI bilan o'qish ================= */
+const ERR = {
+  not_configured: "Xizmat hozircha sozlanmoqda. Birozdan keyin qayta urinib ko'ring.",
+  limit: "Juda ko'p urinish bo'ldi. 10 daqiqadan keyin qayta urinib ko'ring.",
+  ai_limit: "AI hozir band. Bir-ikki daqiqadan keyin qayta bosing.",
+  ai_timeout: "AI uzoq javob bermadi. Qayta urinib ko'ring yoki rasmni yaqinroqdan tushiring.",
+  ai: "Rasmni o'qib bo'lmadi. Qayta urinib ko'ring.",
+  bad_image: "Rasm formati tushunilmadi. JPG yoki PNG rasm yuklang.",
+  too_large: "Rasm juda katta. Kichikroq rasm yuklang.",
+  origin: "Xizmat faqat ganisher.uz sahifasidan ishlaydi.",
+  net: "Internet bilan aloqa yo'q. Ulanishni tekshirib, qayta urinib ko'ring.",
+};
+let doc = null, notes = '', reading = false;
+const toBase64 = blob => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(blob); });
+
+async function read(){
+  if (!file || reading) return;
+  reading = true; message('', '');
+  $('#rRead').disabled = true; $('#rRead span').textContent = "O'qilyapti…";
+  $('#prev').classList.add('reading'); $('#empty').hidden = true; $('#out').hidden = true; $('#wait').hidden = false; $('#mode').hidden = true;
+  const t0 = Date.now(), tick = setInterval(() => { $('#waitT').textContent = `${Math.round((Date.now() - t0) / 1000)} soniya · odatda 10–40 soniya`; }, 1000);
+  revealOnMobile();
+  try{
+    const blob = await shrink(file);
+    const body = JSON.stringify({ image: await toBase64(blob), mime: blob.type || file.type || 'image/jpeg' });
+    let r;
+    try { r = await fetch('/api/rasm', { method: 'POST', headers: { 'content-type': 'application/json' }, body }); }
+    catch (e){ throw new Error('net'); }
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || 'ai');
+    notes = j.notes || '';
+    if (!j.blocks || !j.blocks.length){
+      doc = null; $('#empty').hidden = false; $('#empty').textContent = 'Rasmda o‘qiladigan matn topilmadi.';
+      message('err', notes ? `Matn topilmadi. AI izohi: ${notes}` : 'Rasmda o‘qiladigan matn topilmadi. Aniqroq rasm yuklab ko‘ring.');
+    } else {
+      doc = { blocks: j.blocks };
+      const nt = doc.blocks.filter(b => b.type === 'text').length, nTab = tables().length;
+      message('ok', `O'qildi: ${nt} ta matn bo'limi, ${nTab} ta jadval. Yuklab olishdan oldin tekshirib chiqing.` + (notes ? ` AI izohi: ${notes}` : ''));
+      render();
+      if (window.GStats) GStats.used('rasm');
+    }
+  } catch (e){
+    const code = e && e.message; if (!doc) $('#empty').hidden = false;
+    message('err', ERR[code] || ERR.ai);
+  } finally {
+    clearInterval(tick); reading = false;
+    $('#rRead').disabled = false; $('#rRead span').textContent = "AI bilan o'qish";
+    $('#prev').classList.remove('reading'); $('#wait').hidden = true;
+    if (doc) $('#out').hidden = false;
+  }
+}
+$('#rRead').onclick = read;
+
+/* ================= natija: ko'rsatish va tahrirlash ================= */
+const normColumn = s => s.toLowerCase().replace(/ё/g, 'е').replace(/[^\p{L}\p{N}]/gu, '');
+const tables = () => (doc ? doc.blocks.filter(b => b.type === 'table') : []);
+const hasText = () => !!doc && doc.blocks.some(b => b.type === 'text' && b.text.trim());
+let onlyTables = store.get('mode', 'all') === 'tables', withHeader = store.get('hdr', '1') === '1';
+$('#withHeader').checked = withHeader;
+const tablesOnly = () => onlyTables && tables().length > 0;
+
+function render(){
+  const box = $('#blocks');
+  if (!doc){ box.innerHTML = ''; return; }
+  const showMode = tables().length > 0 && hasText();
+  $('#mode').hidden = !showMode;
+  $('#mode').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.v === 'tables') === onlyTables)));
+  $('#hdrRow').hidden = !tablesOnly();
+  const nTab = tables().length; let tn = 0;
+  box.innerHTML = doc.blocks.map((b, k) => {
+    if (b.type === 'text'){
+      const rows = Math.min(Math.max(b.text.split('\n').length, 1), 14);
+      return `<div class="blk${tablesOnly() ? ' dim' : ''}"><div class="blk-h"><span>Matn</span><button class="sm danger" data-del="${k}">${ICON('trash')}O'chirish</button></div>
+        <textarea rows="${rows}" data-text="${k}" aria-label="Matn">${esc(b.text)}</textarea></div>`;
+    }
+    tn++;
+    const wide = b.columns.map((_, j) => b.rows.some(r => (r[j] || '').length > 18));
+    const hand = b.columns.map(c => normColumn(c).includes('отруки'));
+    return `<div class="blk"><div class="blk-h"><span>${nTab > 1 ? `Jadval ${tn}` : 'Jadval'} · ${b.rows.length} ta qator · ${b.columns.length} ta ustun</span>
+        <div class="btns"><button class="sm" data-add="${k}">${ICON('plus')}Qator qo'shish</button><button class="sm danger" data-del="${k}">${ICON('trash')}O'chirish</button></div></div>
+      <div class="twrap"><table><thead><tr><th></th>${b.columns.map((c, j) => `<th><div class="th"><input class="cell${wide[j] ? ' wide' : ''}" value="${esc(c)}" data-col="${k}:${j}" aria-label="Ustun nomi" title="Ustun nomi">${b.columns.length > 1 ? `<button class="x" data-delcol="${k}:${j}" aria-label="Ustunni o'chirish" title="Ustunni o'chirish">×</button>` : ''}</div></th>`).join('')}<th></th></tr></thead>
+      <tbody>${b.rows.map((r, i) => `<tr><td class="rownum">${i + 1}</td>${b.columns.map((c, j) => `<td><input class="cell${wide[j] ? ' wide' : ''}${hand[j] ? ' hand' : ''}" value="${esc(r[j] || '')}" data-cell="${k}:${i}:${j}" aria-label="${esc(c)}"></td>`).join('')}<td><button class="x" data-delrow="${k}:${i}" aria-label="Qatorni o'chirish" title="Qatorni o'chirish">×</button></td></tr>`).join('')}</tbody></table></div></div>`;
+  }).join('');
+}
+// kiritishlar holatni to'g'ridan-to'g'ri yangilaydi (qayta chizmasdan — kursor joyida qoladi)
+$('#blocks').addEventListener('input', e => {
+  const el = e.target, d = el.dataset;
+  if (d.text != null) doc.blocks[+d.text].text = el.value;
+  else if (d.col){ const [k, j] = d.col.split(':').map(Number); doc.blocks[k].columns[j] = el.value; }
+  else if (d.cell){ const [k, i, j] = d.cell.split(':').map(Number); doc.blocks[k].rows[i][j] = el.value; }
+});
+$('#blocks').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return; const d = b.dataset;
+  if (d.del != null){ doc.blocks.splice(+d.del, 1); if (!doc.blocks.length){ doc = null; $('#out').hidden = true; $('#empty').hidden = false; $('#mode').hidden = true; } }
+  else if (d.add != null){ const t = doc.blocks[+d.add]; t.rows.push(t.columns.map(() => '')); }
+  else if (d.delcol){ const [k, j] = d.delcol.split(':').map(Number); const t = doc.blocks[k]; t.columns.splice(j, 1); t.rows.forEach(r => r.splice(j, 1)); }
+  else if (d.delrow){ const [k, i] = d.delrow.split(':').map(Number); doc.blocks[k].rows.splice(i, 1); }
+  else return;
+  render();
+});
+$('#mode').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  onlyTables = b.dataset.v === 'tables'; store.set('mode', onlyTables ? 'tables' : 'all'); render();
+});
+$('#withHeader').addEventListener('change', e => { withHeader = e.target.checked; store.set('hdr', withHeader ? '1' : '0'); });
+
+/* ================= Excel va nusxa ================= */
+const DATE_COLUMN = /sana|дата|date/;
+/** "0.15", "12,5", "2 220 000" — songa; "00101" (boshidagi nol) va sana ustuni — matnligicha. */
+function toCell(v, column = ''){
+  const s = String(v == null ? '' : v).trim();
+  if (DATE_COLUMN.test(normColumn(column))) return s;
+  const n = s.replace(/(?<=\d)[\s\u00a0\u202f](?=\d{3}(?!\d))/g, '');
+  return /^-?(0|[1-9]\d*)([.,]\d+)?$/.test(n) ? Number(n.replace(',', '.')) : s;
+}
+/** Hujjatni kataklarga yoyadi: «Hammasi» — matn A ustunida, jadvallar ustun nomlari bilan; «Faqat jadval» — faqat qatorlar. */
+function grid(){
+  if (!doc) return [];
+  const only = tablesOnly(), out = [];
+  for (const b of doc.blocks){
+    if (b.type === 'text'){
+      if (only) continue;
+      const lines = b.text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      if (!lines.length) continue;
+      if (out.length) out.push([]);
+      out.push(...lines.map(l => [l]));
+    } else {
+      if (!only && out.length) out.push([]);
+      if (!only || withHeader) out.push([...b.columns]);
+      out.push(...b.rows.map(r => b.columns.map((c, i) => toCell(r[i], c))));
+    }
+  }
+  return out;
+}
+function loadScript(src){ return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
+async function excel(){
+  const g = grid(); if (!g.length) return toast('Avval rasmni o‘qiting');
+  try{
+    if (!window.XLSX) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js');
+    const ws = XLSX.utils.aoa_to_sheet(g);
+    const width = Math.max(...g.map(r => r.length));
+    ws['!cols'] = Array.from({ length: width }, (_, j) => ({ wch: Math.min(48, Math.max(8, ...g.map(r => String(r[j] == null ? '' : r[j]).length + 2))) }));
+    const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Rasm');
+    XLSX.writeFile(wb, `rasm-${new Date().toISOString().slice(0, 10)}.xlsx`);
+    toast('Excel fayl yuklab olindi');
+  } catch (e){ console.error(e); toast('Excel faylini tayyorlab bo‘lmadi. Internetni tekshiring.', 4000); }
+}
+/** Excel / Google Sheets'ga Ctrl+V uchun: HTML ichida katak turi (son yoki "00101" kabi matn) saqlanadi. */
+function clip(g){
+  const text = g.map(r => r.map(v => String(v).replace(/[\t\r\n]+/g, ' ')).join('\t')).join('\n');
+  const td = v => { if (v === '') return '<td></td>'; const meta = typeof v === 'number' ? { 1: 3, 3: v } : { 1: 2, 2: v };
+    return `<td data-sheets-value="${esc(JSON.stringify(meta))}" style="mso-number-format:'${typeof v === 'number' ? 'General' : '\\@'}'">${esc(String(v))}</td>`; };
+  const html = `<meta charset="utf-8"><google-sheets-html-origin><table>${g.map(r => `<tr>${r.map(td).join('')}</tr>`).join('')}</table></google-sheets-html-origin>`;
+  return { text, html };
+}
+async function copyRows(){
+  const g = grid(); if (!g.length) return toast('Avval rasmni o‘qiting');
+  const { text, html } = clip(g);
+  let done = false;
+  const onCopy = e => { e.clipboardData.setData('text/plain', text); e.clipboardData.setData('text/html', html); e.preventDefault(); done = true; };
+  document.addEventListener('copy', onCopy);
+  try { document.execCommand('copy'); } catch (e){}
+  document.removeEventListener('copy', onCopy);
+  if (!done){
+    try{
+      if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write)
+        await navigator.clipboard.write([new ClipboardItem({ 'text/plain': new Blob([text], { type: 'text/plain' }), 'text/html': new Blob([html], { type: 'text/html' }) })]);
+      else await navigator.clipboard.writeText(text);
+      done = true;
+    } catch (e){}
+  }
+  toast(done ? `${g.length} ta qator nusxalandi — Excel yoki Google Sheets'da Ctrl+V bosing` : `Nusxa olib bo'lmadi. «Excel'ga yuklab olish»dan foydalaning.`, 4000);
+}
+$('#rExcel').onclick = excel;
+$('#rCopy').onclick = copyRows;
+
+/* ================= telefon ================= */
+const MOBILE_MQ = window.matchMedia('(max-width:920px)');
+function revealOnMobile(){ if (MOBILE_MQ.matches) setTimeout(() => $('#resPanel').scrollIntoView({ behavior: 'smooth', block: 'start' }), 80); }
+$('#mView').onclick = () => $('#resPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+$('#mExcel').onclick = () => (doc ? $('#rExcel').click() : toast('Avval rasmni yuklab, «AI bilan o‘qish»ni bosing'));
+</script>
+<script src="../stats.js" defer></script>
+</body>
+</html>
