@@ -1,5 +1,6 @@
 {
   "functions": {
-    "api/rasm.js": { "maxDuration": 60 }
+    "api/rasm.js": { "maxDuration": 60 },
+    "api/fayllar.js": { "maxDuration": 60 }
   }
 }

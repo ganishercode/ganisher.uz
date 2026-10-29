@@ -1,0 +1,8 @@
+{
+  "name": "ganisher-uz",
+  "private": true,
+  "description": "ganisher.uz — statik sayt va Vercel funksiyalari (api/)",
+  "dependencies": {
+    "@vercel/blob": "2.8.1"
+  }
+}
