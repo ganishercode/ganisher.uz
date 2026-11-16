@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Raqamli iqtisodiyot va teng imkoniyatlar</title>
+<link rel="stylesheet" href="deck.css">
+<style>
+:root{--bg:#2E2470;--fg:#fff;--panel:#463A8C;--deep:#241A5C;--accent:#C8F560;--mute:#B8B2DB;--grey:#D9D9DE;--ink:#4A4A55;
+  --font:"Segoe UI",system-ui,sans-serif;--head:"Bahnschrift","Segoe UI",system-ui,sans-serif}
+.stage{background:radial-gradient(800px 600px at 100% 0%,#3d3190 0%,transparent 60%),var(--bg)}
+h1,h2,.big,.num{font-family:var(--head);font-weight:600;letter-spacing:-.01em}
+.acc{color:var(--accent)}.mute{color:var(--mute)}
+.panel{background:var(--panel);border-radius:18px}
+.ic{width:46px;height:46px}
+
+/* torayib boruvchi «offline» zona */
+.zone{position:absolute;left:0;top:0;bottom:0;width:var(--z);background:var(--grey);transition:width 1s cubic-bezier(.3,.7,.2,1);z-index:0;
+  background-image:repeating-linear-gradient(135deg,transparent 0 22px,rgba(74,74,85,.07) 22px 23px)}
+.zone::after{content:"";position:absolute;right:-3px;top:0;bottom:0;width:6px;background:var(--accent)}
+.off{position:absolute;left:0;top:0;bottom:0;width:var(--z);padding:0 28px 0 48px;color:var(--ink);display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.off .big{font-size:106px;line-height:.95}
+.off .mid{font-family:var(--head);font-weight:600;font-size:52px;line-height:1.02}
+.off span{font-size:23px;margin-top:14px;line-height:1.3}
+.off.top{justify-content:flex-start;padding:60px 20px 0 26px}
+.off.top .big{font-size:88px}.off.top span{font-size:20px}
+.off.nar{padding:60px 12px 0 18px;justify-content:flex-start}
+.off.nar .mid{font-size:30px}
+.on{position:absolute;left:calc(var(--z) + 44px);right:52px;top:0;bottom:0}
+.on h2{position:absolute;left:0;right:0;top:66px;font-size:42px;line-height:1.12;text-wrap:balance}
+.on .body{position:absolute;left:0;right:0;top:210px;bottom:70px}
+.src{position:absolute;left:0;right:0;bottom:32px;font-size:14px;color:var(--mute)}
+
+/* 1 */
+.s1 .eye{position:absolute;top:158px;font-size:20px;letter-spacing:.22em;color:var(--accent)}
+.s1 h1{position:absolute;top:198px;font-size:52px;line-height:1.08}
+.s1 .who{position:absolute;top:430px;font-size:29px;font-weight:600}
+.s1 .who small{display:block;font-size:23px;color:var(--mute);font-weight:400;margin-top:8px}
+.s1 .off .big{font-size:150px}
+/* 2 */
+.plan{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(4,1fr);gap:14px 20px;height:100%}
+.plan li{padding:0 24px;font-size:21px;line-height:1.25;display:flex;align-items:center;gap:18px}
+.plan .num{font-size:32px;color:var(--accent);flex:none}
+.plan li.q{background:var(--accent);color:var(--deep);font-weight:600}.plan li.q .num{color:var(--deep)}
+/* 3 */
+.rings{position:absolute;left:0;top:10px;width:400px;height:400px}
+.rings i{position:absolute;border-radius:50%;display:block;font-style:normal;font-family:var(--head);font-size:21px;text-align:center;padding-top:16px}
+.rings .r1{inset:0;background:var(--panel)}
+.rings .r2{inset:66px;background:#6455bd;top:112px;bottom:20px}
+.rings .r3{inset:134px;background:var(--accent);color:var(--deep);top:230px;bottom:38px;padding-top:44px}
+.lay{position:absolute;left:440px;right:0;top:10px;display:grid;gap:18px}
+.lay li{padding:18px 22px;font-size:20px;line-height:1.3;border-left:5px solid var(--accent)}
+.lay b{display:block;font-family:var(--head);font-size:22px;color:var(--accent);margin-bottom:4px}
+/* 4 */
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;height:100%}
+.g3 li{padding:26px;display:flex;flex-direction:column;justify-content:space-between;font-size:23px;font-weight:600;line-height:1.2}
+/* 5 */
+.stairs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;height:100%;align-items:end}
+.stairs li{padding:24px;font-size:20px;line-height:1.3;border-radius:18px 18px 0 0;background:var(--panel)}
+.stairs li:nth-child(1){height:42%}.stairs li:nth-child(2){height:68%;background:#5648a6}.stairs li:nth-child(3){height:94%;background:var(--accent);color:var(--deep)}
+.stairs b{display:block;font-family:var(--head);font-size:27px;margin-bottom:8px}
+/* 6 */
+.hero{font-family:var(--head);font-weight:600;font-size:110px;line-height:1;color:var(--accent)}
+.lead{font-size:24px;line-height:1.35;margin-top:14px}
+.ratio{display:flex;height:64px;border-radius:14px;overflow:hidden;margin-top:44px;font-family:var(--head);font-size:20px}
+.ratio i{font-style:normal;display:flex;align-items:center;padding-left:18px}
+.ratio .y{flex:76;background:var(--accent);color:var(--deep)}.ratio .n{flex:24;background:var(--grey);color:var(--ink)}
+/* 7 */
+.hb{display:grid;gap:7px}
+.hb li{display:grid;grid-template-columns:150px 1fr 62px;align-items:center;gap:12px;font-size:18px;height:36px}
+.hb li:nth-child(2n){margin-bottom:12px}
+.hb .tr{height:22px;border-radius:6px;background:var(--deep);overflow:hidden}
+.hb .tr i{display:block;height:100%;width:calc(var(--v)*1%);background:var(--mute);border-radius:6px}
+.hb b{font-family:var(--head);font-size:21px;text-align:right}
+.hb .hl .tr i{background:var(--accent)}.hb .hl b{color:var(--accent)}
+.hb .lo .tr i{background:#ff8f6b}.hb .lo b{color:#ff8f6b}
+/* 8 */
+.opp{width:470px;display:grid;gap:12px}
+.opp li{display:flex;align-items:center;gap:18px;padding:13px 20px;font-size:20px;line-height:1.25}
+.opp .ic{width:38px;height:38px;flex:none}
+.kpi{position:absolute;right:0;top:0;width:330px;height:100%;padding:30px;display:flex;flex-direction:column;justify-content:center}
+.kpi small{font-size:18px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase}
+.kpi .big{font-size:120px;line-height:1.05;color:var(--accent)}
+.kpi p{font-size:21px;line-height:1.3}.kpi em{font-style:normal;color:var(--mute);font-size:20px;margin-top:20px}
+/* 9 */
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;margin-top:30px}
+.tl::before{content:"";position:absolute;left:0;right:0;top:76px;height:2px;background:var(--panel)}
+.tl li{position:relative}
+.tl li::before{content:"";position:absolute;left:0;top:68px;width:18px;height:18px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px var(--bg)}
+.tl .yr{font-family:var(--head);font-size:40px;color:var(--accent);height:76px}
+.tl .box{margin-top:40px;padding:20px;height:220px;font-size:18.5px;line-height:1.35}
+.tl li:last-child .box{background:var(--accent);color:var(--deep);font-weight:600;font-size:22px}
+/* 10 */
+.gap{font-family:var(--head);font-size:32px;color:var(--accent);position:absolute;top:190px}
+.lc{position:absolute;left:0;right:0;top:244px}
+.lc small{font-size:18px;color:var(--mute)}
+.lc svg{display:block;width:100%;height:auto;margin-top:6px;overflow:visible}
+.lc text{font-family:"Segoe UI",sans-serif;font-size:17px;fill:#B8B2DB}
+/* 11 */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:24px;height:100%}
+.duo div{padding:32px 34px;display:flex;flex-direction:column}
+.duo .ic{width:60px;height:60px;margin-bottom:auto}
+.duo .big{font-size:112px;line-height:1;color:var(--accent)}
+.duo b{font-family:var(--head);font-size:30px}.duo span{font-size:20px;color:var(--mute);margin-top:10px;line-height:1.3}
+/* 12 */
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;height:100%}
+.g4 li{padding:26px 22px;font-size:20px;line-height:1.35;display:flex;flex-direction:column;gap:12px}
+.g4 b{font-family:var(--head);font-size:25px;color:var(--accent);margin-top:auto}
+.g4 .ic{width:56px;height:56px}
+/* 13 */
+.split{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;height:100%}
+.split h3{font-size:20px;color:var(--mute);font-weight:400;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.risk li{display:flex;align-items:center;gap:18px;font-size:21px;line-height:1.25;padding:14px 20px;margin-bottom:12px}
+.risk .ic{width:40px;height:40px;flex:none}
+.lv li{padding:22px 24px;font-size:23px;font-family:var(--head);margin-bottom:14px;border-radius:16px;display:flex;justify-content:space-between}
+.lv .ok{background:var(--accent);color:var(--deep)}.lv .no{background:var(--grey);color:var(--ink)}
+/* 14 */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.steps li{font-family:var(--head);font-size:28px;padding:24px 34px;background:var(--panel);clip-path:polygon(0 0,calc(100% - 28px) 0,100% 50%,calc(100% - 28px) 100%,0 100%,28px 50%)}
+.steps li:first-child{clip-path:polygon(0 0,calc(100% - 28px) 0,100% 50%,calc(100% - 28px) 100%,0 100%);border-radius:14px 0 0 14px}
+.steps li:last-child{background:var(--accent);color:var(--deep)}
+.g4.sug{height:auto;margin-top:34px}
+.g4.sug li{height:300px;font-size:22px;font-weight:600}
+/* 15 */
+.s15 h1{position:absolute;top:84px;font-size:54px}
+.s15 .who{position:absolute;top:176px;font-size:24px;color:var(--mute)}
+.s15 .refs{position:absolute;top:262px;left:0;right:0}
+.s15 .refs h3{font-family:var(--head);font-size:20px;color:var(--accent);margin-bottom:12px}
+.s15 .refs ol{columns:2;column-gap:50px;counter-reset:r}
+.s15 .refs li{font-size:15.5px;line-height:1.45;margin-bottom:9px;break-inside:avoid;padding-left:28px;position:relative;color:#e4e1f5}
+.s15 .refs li::before{counter-increment:r;content:counter(r)".";position:absolute;left:0;color:var(--accent)}
+</style>
+</head>
+<body>
+<main class="stage">
+<div class="zone" aria-hidden="true"></div>
+
+<section class="slide s1" data-vars="--z:680px">
+  <div class="off"><p class="big a">OFFLINE</p><span class="a">raqamdan tashqarida qolganlar</span></div>
+  <div class="on">
+    <p class="eye a">13-MAVZU</p>
+    <h1 class="a">Raqamli iqtisodiyot va teng imkoniyatlar</h1>
+    <p class="who a">Raximov Gʻanisher<small>Fan: Sanoat iqtisodiyoti</small></p>
+  </div>
+  <aside class="notes"><p>Assalomu alaykum. Bugungi mavzu: raqamli iqtisodiyot va teng imkoniyatlar.</p><p>Ekranning chap tomoni — internetdan tashqarida qolgan «offline» dunyo, oʻng tomoni — raqamli «online» dunyo.</p><p>Taqdimot davomida kulrang zona qanday torayib borishini kuzating: bu raqamli tafovutning yopilishini anglatadi.</p></aside>
+</section>
+
+<section class="slide" data-vars="--z:430px">
+  <div class="off"><p class="mid a">Kim ortda qoladi?</p></div>
+  <div class="on"><h2 class="a">Reja</h2>
+    <div class="body" style="top:160px"><ol class="plan">
+      <li class="panel a" data-go="s-01"><span class="num">01</span>Raqamli iqtisodiyot: tushuncha va drayverlar</li>
+      <li class="panel a" data-go="s-02"><span class="num">02</span>Raqamli tafovutning uch darajasi</li>
+      <li class="panel a" data-go="s-03"><span class="num">03</span>Dunyo: kim onlayn, kim offline</li>
+      <li class="panel a" data-go="s-04"><span class="num">04</span>Raqamli iqtisodiyot yaratadigan imkoniyatlar</li>
+      <li class="panel a" data-go="s-05"><span class="num">05</span>Oʻzbekiston: strategiya, tafovut, IT eksport</li>
+      <li class="panel a" data-go="s-06"><span class="num">06</span>Sanoat, xavflar va takliflar</li>
+      <li class="panel a q" data-go="s-q"><span class="num">07</span>Savol-javob</li>
+    </ol></div>
+  </div>
+  <aside class="notes"><p>Taqdimot olti qismdan iborat, oxirida savol-javob bor. Reja bandini bossangiz, oʻsha boʻlimga oʻtadi.</p><p>Avval raqamli iqtisodiyot tushunchasi va uning drayverlarini, keyin raqamli tafovutning uch darajasini koʻrib chiqamiz.</p><p>Soʻng dunyo va Oʻzbekiston raqamlari asosida kim ortda qolayotganini tahlil qilamiz.</p><p>Oxirida sanoat iqtisodiyoti nuqtai nazaridan xavflar va takliflarni muhokama qilamiz.</p></aside>
+</section>
+
+<section class="slide" data-vars="--z:330px">
+  <div class="off"><p class="big a" style="font-size:230px">?</p><span class="a">avval oʻzimizdan soʻraymiz</span></div>
+  <div class="on"><span class="tag a">Savol · 2 daqiqa · qoʻl koʻtaring</span>
+    <div class="body" style="top:84px">
+      <p class="bigq a">Internet bir haftaga oʻchib qoldi. Oʻqishingiz, ishingiz va daromadingizda nima oʻzgaradi?</p>
+      <ul class="hands">
+        <li class="a"><span>Kim bugun internetdan foydalandi?</span><span class="ctr"><button type="button" data-d="-1" aria-label="Kamaytirish">−</button><b>0</b><button type="button" data-d="1" aria-label="Oshirish">+</button></span></li>
+        <li class="a"><span>Kim internet orqali pul ishlagan yoki biror narsa sotgan?</span><span class="ctr"><button type="button" data-d="-1" aria-label="Kamaytirish">−</button><b>0</b><button type="button" data-d="1" aria-label="Oshirish">+</button></span></li>
+        <li class="a"><span>Kimning tanishi yoki qarindoshida internet sust yoki umuman yoʻq?</span><span class="ctr"><button type="button" data-d="-1" aria-label="Kamaytirish">−</button><b>0</b><button type="button" data-d="1" aria-label="Oshirish">+</button></span></li>
+      </ul>
+      <p class="hint a">Javoblarni sanab, + tugmasi bilan yozib boring. Keyin videoni koʻramiz.</p>
+    </div>
+  </div>
+  <aside class="notes"><p>Mavzuni boshlashdan oldin savol beraman: internet bir haftaga oʻchib qolsa, oʻqish, ish va daromadda nima oʻzgaradi?</p><p>Uchta savolga qoʻl koʻtarishni soʻrayman va natijani ekranda sanab boraman.</p><p>Uchinchi savol muhim: internetsiz qolganlar oramizda ham bor. Endi shu haqda qisqa video koʻramiz.</p></aside>
+</section>
+
+<section class="slide" data-vars="--z:170px">
+  <div class="off nar"><p class="mid a">VIDEO</p></div>
+  <div class="on"><span class="tag a">Video</span>
+    <h2 class="a">Avval koʻramiz, keyin muhokama qilamiz</h2>
+    <div class="body a" style="top:140px;bottom:30px"><div class="vid"><video controls preload="metadata" src="assets/ri/video.mp4"></video>
+      <div class="vph"><span class="play">▶</span><p>Video fayli hali qoʻyilmagan. Faylni <code>html/assets/ri/video.mp4</code> nomi bilan saqlang yoki hozir tanlang:</p><label class="btn">Video tanlash<input type="file" accept="video/*" hidden></label></div></div></div>
+  </div>
+  <aside class="notes"><p>Videoni qoʻyaman. Koʻrib boʻlgach soʻrayman: videoda kim raqamli imkoniyatlardan foydalanyapti, kim chetda qolyapti?</p><p>Shu savol bizni asosiy mavzuga, raqamli iqtisodiyot tushunchasiga olib keladi.</p></aside>
+</section>
+
+<section class="slide" id="s-01" data-vars="--z:430px">
+  <div class="off"><p class="mid a">ANALOG</p><span class="a">qogʻoz, naqd pul, navbat</span></div>
+  <div class="on"><h2 class="a">Raqamli iqtisodiyot uch qatlamdan iborat</h2>
+    <p class="mute a" style="position:absolute;top:178px;font-size:20px">Atamani D. Tapscott (1995) muomalaga kiritgan</p>
+    <div class="body" style="top:226px">
+      <div class="rings a"><i class="r1">Keng</i><i class="r2">Tor</i><i class="r3">Yadro</i></div>
+      <ul class="lay">
+        <li class="panel a"><b>Keng maʼnoda</b>raqamlashgan iqtisodiyot: elektron tijorat, Sanoat 4.0, aniq qishloq xoʻjaligi</li>
+        <li class="panel a"><b>Tor maʼnoda</b>raqamli xizmatlar va platformalar</li>
+        <li class="panel a"><b>Yadro</b>raqamli sektor: IT, telekom, apparat</li>
+      </ul>
+    </div>
+    <p class="src a">Manba: Tapscott D. (1995); UNCTAD, Digital Economy Report 2019</p>
+  </div>
+  <aside class="notes"><p>Raqamli iqtisodiyot atamasini 1995-yilda Don Tapscott muomalaga kiritgan.</p><p>UNCTAD 2019-yilgi hisobotida uni uch qatlamga ajratadi. Yadro — raqamli sektorning oʻzi: IT, telekommunikatsiya va apparat taʼminoti.</p><p>Tor maʼnodagi raqamli iqtisodiyot raqamli xizmatlar va platformalarni oʻz ichiga oladi.</p><p>Keng maʼnoda esa bu raqam yordamida oʻzgargan butun iqtisodiyot: elektron tijorat, Sanoat 4.0 va aniq qishloq xoʻjaligi.</p></aside>
+</section>
+
+<section class="slide" data-vars="--z:430px">
+  <div class="off"><p class="mid a">SIGNAL YOʻQ</p><span class="a">ulanmagan hudud va korxonalar</span></div>
+  <div class="on"><h2 class="a">Oltita texnologiya raqamli iqtisodiyotni yurgizadi</h2>
+    <div class="body" style="top:214px;bottom:60px"><ul class="g3" style="grid-template-rows:1fr 1fr">
+      <li class="panel a">Keng polosali internet<img class="ic" src="assets/ri/image2.svg" alt=""></li>
+      <li class="panel a">Mobil aloqa<img class="ic" src="assets/ri/image4.svg" alt=""></li>
+      <li class="panel a">Bulutli texnologiyalar<img class="ic" src="assets/ri/image6.svg" alt=""></li>
+      <li class="panel a">Katta maʼlumotlar<img class="ic" src="assets/ri/image8.svg" alt=""></li>
+      <li class="panel a">Sunʼiy intellekt<img class="ic" src="assets/ri/image10.svg" alt=""></li>
+      <li class="panel a">Raqamli platformalar<img class="ic" src="assets/ri/image12.svg" alt=""></li>
+    </ul></div>
+  </div>
+  <aside class="notes"><p>Raqamli iqtisodiyotni oltita texnologiya harakatga keltiradi.</p><p>Keng polosali internet va mobil aloqa — infratuzilma; bulutli texnologiyalar va katta maʼlumotlar — hisoblash va axborot bazasi.</p><p>Sunʼiy intellekt va raqamli platformalar shu bazada yangi xizmat va bozorlar yaratadi.</p><p>Bu drayverlardan foydalana olmagan hudud yoki korxona raqamli iqtisodiyotdan chetda qoladi.</p></aside>
+</section>
+
+<section class="slide" id="s-02" data-vars="--z:430px">
+  <div class="off"><p class="big a" style="font-size:190px">3</p><span class="a">xil ortda qolish</span></div>
+  <div class="on"><h2 class="a">Raqamli tafovut uch darajali: kirish, koʻnikma, natija</h2>
+    <div class="body" style="top:224px;bottom:66px"><ol class="stairs">
+      <li class="a"><b>1. Kirish</b>internet va qurilma bor-yoʻqligi</li>
+      <li class="a"><b>2. Koʻnikma</b>raqamli koʻnikma va foydalanish</li>
+      <li class="a"><b>3. Natija</b>raqamdan real foyda olish</li>
+    </ol></div>
+    <p class="src a">Manba: J. van Dijk (2005); A. van Deursen, E. Helsper (2015)</p>
+  </div>
+  <aside class="notes"><p>Van Dijk (2005) hamda van Deursen va Helsper (2015) raqamli tafovutni uch darajaga ajratadi.</p><p>Birinchi daraja — kirish: odamda internet va qurilma bormi.</p><p>Ikkinchi daraja — koʻnikma: u internetdan qanchalik malakali foydalana oladi.</p><p>Uchinchi daraja — natija: raqamli faoliyat daromad, taʼlim yoki xizmat koʻrinishida real foyda keltiryaptimi.</p></aside>
+</section>
+
+<section class="slide" id="s-03" data-vars="--z:620px">
+  <div class="off"><p class="big a">2 mlrd</p><span class="a">kishi hali offline</span></div>
+  <div class="on"><h2 class="a">Dunyoda qariyb har toʻrtinchi kishi offline</h2>
+    <div class="body" style="top:226px">
+      <p class="hero a">6,3 mlrd</p>
+      <p class="lead a">kishi internetdan foydalanadi — dunyo aholisining 76 %</p>
+      <div class="ratio a"><i class="y">onlayn 76 %</i><i class="n">offline 24 %</i></div>
+    </div>
+    <p class="src a">Manba: ITU, Facts and Figures 2026 (03.11.2026)</p>
+  </div>
+  <aside class="notes"><p>ITU 2026-yil 3-noyabrda eʼlon qilgan hisobotga koʻra, dunyoda 6,3 milliard kishi, yaʼni aholining 76 foizi internetdan foydalanadi.</p><p>Ammo 2 milliard kishi hali ham offline — bu qariyb har toʻrtinchi odam. Bir yil oldin bu raqam 2,1 milliard edi.</p><p>Bu odamlar raqamli iqtisodiyotda na ishchi, na xaridor sifatida qatnasha oladi.</p><p>Keyingi slaydda ular kimlar ekanini koʻramiz.</p></aside>
+</section>
+
+<section class="slide" data-vars="--z:620px">
+  <div class="off"><p class="big a" style="font-size:150px">32 %</p><span class="a">past daromadli mamlakatlarda internetdan foydalanuvchilar</span></div>
+  <div class="on"><h2 class="a">Eng katta tafovut daromadda: 93 % va 32 %</h2>
+    <p class="mute a" style="position:absolute;top:186px;font-size:20px">Internetdan foydalanuvchilar ulushi, 2026</p>
+    <div class="body" style="top:232px"><ul class="hb">
+      <li class="a">Shahar<span class="tr"><i class="gx" style="--v:82"></i></span><b>82 %</b></li>
+      <li class="a">Qishloq<span class="tr"><i class="gx" style="--v:63"></i></span><b>63 %</b></li>
+      <li class="a">Erkaklar<span class="tr"><i class="gx" style="--v:79"></i></span><b>79 %</b></li>
+      <li class="a">Ayollar<span class="tr"><i class="gx" style="--v:74"></i></span><b>74 %</b></li>
+      <li class="a hl">Yuqori daromadli<span class="tr"><i class="gx" style="--v:93"></i></span><b>93 %</b></li>
+      <li class="a lo">Past daromadli<span class="tr"><i class="gx" style="--v:32"></i></span><b>32 %</b></li>
+      <li class="a">Yoshlar (15–24)<span class="tr"><i class="gx" style="--v:86"></i></span><b>86 %</b></li>
+      <li class="a">Qolgan aholi<span class="tr"><i class="gx" style="--v:74"></i></span><b>74 %</b></li>
+    </ul></div>
+    <p class="src a">Manba: ITU, Facts and Figures 2026 (03.11.2026)</p>
+  </div>
+  <aside class="notes"><p>Raqamli tafovut toʻrt yoʻnalishda koʻrinadi.</p><p>Shaharda internetdan aholining 82 foizi, qishloqda 63 foizi foydalanadi; erkaklarda bu koʻrsatkich 79, ayollarda 74 foiz.</p><p>Eng katta farq daromad boʻyicha: yuqori daromadli mamlakatlarda 93 foiz, past daromadlilarda 32 foiz. Bir yil oldin bu 23 foiz edi, yaʼni tafovut qisqaryapti, lekin hali juda katta.</p><p>Yoshlar 86 foiz bilan qolgan aholidan (74 foiz) oldinda. Demak, tafovut avvalo qishloq aholisi, ayollar va kambagʻal mamlakatlarga tegadi.</p></aside>
+</section>
+
+<section class="slide" id="s-04" data-vars="--z:300px">
+  <div class="off top"><p class="big a">28 %</p><span class="a">2017: hisob raqamiga ega ayollar</span></div>
+  <div class="on"><h2 class="a">Raqamli imkoniyatlar: hisob raqamli ayollar 28 % dan 50 % ga</h2>
+    <div class="body" style="top:214px">
+      <ul class="opp">
+        <li class="panel a"><img class="ic" src="assets/ri/image14.svg" alt="">Masofaviy ish va frilans</li>
+        <li class="panel a"><img class="ic" src="assets/ri/image16.svg" alt="">E-tijorat: hunarmand butun mamlakatga sotadi</li>
+        <li class="panel a"><img class="ic" src="assets/ri/image18.svg" alt="">Onlayn taʼlim</li>
+        <li class="panel a"><img class="ic" src="assets/ri/image20.svg" alt="">Elektron hukumat xizmatlari</li>
+        <li class="panel a"><img class="ic" src="assets/ri/image22.svg" alt="">Raqamli moliya</li>
+      </ul>
+      <div class="kpi a" style="background:var(--deep);border-radius:18px"><small>Oʻzbekiston</small><p class="big">50 %</p><p>hisob raqamiga ega ayollar, 2024</p><em>2017-yilda: 28 %</em></div>
+    </div>
+    <p class="src a">Manba: World Bank, The Global Findex Database 2025</p>
+  </div>
+  <aside class="notes"><p>Raqamli iqtisodiyot odamlarga yangi imkoniyat ochadi: uyda turib frilans ishlash, qishloq hunarmandining mahsulotini butun mamlakatga sotish, onlayn oʻqish, davlat xizmatlarini navbatsiz olish.</p><p>Raqamli moliyaning taʼsiri raqamlarda ham koʻrinadi.</p><p>Global Findex maʼlumotlariga koʻra, Oʻzbekistonda hisob raqamiga ega ayollar ulushi 2017-yildagi 28 foizdan 2024-yilda 50 foizga yetgan.</p><p>Bu — teng imkoniyat sari aniq qadam.</p></aside>
+</section>
+
+<section class="slide" id="s-05" data-vars="--z:300px">
+  <div class="off top"><p class="big a">78 %</p><span class="a">2020: internetga ulangan aholi punktlari</span></div>
+  <div class="on"><h2 class="a">«Raqamli Oʻzbekiston — 2030» maqsadi: EGDI reytingida top-30</h2>
+    <div class="body" style="top:214px"><ol class="tl">
+      <li class="a"><p class="yr">2020</p><div class="panel box">«Raqamli Oʻzbekiston — 2030» qabul qilindi (PF-6079, 05.10.2020)</div></li>
+      <li class="a"><p class="yr">2022</p><div class="panel box">Maqsad: 95 % aholi punkti internetda; 587 ming kishi (500 ming yosh) dasturlashga</div></li>
+      <li class="a"><p class="yr">2023</p><div class="panel box">«Oʻzbekiston — 2030» strategiyasi (PF-158, 11.09.2023)</div></li>
+      <li class="a"><p class="yr">2030</p><div class="panel box">BMT EGDI reytingida top-30</div></li>
+    </ol></div>
+    <p class="src a">Manba: PF-6079 (05.10.2020); PF-158 (11.09.2023)</p>
+  </div>
+  <aside class="notes"><p>2020-yil 5-oktabrda «Raqamli Oʻzbekiston — 2030» strategiyasi PF-6079 farmon bilan tasdiqlangan.</p><p>Uning bosh maqsadi — 2030-yilgacha BMTning elektron hukumat rivojlanish indeksida (EGDI) eng yaxshi 30 talikka kirish.</p><p>2020–2022-yillar uchun internetga ulangan aholi punktlari ulushini 78 foizdan 95 foizga yetkazish va 587 ming kishini, shundan 500 ming yoshni dasturlashga oʻqitish belgilangan.</p><p>2023-yilda qabul qilingan «Oʻzbekiston — 2030» strategiyasi (PF-158) bu yoʻnalishni davom ettiradi.</p></aside>
+</section>
+
+<section class="slide" data-vars="--z:300px">
+  <div class="off top"><p class="big a" style="font-size:74px">76,6 %</p><span class="a">2021: internetdan foydalanuvchilar (10 yosh va undan katta)</span></div>
+  <div class="on"><h2 class="a">Oʻzbekistonda internetdan foydalanuvchilar 76,6 % dan 97,3 % ga yetdi</h2>
+    <p class="gap a">erkaklar 97,5 % · ayollar 97 % — farq 0,5 foiz punkt</p>
+    <div class="lc a"><small>Internetdan foydalanuvchilar ulushi, 10 yosh va undan katta aholi, %</small>
+      <svg viewBox="0 0 880 350" role="img" aria-label="Oʻzbekistonda internetdan foydalanuvchilar ulushi, 2021–2026">
+        <g stroke="#463A8C" stroke-width="1"><line x1="40" y1="300" x2="860" y2="300"/><line x1="40" y1="210" x2="860" y2="210"/><line x1="40" y1="120" x2="860" y2="120"/><line x1="40" y1="30" x2="860" y2="30"/></g>
+        <text x="0" y="305">70</text><text x="0" y="215">80</text><text x="0" y="125">90</text><text x="0" y="35">100</text>
+        <g text-anchor="middle"><text x="60" y="335">2021</text><text x="214" y="335">2022</text><text x="368" y="335">2023</text><text x="522" y="335">2024</text><text x="676" y="335">2025</text><text x="830" y="335">2026*</text></g>
+        <polyline class="draw" pathLength="1" fill="none" stroke="#C8F560" stroke-width="5" stroke-linejoin="round" points="60,240.6 214,174.9 368,129.0 522,90.3 676,78.6 830,54.3"/>
+        <g fill="#C8F560"><circle cx="60" cy="240.6" r="7"/><circle cx="214" cy="174.9" r="5"/><circle cx="368" cy="129.0" r="5"/><circle cx="522" cy="90.3" r="5"/><circle cx="676" cy="78.6" r="5"/><circle cx="830" cy="54.3" r="7"/></g>
+        <text x="60" y="224.6" text-anchor="middle" style="fill:#C8F560;font-weight:600">76,6</text><text x="214" y="158.9" text-anchor="middle" style="fill:#fff;font-weight:600">83,9</text><text x="368" y="113.0" text-anchor="middle" style="fill:#fff;font-weight:600">89,0</text><text x="522" y="74.3" text-anchor="middle" style="fill:#fff;font-weight:600">93,3</text><text x="676" y="62.599999999999994" text-anchor="middle" style="fill:#fff;font-weight:600">94,6</text><text x="830" y="38.3" text-anchor="middle" style="fill:#C8F560;font-weight:600">97,3</text>
+      </svg>
+    </div>
+    <p class="src a">* 2026: yanvar–avgust. Manba: Milliy statistika qoʻmitasi, uy xoʻjaliklari tanlanma kuzatuvi</p>
+  </div>
+  <aside class="notes"><p>Endi Oʻzbekiston maʼlumotlariga oʻtamiz.</p><p>Milliy statistika qoʻmitasining uy xoʻjaliklari tanlanma kuzatuviga koʻra, 2021-yilda 10 yosh va undan katta aholining 76,6 foizi internetdan foydalangan.</p><p>2026-yilning yanvar–avgust oylarida bu koʻrsatkich 97,3 foizga yetdi. Erkaklarda 97,5 foiz, ayollarda 97 foiz — farq atigi 0,5 foiz punkt.</p><p>Qishloq va shahar kesimida oxirgi eʼlon qilingan maʼlumot 2025-yilga oid: qishloqda 93,9 foiz, shaharda 94,3 foiz. Demak, birinchi daraja — kirish tafovuti — deyarli yopildi.</p></aside>
+</section>
+
+<section class="slide" data-vars="--z:300px">
+  <div class="off top"><p class="mid a" style="font-size:44px">ICHKI BOZOR</p><span class="a">eksportga chiqmagan korxonalar</span></div>
+  <div class="on"><h2 class="a">IT xizmatlari eksporti 2026-yilning 9 oyida 805 mln dollarga yetdi</h2>
+    <div class="body" style="top:214px;bottom:96px"><div class="duo">
+      <div class="panel a"><img class="ic" src="assets/ri/image24.svg" alt=""><p class="big">805</p><b>mln dollar</b><span>IT xizmatlari eksporti, 2026-yil yanvar–sentabr</span></div>
+      <div class="panel a"><img class="ic" src="assets/ri/image26.svg" alt=""><p class="big">623,2</p><b>mln dollar</b><span>IT Park rezidentlarining xizmatlar eksporti, 2026-yil yanvar–sentabr (bir yil oldin: 480,9)</span></div>
+    </div></div>
+    <p class="src a">Manba: Milliy statistika qoʻmitasi, 2026-yil yanvar–sentabr (dastlabki maʼlumot). 2025-yil yakuni: 940 mln dollar (Investitsiyalar, sanoat va savdo vazirligi)</p>
+  </div>
+  <aside class="notes"><p>Raqamli iqtisodiyot Oʻzbekiston uchun yangi eksport manbaiga aylanmoqda.</p><p>Milliy statistika qoʻmitasining dastlabki maʼlumotiga koʻra, 2026-yilning yanvar–sentabr oylarida IT xizmatlari eksporti 805 million dollarni tashkil etdi. Xizmatlar eksportida IT turizm va transportdan keyin uchinchi oʻrinda.</p><p>Shu davrda IT Park rezidentlarining oʻzi 623,2 million dollarlik xizmat eksport qilgan; bir yil oldin bu 480,9 million dollar edi.</p><p>Taqqoslash uchun: 2025-yil yakunida vazirlik IT xizmatlari eksportini 940 million dollar deb eʼlon qilgan. Bu eksport tabiiy resursga emas, odamlarning bilimi va koʻnikmasiga tayanadi.</p></aside>
+</section>
+
+<section class="slide" id="s-06" data-vars="--z:170px">
+  <div class="off nar"><p class="mid a">QOʻL MEH&shy;NATI</p></div>
+  <div class="on"><h2 class="a">Sanoat 4.0 samaradorlikni oshiradi, ammo qayta tayyorlashni talab qiladi</h2>
+    <div class="body" style="top:230px;bottom:60px"><ul class="g4">
+      <li class="panel a"><img class="ic" src="assets/ri/image28.svg" alt=""><b>Sanoat 4.0</b>avtomatlashtirish, IoT va raqamli egizak samaradorlikni oshiradi</li>
+      <li class="panel a"><img class="ic" src="assets/ri/image24.svg" alt=""><b>Yangi bozorlar</b>kichik va oʻrta korxonalar platformalar orqali sotadi</li>
+      <li class="panel a"><img class="ic" src="assets/ri/image18.svg" alt=""><b>Yangi koʻnikmalar</b>ishchilarni qayta tayyorlash zarur</li>
+      <li class="panel a"><img class="ic" src="assets/ri/image30.svg" alt=""><b>Teng imkoniyat</b>hududiy korxonalar ham raqamli taʼminot zanjiriga ulanadi</li>
+    </ul></div>
+  </div>
+  <aside class="notes"><p>Sanoat iqtisodiyoti nuqtai nazaridan raqamlashtirish toʻrt oʻzgarish olib keladi.</p><p>Avtomatlashtirish, narsalar interneti va raqamli egizak korxona samaradorligini oshiradi; kichik va oʻrta sanoat korxonalari raqamli platformalar orqali yangi bozorlarga chiqadi.</p><p>Shu bilan birga ishchilardan yangi koʻnikmalar talab qilinadi, shuning uchun qayta tayyorlash zarur.</p><p>Teng imkoniyat degani — faqat poytaxtdagi emas, hududlardagi korxonalar ham raqamli taʼminot zanjiriga ulanishi.</p></aside>
+</section>
+
+<section class="slide" data-vars="--z:170px">
+  <div class="off nar"><p class="mid a">KOʻNIK&shy;MA YOʻQ</p></div>
+  <div class="on"><h2 class="a">Internet bor joyda ham tafovut koʻnikma va natijaga koʻchadi</h2>
+    <div class="body" style="top:214px;bottom:40px"><div class="split">
+      <div><h3 class="a">Xavflar</h3><ul class="risk">
+        <li class="panel a"><img class="ic" src="assets/ri/image32.svg" alt="">Avtomatlashtirish: ayrim ish oʻrinlari qisqaradi</li>
+        <li class="panel a"><img class="ic" src="assets/ri/image18.svg" alt="">Koʻnikmalar tafovuti</li>
+        <li class="panel a"><img class="ic" src="assets/ri/image34.svg" alt="">Platformalar monopoliyasi</li>
+        <li class="panel a"><img class="ic" src="assets/ri/image36.svg" alt="">Kiberxavfsizlik va shaxsiy maʼlumotlar himoyasi</li>
+      </ul></div>
+      <div><h3 class="a">Tafovut qayerga koʻchadi</h3><ol class="lv">
+        <li class="ok a">1-daraja · Kirish<span>bor</span></li>
+        <li class="no a">2-daraja · Koʻnikma<span>yoʻq</span></li>
+        <li class="no a">3-daraja · Natija<span>yoʻq</span></li>
+      </ol></div>
+    </div></div>
+  </div>
+  <aside class="notes"><p>Raqamli iqtisodiyotning xavflari ham bor: avtomatlashtirish ayrim ish oʻrinlarini qisqartiradi, koʻnikmalar tafovuti chuqurlashadi.</p><p>Bozor bir necha yirik platforma qoʻlida toʻplanishi mumkin, kiberxavfsizlik va shaxsiy maʼlumotlar himoyasi esa yangi muammoga aylanadi.</p><p>Eng muhim xulosa: internet bor joyda ham tafovut yoʻqolmaydi, u birinchi darajadan ikkinchi va uchinchi darajaga koʻchadi.</p><p>Odamda kirish bor, lekin koʻnikma va real foyda yoʻq.</p></aside>
+</section>
+
+<section class="slide" data-vars="--z:0px">
+  <div class="on" style="left:64px;right:64px"><h2 class="a">Xulosa va takliflar</h2>
+    <div class="body" style="top:160px;bottom:40px">
+      <ol class="steps a"><li>1. Infratuzilma</li><li>2. Koʻnikma</li><li>3. Natija</li></ol>
+      <ul class="g4 sug">
+        <li class="panel a"><img class="ic" src="assets/ri/image38.svg" alt=""><span style="margin-top:auto">Ayollar, keksalar va qishloq aholisi uchun raqamli savodxonlik dasturlari</span></li>
+        <li class="panel a"><img class="ic" src="assets/ri/image2.svg" alt=""><span style="margin-top:auto">Arzon internet</span></li>
+        <li class="panel a"><img class="ic" src="assets/ri/image40.svg" alt=""><span style="margin-top:auto">Nogironligi bor shaxslar uchun qulay elektron xizmatlar</span></li>
+        <li class="panel a"><img class="ic" src="assets/ri/image42.svg" alt=""><span style="margin-top:auto">Sanoat korxonalarini raqamlashtirishni ragʻbatlantirish</span></li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes"><p>Xulosa: raqamli tafovutni yopish uch bosqichli ketma-ketlik — avval infratuzilma, keyin koʻnikma, soʻng natija.</p><p>Oʻzbekiston birinchi bosqichda katta natijaga erishdi, endi asosiy eʼtibor koʻnikma va natijaga qaratilishi kerak.</p><p>Buning uchun ayollar, keksalar va qishloq aholisi uchun raqamli savodxonlik dasturlari, arzon internet va nogironligi bor shaxslar uchun qulay elektron xizmatlar zarur.</p><p>Sanoat korxonalarini raqamlashtirishni ragʻbatlantirish esa hududlarni raqamli iqtisodiyotga toʻliq ulaydi.</p></aside>
+</section>
+
+<section class="slide" id="s-q" data-vars="--z:0px">
+  <div class="on" style="left:64px;right:64px"><span class="tag a">Mustahkamlash · kartani bosing</span>
+    <h2 class="a">Savol-javob: bugun nimani oʻrgandik?</h2>
+    <div class="body" style="top:140px;bottom:100px"><div class="quiz">
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 1</small>Raqamli iqtisodiyot atamasini kim va qachon kiritgan? U qaysi uch qatlamdan iborat?<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>D. Tapscott, 1995. Yadro (raqamli sektor), tor maʼnoda (xizmat va platformalar), keng maʼnoda (raqamlashgan iqtisodiyot).</span></span></button>
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 2</small>Raqamli tafovutning uch darajasini ayting.<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>1. Kirish (internet va qurilma). 2. Koʻnikma. 3. Natija (real foyda).</span></span></button>
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 3</small>Dunyoda nechta kishi hali offline?<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>2 mlrd kishi. Internetdan 6,3 mlrd kishi, yaʼni dunyo aholisining 76&nbsp;% foydalanadi (2026).</span></span></button>
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 4</small>Internetdan foydalanishda eng katta tafovut qaysi yoʻnalishda?<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>Daromadda: yuqori daromadli mamlakatlarda 93 %, past daromadlilarda 32 % (2026).</span></span></button>
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 5</small>Oʻzbekistonda internetdan foydalanuvchilar ulushi 2021-yildan beri qanday oʻzgardi?<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>76,6 % dan (2021) 97,3 % ga (2026, yanvar–avgust) oʻsdi. Erkaklar 97,5 %, ayollar 97 %.</span></span></button>
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 6</small>Internet bor joyda ham tafovut nega yoʻqolmaydi?<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>U kirishdan koʻnikma va natija darajasiga koʻchadi: kirish bor, lekin koʻnikma va real foyda yoʻq.</span></span></button>
+      </div>
+      <p class="qfoot a"><button class="btn" type="button" data-revealall>Hammasini ochish</button>Avval tinglovchilar javob beradi, keyin kartani bosib tekshiramiz.</p>
+    </div>
+  </div>
+  <aside class="notes"><p>Mavzuni mustahkamlash uchun oltita savol. Har birini oʻqiyman, tinglovchilar javob beradi, soʻng kartani bosib toʻgʻri javobni koʻrsataman.</p><p>Kartani yana bossangiz, savol tomoniga qaytadi.</p></aside>
+</section>
+
+<section class="slide s15" data-vars="--z:0px">
+  <div class="on" style="left:64px;right:64px">
+    <h1 class="a">Eʼtiboringiz uchun rahmat!</h1>
+    <p class="who a">Raximov Gʻanisher · Fan: Sanoat iqtisodiyoti</p>
+    <div class="refs a"><h3>Foydalanilgan adabiyotlar</h3><ol>
+      <li>ITU. Measuring digital development: Facts and Figures 2026. 03.11.2026.</li>
+      <li>UNCTAD. Digital Economy Report 2019.</li>
+      <li>World Bank. The Global Findex Database 2025.</li>
+      <li>«Raqamli Oʻzbekiston — 2030» strategiyasi, PF-6079, 05.10.2020.</li>
+      <li>«Oʻzbekiston — 2030» strategiyasi, PF-158, 11.09.2023.</li>
+      <li>Oʻzbekiston Respublikasi Milliy statistika qoʻmitasi, uy xoʻjaliklari tanlanma kuzatuvi, 2026-yil yanvar–avgust.</li>
+      <li>Oʻzbekiston Respublikasi Investitsiyalar, sanoat va savdo vazirligi, 2025-yil eksport yakunlari.</li>
+      <li>Tapscott D. The Digital Economy: Promise and Peril in the Age of Networked Intelligence. McGraw-Hill, 1995.</li>
+      <li>van Dijk J. The Deepening Divide: Inequality in the Information Society. Sage, 2005.</li>
+      <li>van Deursen A., Helsper E. The Third-Level Digital Divide: Who Benefits Most from Being Online? 2015.</li>
+      <li>Milliy statistika qoʻmitasi: tashqi savdo aylanmasi va «IT Park» rezidentlarining xizmatlar eksporti, 2026-yil yanvar–sentabr.</li>
+    </ol></div>
+  </div>
+  <aside class="notes"><p>Eʼtiboringiz uchun rahmat.</p><p>Taqdimotda ITU, UNCTAD, Jahon banki va Oʻzbekiston rasmiy manbalari maʼlumotlaridan foydalanildi.</p><p>Barcha raqamlar 2026-yil noyabr holatiga yangilangan. Asosiy fikrni yana bir bor takrorlayman: internetga ulanish — bu boshlanish, teng imkoniyat esa koʻnikma va real natija bilan oʻlchanadi.</p><p>Savollaringizga javob berishga tayyorman.</p></aside>
+</section>
+
+</main>
+<script src="deck.js"></script>
+</body>
+</html>

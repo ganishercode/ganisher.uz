@@ -436,6 +436,11 @@ button.proj-media { cursor: zoom-in; }
 .pres h3 { font-size: 18px; line-height: 1.3; font-weight: 700; }
 .pres p { font-size: 14px; flex-grow: 1; }
 .pres .btn { align-self: flex-start; margin-top: 4px; }
+/* karta ustidan bosilganda ham ochiladi: tugma havolasi butun kartaga yoyiladi */
+.pres { position: relative; }
+.pres .btn::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.pres .btn:hover { transform: none; }   /* transform ::after maydonini tugmaga qisqartirib yuboradi */
+.pres:has(.btn):hover .btn { background: var(--gold-soft); border-color: var(--gold); }
 .skeleton {
   min-height: 190px;
   background: linear-gradient(100deg, var(--card) 30%, var(--card-hi) 50%, var(--card) 70%);
@@ -1471,13 +1476,21 @@ $$("[data-count]").forEach(el => countObserver.observe(el));
 const SHEET_ID = "1WE2WrRNR85G4zcBl09hUd9i7A2ZAdvYBgVnWiyuhlS0";
 const SHEET_NAME = "Prezentatsiyalar";
 
+/* Saytning o'zida joylashgan HTML taqdimotlar (taqdimotlar/ papkasi) — jadvaldagilardan oldin chiqadi */
+const LOCAL_PRES = [
+  { type: "Sanoat iqtisodiyoti", title: "Moliyaviy inklyuziya va raqamli bank xizmatlari",
+    desc: "Interaktiv taqdimot: kirish savoli, video, 18 slayd va yakuniy savol-javob.", link: "taqdimotlar/moliyaviy-inklyuziya.html" },
+  { type: "Sanoat iqtisodiyoti", title: "Raqamli iqtisodiyot va teng imkoniyatlar",
+    desc: "Interaktiv taqdimot: 2026-yil ma'lumotlari, video, 18 slayd va yakuniy savol-javob.", link: "taqdimotlar/raqamli-iqtisodiyot.html" }
+];
+
 function renderPresentations() {
   const grid = $("#presGrid");
   if (!grid || presData === null) return;          // hali yuklanmoqda — skeletlar turadi
   grid.setAttribute("aria-busy", "false");
-  if (presData === "error") { grid.innerHTML = `<p class="pres-state">${t("pres.error")}</p>`; return; }
-  if (!presData.length)     { grid.innerHTML = `<p class="pres-state">${t("pres.empty")}</p>`; return; }
-  grid.innerHTML = presData.map(p => {
+  const list = LOCAL_PRES.concat(Array.isArray(presData) ? presData : []);   // jadval ochilmasa ham mahalliy taqdimotlar ko'rinadi
+  if (!list.length) { grid.innerHTML = `<p class="pres-state">${t(presData === "error" ? "pres.error" : "pres.empty")}</p>`; return; }
+  grid.innerHTML = list.map(p => {
     const url = safeURL(p.link);
     const icon = /tadqiqot|research|исслед/i.test(p.type) ? "#i-chart" : "#i-cap";
     return `<article class="card lift pres">

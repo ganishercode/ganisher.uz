@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Moliyaviy inklyuziya va raqamli bank xizmatlari</title>
+<link rel="stylesheet" href="deck.css">
+<style>
+:root{--bg:#0B1F1A;--fg:#fff;--panel:#12302A;--line:#24493F;--deep:#1A4A3E;--accent:#2EE6A8;--gold:#B8862B;--mute:#9FB8B0;
+  --font:"Segoe UI Semibold","Segoe UI",system-ui,sans-serif;--head:"Bahnschrift","Segoe UI",system-ui,sans-serif}
+.stage{background:radial-gradient(900px 600px at 85% 0%,#12382f 0%,transparent 60%),var(--bg)}
+h1,h2,.num,.big{font-family:var(--head);font-weight:600;letter-spacing:-.01em}
+h2{position:absolute;left:64px;top:44px;width:980px;font-size:43px;line-height:1.12;text-wrap:balance}
+.body{position:absolute;left:64px;right:64px;top:160px;bottom:74px}
+.src{position:absolute;left:64px;right:64px;bottom:34px;font-size:15px;color:var(--mute);font-family:"Segoe UI",sans-serif;font-weight:400}
+.mute{color:var(--mute)}.acc{color:var(--accent)}.gold{color:var(--gold)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px}
+.ic{width:44px;height:44px}
+.icb{display:grid;place-items:center;width:68px;height:68px;border-radius:16px;background:var(--deep);flex:none}
+
+/* harakatlanuvchi bank kartasi */
+.card{position:absolute;left:0;top:0;width:440px;height:277px;border-radius:24px;padding:30px 32px;transform-origin:0 0;
+  transform:translate(var(--cx),var(--cy)) scale(var(--cs)) rotate(var(--cr,0deg));transition:transform 1s cubic-bezier(.3,.7,.2,1);
+  background:linear-gradient(135deg,#1d5a4a 0%,#0f3229 55%,#0b241e 100%);border:1px solid #2f6b5b;box-shadow:0 30px 60px rgba(0,0,0,.45);z-index:5;pointer-events:none;font-family:var(--head)}
+.card::before{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(46,230,168,.35),transparent 65%)}
+.card .brand{font-size:19px;letter-spacing:.14em;color:var(--accent)}
+.card .chip{position:absolute;left:32px;top:92px;width:58px;height:42px;border-radius:8px;background:linear-gradient(135deg,#e2b65a,#8c6418)}
+.card .wave{position:absolute;right:32px;top:28px;width:34px;height:34px;border:3px solid var(--accent);border-left-color:transparent;border-bottom-color:transparent;border-radius:50%;transform:rotate(45deg);opacity:.8}
+.card .no{position:absolute;left:32px;top:158px;font-size:24px;letter-spacing:.12em}
+.card .lbl{position:absolute;left:32px;top:210px;font-size:10px;letter-spacing:.16em;color:var(--mute)}
+.card .own{position:absolute;left:32px;top:226px;font-size:18px;letter-spacing:.06em}
+
+/* 1 */
+.s1 .eye{position:absolute;left:64px;top:196px;font-size:17px;letter-spacing:.2em;color:var(--accent)}
+.s1 h1{position:absolute;left:64px;top:236px;width:620px;font-size:54px;line-height:1.08}
+.s1 .who{position:absolute;left:64px;top:470px;font-size:27px}
+.s1 .who small{display:block;font-size:21px;color:var(--mute);margin-top:6px;font-weight:400}
+/* 2 */
+.plan{width:740px;display:grid;gap:9px}
+.plan li{display:flex;align-items:center;gap:26px;height:60px;padding:0 26px;font-size:23px}
+.plan li.q{border-color:var(--accent)}
+.plan .num{color:var(--accent);font-size:20px;width:36px}
+.plan li::after{content:"›";margin-left:auto;color:var(--gold);font-size:32px}
+/* 3 */
+.quote{display:flex;gap:26px;padding:26px 34px;align-items:flex-start}
+.quote .q{font-family:Georgia,serif;font-size:96px;line-height:.8;color:var(--gold)}
+.quote small{display:block;font-size:18px;color:var(--accent);margin-bottom:8px}
+.quote p{font-size:26px;line-height:1.35}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.tile{padding:24px 26px}
+.tile b{display:block;font-size:26px;margin-top:16px;font-weight:600}
+.tile span{display:block;font-size:18px;color:var(--mute);margin-top:4px;font-weight:400}
+/* 4 */
+.dim{padding:30px 26px;height:400px;display:flex;flex-direction:column}
+.dim .num{width:56px;height:56px;border-radius:50%;border:2px solid var(--accent);color:var(--accent);display:grid;place-items:center;font-size:22px}
+.dim b{font-size:26px;line-height:1.2;margin-top:44px;font-weight:600;min-height:64px}
+.dim em{font-style:normal;font-size:16px;letter-spacing:.2em;color:var(--gold);margin-top:26px}
+.dim p{font-size:20px;color:var(--mute);margin-top:auto;font-weight:400}
+/* 5 */
+.stats{display:grid;gap:14px;width:500px}
+.stats .big{font-size:86px;line-height:1;color:var(--accent)}
+.stats .big.s{font-size:72px;color:#fff}
+.stats span{display:block;font-size:20px;color:var(--mute);margin-top:4px;font-weight:400}
+.chart{position:absolute;right:0;top:24px;width:590px;height:440px;padding:24px 30px}
+.chart h3{font-size:20px;font-weight:600}
+.bars{position:absolute;left:30px;right:30px;bottom:26px;height:330px;display:flex;justify-content:space-around;align-items:flex-end;border-bottom:1px solid var(--line)}
+.bars div{width:110px;text-align:center}
+.bars i{display:block;height:calc(var(--v)*3.6px);background:var(--deep);border-radius:10px 10px 0 0}
+.bars .hl i{background:var(--accent)}
+.bars b{display:block;font-family:var(--head);font-size:30px;margin-bottom:8px}
+.bars span{position:absolute;bottom:-34px;font-size:18px;color:var(--mute);transform:translateX(-50%)}
+/* 6 */
+.rows{display:grid;gap:18px}
+.row{display:flex;align-items:center;gap:22px;padding:22px 28px;height:126px}
+.row .tx{width:470px}
+.row .tx b{display:block;font-size:24px;font-weight:600}
+.row .tx span{font-size:18px;color:var(--mute);font-weight:400}
+.row .track{flex:1;height:14px;border-radius:7px;background:var(--bg);overflow:hidden}
+.row .track i{display:block;height:100%;width:calc(var(--v)*1%);background:var(--accent);border-radius:7px}
+.row .big{font-size:54px;width:150px;text-align:right;color:var(--accent)}
+/* 7 */
+.seven{display:flex;flex-wrap:wrap;justify-content:center;gap:22px}
+.seven li{width:266px;height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-align:center;font-size:21px;padding:0 18px}
+/* 8 */
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:22px;overflow:hidden}
+th,td{padding:17px 28px;text-align:left;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font-family:var(--head);font-size:22px;background:var(--deep)}
+th:last-child,td:last-child{color:var(--accent)}
+td:first-child{color:var(--mute);width:26%}
+td:nth-child(2){font-weight:400}
+tr.warn td:last-child{color:#ffb86b}
+/* 9 */
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative}
+.tl::before{content:"";position:absolute;left:0;right:0;top:92px;height:2px;background:var(--line)}
+.tl li{position:relative}
+.tl .yr{font-family:var(--head);font-size:38px;color:var(--accent);height:92px}
+.tl li::before{content:"";position:absolute;left:0;top:84px;width:18px;height:18px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px var(--bg)}
+.tl .box{margin-top:44px;padding:24px;height:270px;display:flex;flex-direction:column;font-size:21px;line-height:1.35}
+.tl .box small{margin-top:auto;font-size:17px;color:var(--gold);font-weight:400}
+/* 10 */
+.cmp{width:720px}
+.cmp .hd{display:flex;font-size:18px;color:var(--mute);padding:0 22px 12px;font-weight:400}
+.cmp .hd span:first-child{flex:1}.cmp .hd span{width:120px}
+.cmp li{display:flex;align-items:center;gap:18px;padding:0 22px;height:128px;margin-bottom:14px}
+.cmp li b{flex:1;font-size:22px;font-weight:600}
+.cmp .from{font-family:var(--head);font-size:30px;color:var(--mute);width:80px}
+.cmp .arr{color:var(--gold);font-size:26px}
+.cmp .to{font-family:var(--head);font-size:50px;color:var(--accent);width:130px;text-align:right}
+.side{position:absolute;right:0;top:0;width:400px;display:grid;gap:18px}
+.side div{padding:24px 28px;height:207px}
+.side small{font-size:18px;color:var(--mute);font-weight:400}
+.side .big{font-size:68px;line-height:1.15;color:#fff}
+.side em{font-style:normal;font-size:18px;color:var(--accent);font-weight:400}
+/* 11 */
+.hub{position:absolute;inset:0;display:grid;grid-template-columns:1fr 250px 1fr;grid-template-rows:1fr 1fr auto;gap:22px 30px;align-items:center}
+.hub .core{grid-column:2;grid-row:1/3;height:250px;border-radius:50%;background:var(--deep);border:2px solid var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:21px;box-shadow:0 0 0 14px rgba(46,230,168,.08)}
+.hub .core img{width:72px;height:72px}
+.hub .b{display:flex;align-items:center;gap:20px;padding:22px 24px;font-size:21px;line-height:1.3;height:128px}
+.hub .b.last{grid-column:1/4;justify-self:center;width:420px;height:104px}
+/* 12 */
+.barr{display:grid;gap:11px}
+.barr li{display:flex;align-items:center;gap:22px;padding:0 24px;height:82px}
+.barr .icb{width:54px;height:54px;border-radius:12px}.barr .ic{width:34px;height:34px}
+.barr b{display:block;font-size:22px;font-weight:600}
+.barr span{font-size:17px;color:var(--mute);font-weight:400}
+.lvl{margin-left:auto;padding:6px 18px;border-radius:999px;font-size:17px;border:1px solid var(--gold);color:var(--gold)}
+.lvl.hi{background:#ff7a59;border-color:#ff7a59;color:#2a0d05}
+/* 13 */
+.two{display:grid;grid-template-columns:1fr 60px 1fr;align-items:center;height:100%}
+.col{padding:26px 30px;height:100%}
+.col h3{font-family:var(--head);font-size:27px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.col h3 i{font-style:normal;font-size:18px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--deep);color:var(--accent)}
+.col li{display:flex;align-items:center;gap:18px;font-size:21px;padding:14px 0;border-top:1px solid var(--line)}
+.col .ic{width:36px;height:36px}
+.two .arr{text-align:center;font-size:40px;color:var(--gold)}
+.col.risk h3{color:#ffb86b}.col.act h3{color:var(--accent)}
+/* 14 */
+.sum{position:absolute;inset:0;display:grid;grid-template-columns:1fr 330px 1fr;grid-template-rows:1fr 1fr;gap:20px 34px}
+.sum .c{padding:26px 28px;display:flex;flex-direction:column}
+.sum .c .top{display:flex;justify-content:space-between;font-size:18px;color:var(--gold)}
+.sum .c .num{color:var(--accent);font-size:20px}
+.sum .c p{font-size:23px;line-height:1.3;margin-top:auto}
+.sum .mid{grid-column:2;grid-row:1/3;display:flex;flex-direction:column;justify-content:flex-end;text-align:center;padding-bottom:6px}
+.sum .mid .big{font-size:96px;color:var(--accent);line-height:1}
+.sum .mid span{font-size:18px;color:var(--mute);margin-top:8px;font-weight:400}
+/* 15 */
+.s15 h1{position:absolute;left:64px;top:96px;font-size:54px}
+.s15 .who{position:absolute;left:64px;top:186px;font-size:21px;color:var(--mute)}
+.s15 .refs{position:absolute;left:64px;top:356px;width:1150px}
+.s15 .refs h3{font-family:var(--head);font-size:21px;color:var(--accent);margin-bottom:12px}
+.s15 .refs li{font-size:17px;line-height:1.5;color:#d6e4df;font-weight:400;padding-left:28px;position:relative;font-family:"Segoe UI",sans-serif}
+.s15 .refs{counter-reset:r}.s15 .refs li::before{counter-increment:r;content:counter(r)".";position:absolute;left:0;color:var(--gold)}
+</style>
+</head>
+<body>
+<main class="stage">
+
+<div class="card" aria-hidden="true"><span class="brand">RAQAMLI HAMYON</span><i class="wave"></i><i class="chip"></i><span class="no">••••  ••••  ••••  2025</span><span class="lbl">KARTA EGASI</span><span class="own">RAXIMOV GʻANISHER</span></div>
+
+<section class="slide s1" data-vars="--cx:740px;--cy:215px;--cs:1;--cr:-6deg">
+  <p class="eye a">11-MAVZU · SANOAT IQTISODIYOTI</p>
+  <h1 class="a">Moliyaviy inklyuziya va raqamli bank xizmatlari</h1>
+  <p class="who a">Raximov Gʻanisher<small>Fan: Sanoat iqtisodiyoti</small></p>
+  <aside class="notes"><p>Assalomu alaykum! Bugungi mavzu: moliyaviy inklyuziya va raqamli bank xizmatlari, Sanoat iqtisodiyoti fanining 11-mavzusi.</p><p>Taqdimot «raqamli hamyon» gʻoyasida qurilgan: bank kartasi har bir slaydda biz bilan birga harakatlanadi.</p><p>Asosiy savol: raqamli xizmatlar aholi va korxonalarning moliyaviy xizmatlarga kirishini qanchalik kengaytirmoqda va qanday toʻsiqlar qolmoqda?</p></aside>
+</section>
+
+<section class="slide" data-vars="--cx:880px;--cy:250px;--cs:.72;--cr:5deg">
+  <h2 class="a">Reja</h2>
+  <div class="body"><ol class="plan">
+    <li class="panel a" data-go="s-01"><span class="num">01</span>Moliyaviy inklyuziya: tushuncha va oʻlchovlar</li>
+    <li class="panel a" data-go="s-02"><span class="num">02</span>Dunyo raqamlarda</li>
+    <li class="panel a" data-go="s-03"><span class="num">03</span>Raqamli bank xizmatlari turlari</li>
+    <li class="panel a" data-go="s-04"><span class="num">04</span>Oʻzbekiston: huquqiy asos va natijalar</li>
+    <li class="panel a" data-go="s-05"><span class="num">05</span>Sanoat korxonalari uchun ahamiyati</li>
+    <li class="panel a" data-go="s-06"><span class="num">06</span>Toʻsiqlar, xavflar va xulosa</li>
+    <li class="panel a q" data-go="s-q"><span class="num">07</span>Savol-javob: mavzuni mustahkamlash</li>
+  </ol></div>
+  <aside class="notes"><p>Taqdimot olti qismdan iborat, oxirida savol-javob bor. Reja bandini bossangiz, oʻsha boʻlimga oʻtadi.</p><p>Avval moliyaviy inklyuziya tushunchasi va uni oʻlchash usullarini, soʻng dunyo boʻyicha asosiy raqamlarni koʻrib chiqamiz.</p><p>Keyin raqamli bank xizmatlari turlari va Oʻzbekiston tajribasiga oʻtamiz.</p><p>Yakunda sanoat korxonalari uchun ahamiyati, toʻsiqlar, xavflar va takliflarni muhokama qilamiz.</p></aside>
+</section>
+
+<section class="slide" data-vars="--cx:1088px;--cy:40px;--cs:.29;--cr:0deg">
+  <span class="tag a">Savol · 2 daqiqa · qoʻl koʻtaring</span>
+  <div class="body" style="top:84px">
+    <p class="bigq a" style="max-width:940px">Hamyoningiz ham, bank kartangiz ham uyda qolib ketdi. Bugungi kunni telefonning oʻzi bilan oʻtkaza olasizmi?</p>
+    <ul class="hands">
+      <li class="a"><span>Kimda kamida bitta bank kartasi bor?</span><span class="ctr"><button type="button" data-d="-1" aria-label="Kamaytirish">−</button><b>0</b><button type="button" data-d="1" aria-label="Oshirish">+</button></span></li>
+      <li class="a"><span>Kim bugun telefon orqali toʻlov qildi yoki pul oʻtkazdi?</span><span class="ctr"><button type="button" data-d="-1" aria-label="Kamaytirish">−</button><b>0</b><button type="button" data-d="1" aria-label="Oshirish">+</button></span></li>
+      <li class="a"><span>Kim oxirgi bir haftada umuman naqd pul ishlatmadi?</span><span class="ctr"><button type="button" data-d="-1" aria-label="Kamaytirish">−</button><b>0</b><button type="button" data-d="1" aria-label="Oshirish">+</button></span></li>
+    </ul>
+    <p class="hint a">Javoblarni sanab, + tugmasi bilan yozib boring. Keyin videoni koʻramiz.</p>
+  </div>
+  <aside class="notes"><p>Mavzuni boshlashdan oldin savol beraman: hamyon ham, karta ham uyda qolsa, bugungi kunni telefonning oʻzi bilan oʻtkaza olasizmi?</p><p>Uchta savolga qoʻl koʻtarishni soʻrayman va natijani ekranda sanab boraman.</p><p>Xulosa: koʻpchiligimiz allaqachon raqamli moliyadan foydalanamiz. Endi shu haqda qisqa video koʻramiz.</p></aside>
+</section>
+
+<section class="slide" data-vars="--cx:1088px;--cy:40px;--cs:.29;--cr:0deg">
+  <span class="tag a">Video</span>
+  <h2 class="a">Avval koʻramiz, keyin muhokama qilamiz</h2>
+  <div class="body a" style="top:124px;bottom:30px;left:150px;right:150px"><div class="vid"><video controls preload="metadata" src="assets/mi/video.mp4"></video>
+      <div class="vph"><span class="play">▶</span><p>Video fayli hali qoʻyilmagan. Faylni <code>html/assets/mi/video.mp4</code> nomi bilan saqlang yoki hozir tanlang:</p><label class="btn">Video tanlash<input type="file" accept="video/*" hidden></label></div></div></div>
+  <aside class="notes"><p>Videoni qoʻyaman. Koʻrib boʻlgach soʻrayman: videoda qaysi xizmatlar koʻrsatildi va ulardan kim foydalana olmay qolishi mumkin?</p><p>Shu savol bizni asosiy mavzuga, moliyaviy inklyuziya tushunchasiga olib keladi.</p></aside>
+</section>
+
+<section class="slide" id="s-01" data-vars="--cx:1088px;--cy:40px;--cs:.29;--cr:0deg">
+  <h2 class="a">Moliyaviy inklyuziya: 4 ta asosiy xizmatdan foydalana olish</h2>
+  <div class="body" style="display:grid;gap:22px;align-content:start;top:176px">
+    <div class="panel quote a"><span class="q">“</span><div><small>Jahon banki taʼrifi</small><p>Jismoniy shaxslar va bizneslar oʻz ehtiyojiga mos, arzon va masʼuliyat bilan taqdim etiladigan moliyaviy xizmatlardan foydalana olishi.</p></div></div>
+    <div class="g4">
+      <div class="panel tile a"><span class="icb"><img class="ic" src="assets/mi/image2.svg" alt=""></span><b>Toʻlov</b><span>Oʻtkazma, hisob-kitob</span></div>
+      <div class="panel tile a"><span class="icb"><img class="ic" src="assets/mi/image4.svg" alt=""></span><b>Jamgʻarma</b><span>Pulni saqlash</span></div>
+      <div class="panel tile a"><span class="icb"><img class="ic" src="assets/mi/image6.svg" alt=""></span><b>Kredit</b><span>Qarz olish</span></div>
+      <div class="panel tile a"><span class="icb"><img class="ic" src="assets/mi/image8.svg" alt=""></span><b>Sugʻurta</b><span>Xavfdan himoya</span></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Jahon banki moliyaviy inklyuziyani shunday taʼriflaydi: jismoniy shaxslar va bizneslar oʻz ehtiyojiga mos, arzon va masʼuliyat bilan koʻrsatiladigan moliyaviy xizmatlardan foydalana olishi.</p><p>Bu taʼrif toʻrtta asosiy xizmatni qamraydi: toʻlov, jamgʻarma, kredit va sugʻurta.</p><p>Inklyuziya faqat hisob ochish emas, balki shu xizmatlardan muntazam foydalanish va naf koʻrish demakdir.</p><p>Kam taʼminlangan oilalar va kichik biznes uchun bu daromadni barqarorlashtirish va xavflarni kamaytirish vositasi hisoblanadi.</p></aside>
+</section>
+
+<section class="slide" data-vars="--cx:1088px;--cy:40px;--cs:.29">
+  <h2 class="a">Inklyuziya 4 oʻlchovda baholanadi</h2>
+  <div class="body g4" style="top:176px;bottom:auto">
+    <div class="panel dim a"><span class="num">01</span><b>Foydalanish imkoniyati</b><em>ACCESS</em><p>Xizmat yaqin va arzonmi?</p></div>
+    <div class="panel dim a"><span class="num">02</span><b>Foydalanish darajasi</b><em>USAGE</em><p>Qanchalik muntazam ishlatiladi?</p></div>
+    <div class="panel dim a"><span class="num">03</span><b>Sifat</b><em>QUALITY</em><p>Xizmat ehtiyojga mosmi?</p></div>
+    <div class="panel dim a"><span class="num">04</span><b>Farovonlikka taʼsir</b><em>WELFARE</em><p>Hayot sifati yaxshilandimi?</p></div>
+  </div>
+  <p class="src a">Manba: Alliance for Financial Inclusion (AFI), Core Set of Financial Inclusion Indicators</p>
+  <aside class="notes"><p>Moliyaviy inklyuziyani bitta koʻrsatkich bilan oʻlchab boʻlmaydi, shuning uchun toʻrt oʻlchov qoʻllaniladi.</p><p>Birinchisi foydalanish imkoniyati: xizmat jismonan va narx jihatidan qanchalik yaqin. Ikkinchisi foydalanish darajasi: odamlar hisobdan qanchalik muntazam foydalanadi.</p><p>Uchinchisi sifat, yaʼni xizmat ehtiyojga mos va tushunarli ekani.</p><p>Toʻrtinchisi farovonlikka taʼsir: xizmatlar oxir-oqibat odamlar hayotini yaxshilaganmi. AFI asosiy koʻrsatkichlar toʻplami dastlabki uch oʻlchovni oʻlchaydi, farovonlik esa yakuniy natija sifatida baholanadi.</p></aside>
+</section>
+
+<section class="slide" id="s-02" data-vars="--cx:1088px;--cy:40px;--cs:.29">
+  <h2 class="a">Dunyoda kattalarning 79 % hisob raqamiga ega</h2>
+  <div class="body">
+    <div class="stats">
+      <div class="a"><p class="big">79 %</p><span>kattalar hisob raqamiga ega (2024)</span></div>
+      <div class="a"><p class="big s">1,3 mlrd</p><span>kattaning hisob raqami yoʻq</span></div>
+      <div class="a"><p class="big s">86 %</p><span>kattalar mobil telefonga ega</span></div>
+    </div>
+    <div class="panel chart a"><h3>Hisob raqamiga ega kattalar, dunyo</h3>
+      <div class="bars">
+        <div style="--v:51"><b>51 %</b><i class="gy"></i><span>2011</span></div>
+        <div style="--v:74"><b>74 %</b><i class="gy"></i><span>2021</span></div>
+        <div style="--v:79" class="hl"><b class="acc">79 %</b><i class="gy"></i><span>2024</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="src a">Manba: World Bank, The Global Findex Database 2025 (2024-yil maʼlumoti)</p>
+  <aside class="notes"><p>Global Findex 2025 maʼlumotiga koʻra, 2024-yilda dunyodagi kattalarning 79 foizi hisob raqamiga ega boʻlgan.</p><p>Bu koʻrsatkich 2011-yilda 51 foiz, 2021-yilda 74 foiz edi, yaʼni qamrov izchil oʻsib bormoqda.</p><p>Shunga qaramay, 1,3 milliard katta odamning hali ham hisob raqami yoʻq.</p><p>Kattalarning 86 foizida mobil telefon borligi esa bu boʻshliqni raqamli xizmatlar orqali qisqartirish imkoniyati katta ekanini koʻrsatadi.</p></aside>
+</section>
+
+<section class="slide" data-vars="--cx:1088px;--cy:40px;--cs:.29">
+  <h2 class="a">Kattalarning 61 % raqamli toʻlov qilgan yoki qabul qilgan</h2>
+  <div class="body" style="top:170px">
+    <p class="mute a" style="font-size:18px;margin-bottom:16px;font-weight:400">Past va oʻrta daromadli mamlakatlar, 2024</p>
+    <div class="rows">
+      <div class="panel row a"><span class="icb"><img class="ic" src="assets/mi/image10.svg" alt=""></span><div class="tx"><b>Raqamli toʻlov qilgan yoki qabul qilgan</b><span>Toʻlovlar</span></div><div class="track"><i class="gx" style="--v:61"></i></div><span class="big">61 %</span></div>
+      <div class="panel row a"><span class="icb"><img class="ic" src="assets/mi/image12.svg" alt=""></span><div class="tx"><b>Xarid uchun raqamli toʻlagan</b><span>Xaridlar</span></div><div class="track"><i class="gx" style="--v:42"></i></div><span class="big">42 %</span></div>
+      <div class="panel row a"><span class="icb"><img class="ic" src="assets/mi/image4.svg" alt=""></span><div class="tx"><b>Hisob raqami orqali jamgʻarma qilgan</b><span>Jamgʻarma</span></div><div class="track"><i class="gx" style="--v:40"></i></div><span class="big">40 %</span></div>
+    </div>
+  </div>
+  <p class="src a">Manba: World Bank, The Global Findex Database 2025</p>
+  <aside class="notes"><p>Raqamli toʻlovlar inklyuziyaning eng tez oʻsayotgan qismi.</p><p>Past va oʻrta daromadli mamlakatlarda kattalarning 61 foizi raqamli toʻlov qilgan yoki qabul qilgan.</p><p>Ularning 42 foizi xarid uchun raqamli usulda toʻlagan, 40 foizi esa hisob raqami orqali jamgʻarma qilgan.</p><p>Demak, keyingi qadam odamlarni toʻlovdan jamgʻarma va kredit kabi chuqurroq xizmatlarga olib oʻtishdir.</p></aside>
+</section>
+
+<section class="slide" id="s-03" data-vars="--cx:1088px;--cy:40px;--cs:.29">
+  <h2 class="a">Raqamli bank xizmatlarining 7 turi</h2>
+  <div class="body" style="top:190px"><ul class="seven">
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image14.svg" alt=""></span>Mobil va internet-banking</li>
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image16.svg" alt=""></span>Elektron hamyon</li>
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image18.svg" alt=""></span>P2P oʻtkazmalar</li>
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image20.svg" alt=""></span>QR-toʻlov</li>
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image22.svg" alt=""></span>Raqamli (neo)banklar</li>
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image24.svg" alt=""></span>Onlayn kredit va mikroqarz</li>
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image26.svg" alt=""></span>Masofaviy identifikatsiya</li>
+  </ul></div>
+  <aside class="notes"><p>Raqamli bank xizmatlari bir necha shaklda namoyon boʻladi.</p><p>Mobil va internet-banking, elektron hamyonlar va P2P oʻtkazmalar kundalik toʻlovlarni filialga bormasdan bajarish imkonini beradi, QR-toʻlov esa kichik savdo nuqtalarini ham naqdsiz hisob-kitobga ulaydi.</p><p>Raqamli banklar toʻliq onlayn ishlaydi, onlayn kredit va mikroqarzlar esa tez qaror qabul qilishga asoslanadi.</p><p>Masofaviy identifikatsiya bularning barchasini bogʻlaydi: mijoz hisobni filialga bormasdan ochadi.</p></aside>
+</section>
+
+<section class="slide" data-vars="--cx:1088px;--cy:40px;--cs:.29">
+  <h2 class="a">Raqamli bank arzonroq va qulayroq, ammo kiberxavfli</h2>
+  <div class="body" style="top:180px"><table class="panel a">
+    <tr><th></th><th>Anʼanaviy bank</th><th>Raqamli bank</th></tr>
+    <tr><td>Filial</td><td>Zarur</td><td>Shart emas</td></tr>
+    <tr><td>Ish vaqti</td><td>Belgilangan soatlar</td><td>24/7</td></tr>
+    <tr><td>Xizmat narxi</td><td>Yuqoriroq</td><td>Pastroq</td></tr>
+    <tr><td>Hisob ochish</td><td>Filialda</td><td>Masofadan, tez</td></tr>
+    <tr><td>Qamrov</td><td>Shahar markazlari</td><td>Internet bor joyda</td></tr>
+    <tr class="warn"><td>Xavflar</td><td>Navbat, naqd pul</td><td>Kiberfiribgarlik</td></tr>
+  </table></div>
+  <aside class="notes"><p>Anʼanaviy va raqamli bankni olti mezon boʻyicha solishtiramiz.</p><p>Raqamli bankda filialga borish shart emas, xizmat kun-u tun ishlaydi, xarajat pastroq boʻlgani uchun narx ham arzonroq.</p><p>Hisob masofadan ochiladi, qamrov esa internet bor har qanday hududga yetadi.</p><p>Biroq raqamli kanal yangi xavfni, yaʼni kiberfiribgarlikni olib keladi, shuning uchun xavfsizlik choralari alohida eʼtibor talab qiladi.</p></aside>
+</section>
+
+<section class="slide" id="s-04" data-vars="--cx:1088px;--cy:40px;--cs:.29">
+  <h2 class="a">Raqamli moliyaning huquqiy asosi: 2019–2026</h2>
+  <div class="body" style="top:200px"><ol class="tl">
+    <li class="a"><p class="yr">2019</p><div class="panel box">«Toʻlovlar va toʻlov tizimlari toʻgʻrisida»gi Qonun<small>Huquqiy baza</small></div></li>
+    <li class="a"><p class="yr">2020</p><div class="panel box">«Raqamli Oʻzbekiston — 2030» strategiyasi<small>PF-6079, 05.10.2020</small></div></li>
+    <li class="a"><p class="yr">2021–2023</p><div class="panel box">Moliyaviy xizmatlar ommabopligini oshirish strategiyasi<small>Markaziy bank, Jahon banki</small></div></li>
+    <li class="a"><p class="yr">2026</p><div class="panel box">Moliyaviy texnologiyalarni rivojlantirish strategiyasi<small>2026–2030, Markaziy bank, PQ-359</small></div></li>
+  </ol></div>
+  <aside class="notes"><p>Oʻzbekistonda raqamli moliyaning huquqiy asosi toʻrt bosqichda shakllandi.</p><p>2019-yilda «Toʻlovlar va toʻlov tizimlari toʻgʻrisida»gi Qonun toʻlov xizmatlari bozori uchun huquqiy baza yaratdi, 2020-yil 5-oktabrdagi PF-6079-son Farmon bilan esa «Raqamli Oʻzbekiston — 2030» strategiyasi tasdiqlandi.</p><p>2021–2023-yillarda Markaziy bank Jahon banki koʻmagida Moliyaviy xizmatlar ommabopligini oshirish milliy strategiyasini amalga oshirdi.</p><p>2026-yilda PQ-359-son qaror asosida 2026–2030-yillarga moʻljallangan Moliyaviy texnologiyalarni rivojlantirish milliy strategiyasi tasdiqlandi; u tartibga solish «qum maydoni» kabi mexanizmlarni ham qamrab oladi.</p></aside>
+</section>
+
+<section class="slide" data-vars="--cx:1088px;--cy:40px;--cs:.29">
+  <h2 class="a">Oʻzbekistonda hisob egalari ulushi 34 % dan 56 % ga oʻsdi</h2>
+  <div class="body" style="top:164px">
+    <div class="cmp">
+      <p class="hd a"><span>Global Findex, kattalar ulushi</span><span>2017</span><span style="text-align:right">2024</span></p>
+      <ul>
+        <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image2.svg" alt=""></span><b>Hisob raqamiga ega kattalar</b><span class="from">34 %</span><span class="arr">→</span><span class="to">56 %</span></li>
+        <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image28.svg" alt=""></span><b>Ayollar orasida</b><span class="from">28 %</span><span class="arr">→</span><span class="to">50 %</span></li>
+        <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image30.svg" alt=""></span><b>Mobil pul foydalanuvchilari</b><span class="from">5 %</span><span class="arr">→</span><span class="to">24 %</span></li>
+      </ul>
+    </div>
+    <div class="side" style="top:34px">
+      <div class="panel a"><small>Bank kartalari, 01.08.2026</small><p class="big">75,7 mln</p><em>▲ 01.01.2026: 68,3 mln</em></div>
+      <div class="panel a"><small>Bankomat va infokiosklar</small><p class="big">47 ming</p><em>01.08.2026 (01.01.2026: 40,1 ming)</em></div>
+    </div>
+  </div>
+  <p class="src a">Manba: World Bank, The Global Findex Database 2025; Oʻzbekiston Respublikasi Markaziy banki (01.01.2026, 01.08.2026)</p>
+  <aside class="notes"><p>Endi Oʻzbekistonga oʻtamiz. Global Findex maʼlumotiga koʻra, hisob raqamiga ega kattalar ulushi 2017-yildagi 34 foizdan 2024-yilda 56 foizga koʻtarildi.</p><p>Ayollar orasida bu koʻrsatkich 28 foizdan 50 foizga, mobil pul xizmatidan foydalanuvchilar ulushi esa 5 foizdan 24 foizga oʻsdi.</p><p>Markaziy bank maʼlumotiga koʻra, 2026-yil 1-avgust holatiga bank kartalari soni 75,7 million donaga yetdi, yil boshida bu raqam 68,3 million edi.</p><p>Bankomat va infokiosklar soni esa yetti oyda 40,1 mingtadan qariyb 47 mingtaga oshdi, yaʼni infratuzilma ham tez kengaymoqda.</p></aside>
+</section>
+
+<section class="slide" id="s-05" data-vars="--cx:1088px;--cy:40px;--cs:.29">
+  <h2 class="a">Raqamli moliya sanoat korxonasiga 5 ta afzallik beradi</h2>
+  <div class="body" style="top:176px;bottom:40px"><div class="hub">
+    <div class="panel b a"><span class="icb"><img class="ic" src="assets/mi/image34.svg" alt=""></span>KOB uchun skoring asosida tez kredit</div>
+    <div class="core a"><img src="assets/mi/image32.svg" alt="">Sanoat korxonasi</div>
+    <div class="panel b a"><span class="icb"><img class="ic" src="assets/mi/image38.svg" alt=""></span>Ish haqini kartaga oʻtkazish</div>
+    <div class="panel b a"><span class="icb"><img class="ic" src="assets/mi/image36.svg" alt=""></span>Taʼminot zanjirini moliyalashtirish</div>
+    <div class="panel b a"><span class="icb"><img class="ic" src="assets/mi/image40.svg" alt=""></span>Elektron hisob-faktura va naqdsiz hisob-kitob: shaffoflik</div>
+    <div class="panel b last a"><span class="icb"><img class="ic" src="assets/mi/image42.svg" alt=""></span>Vaqt va xarajatni tejash</div>
+  </div></div>
+  <aside class="notes"><p>Sanoat iqtisodiyoti nuqtai nazaridan raqamli moliya korxona faoliyatining bir necha boʻgʻiniga taʼsir qiladi.</p><p>Kichik va oʻrta biznes skoring asosida tez kredit olish imkoniga ega boʻladi, taʼminot zanjirini moliyalashtirish esa yetkazib beruvchilarning aylanma mablagʻ muammosini yengillashtiradi.</p><p>Ish haqini kartaga oʻtkazish, elektron hisob-faktura va naqdsiz hisob-kitoblar korxona faoliyatini shaffof qiladi.</p><p>Natijada vaqt va tranzaksiya xarajatlari tejaladi, bu esa korxonaning raqobatbardoshligini oshiradi.</p></aside>
+</section>
+
+<section class="slide" id="s-06" data-vars="--cx:1088px;--cy:40px;--cs:.29">
+  <h2 class="a">Beshta toʻsiq inklyuziyani sekinlashtiradi</h2>
+  <div class="body" style="top:152px"><ul class="barr">
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image44.svg" alt=""></span><div><b>Moliyaviy savodxonlik pastligi</b><span>Xizmat va xavflarni tushunmaslik</span></div><span class="lvl hi">Yuqori</span></li>
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image46.svg" alt=""></span><div><b>Bankka ishonchsizlik</b><span>Naqd pulni afzal koʻrish</span></div><span class="lvl">Oʻrta</span></li>
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image48.svg" alt=""></span><div><b>Qishloqda infratuzilma yetishmasligi</b><span>Bankomat va internet kamroq</span></div><span class="lvl">Oʻrta</span></li>
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image28.svg" alt=""></span><div><b>Gender tafovuti</b><span>Ayollarda hisob ulushi 50 %, umumiy 56 %</span></div><span class="lvl">Oʻrta</span></li>
+    <li class="panel a"><span class="icb"><img class="ic" src="assets/mi/image50.svg" alt=""></span><div><b>Kiberfiribgarlik</b><span>Ijtimoiy muhandislik, soxta xabarlar</span></div><span class="lvl hi">Yuqori</span></li>
+  </ul></div>
+  <p class="src a">Xavf darajasi: muallifning sifat bahosi. Gender maʼlumoti: Global Findex 2025 (2024-yil)</p>
+  <aside class="notes"><p>Raqamli moliyaning oʻsishiga qaramay, beshta toʻsiq inklyuziyani sekinlashtirmoqda.</p><p>Eng jiddiylari moliyaviy savodxonlikning pastligi va kiberfiribgarlik: odam xizmat shartlari va xavflarni tushunmasa, firibgarlarga aldanishi oson.</p><p>Bankka ishonchsizlik va qishloq joylarda infratuzilma yetishmasligi naqd pulga tayanishni saqlab qolmoqda.</p><p>Gender tafovuti ham bor: 2024-yilda ayollarning 50 foizi hisob raqamiga ega, umumiy koʻrsatkich esa 56 foiz. Slayddagi xavf darajalari muallifning sifat bahosidir.</p></aside>
+</section>
+
+<section class="slide" data-vars="--cx:1088px;--cy:40px;--cs:.29">
+  <h2 class="a">Xavflarni tartibga solish va himoya choralari kamaytiradi</h2>
+  <div class="body" style="top:180px;bottom:50px"><div class="two">
+    <div class="panel col risk a"><h3>Xavflar <i>3</i></h3><ul>
+      <li><img class="ic" src="assets/mi/image50.svg" alt="">Firibgarlik va ijtimoiy muhandislik</li>
+      <li><img class="ic" src="assets/mi/image52.svg" alt="">Shaxsiy maʼlumotlar himoyasi</li>
+      <li><img class="ic" src="assets/mi/image6.svg" alt="">Ortiqcha qarzdorlik</li></ul></div>
+    <span class="arr a">→</span>
+    <div class="panel col act a"><h3>Choralar <i>4</i></h3><ul>
+      <li><img class="ic" src="assets/mi/image54.svg" alt="">Isteʼmolchilar huquqini himoya qilish</li>
+      <li><img class="ic" src="assets/mi/image56.svg" alt="">Regulyativ «qum maydoni» (sandbox)</li>
+      <li><img class="ic" src="assets/mi/image58.svg" alt="">Ikki bosqichli tasdiqlash</li>
+      <li><img class="ic" src="assets/mi/image44.svg" alt="">Moliyaviy savodxonlik dasturlari</li></ul></div>
+  </div></div>
+  <aside class="notes"><p>Raqamli moliya yangi xavflarni ham olib keladi: firibgarlik va ijtimoiy muhandislik, shaxsiy maʼlumotlarning sizib chiqishi hamda oson kredit tufayli ortiqcha qarzdorlik.</p><p>Bu xavflarga javoban birinchi navbatda isteʼmolchilar huquqini himoya qilish mexanizmlari kerak.</p><p>Regulyativ «qum maydoni» yangi fintech xizmatlarni nazorat ostida sinab koʻrish imkonini beradi (bu mexanizm 2026–2030-yillarga moʻljallangan fintex strategiyasida ham mustahkamlangan), ikki bosqichli tasdiqlash esa hisobga ruxsatsiz kirishni qiyinlashtiradi.</p><p>Eng muhimi, moliyaviy savodxonlik dasturlari foydalanuvchining oʻzini birinchi himoya chizigʻiga aylantiradi.</p></aside>
+</section>
+
+<section class="slide" data-vars="--cx:512px;--cy:196px;--cs:.58;--cr:-4deg">
+  <h2 class="a">Xulosa va takliflar</h2>
+  <div class="body" style="top:150px;bottom:44px"><div class="sum">
+    <div class="panel c a"><p class="top"><span class="num">01</span>Xulosa</p><p>Raqamli kanallar moliyaviy inklyuziyani tezlashtirmoqda</p></div>
+    <div class="mid a"><p class="big">56 %</p><span>hisob egalari, Oʻzbekiston, 2024<br>(2017‑yilda 34 %)</span></div>
+    <div class="panel c a"><p class="top"><span class="num">03</span>Taklif</p><p>KOB uchun skoring va taʼminot zanjiri moliyasini kengaytirish</p></div>
+    <div class="panel c a"><p class="top"><span class="num">02</span>Taklif</p><p>Ayollar va qishloq aholisi uchun tafovutni qisqartirish</p></div>
+    <div class="panel c a"><p class="top"><span class="num">04</span>Taklif</p><p>Kiberxavfsizlik va moliyaviy savodxonlikka sarmoya kiritish</p></div>
+  </div></div>
+  <aside class="notes"><p>Xulosa qilib aytganda, raqamli kanallar moliyaviy inklyuziyani tezlashtirmoqda: Oʻzbekistonda hisob egalari ulushi 2017–2024-yillarda 34 foizdan 56 foizga oʻsdi.</p><p>Ammo ayollar va qishloq aholisi uchun tafovut hali saqlanib qolmoqda, shu sababli ularga moʻljallangan maqsadli dasturlar zarur.</p><p>Sanoat nuqtai nazaridan kichik va oʻrta biznes uchun skoring asosidagi kredit va taʼminot zanjiri moliyasini kengaytirishni taklif qilaman.</p><p>Nihoyat, kiberxavfsizlik va moliyaviy savodxonlikka sarmoya kiritish raqamli moliyaga ishonchni mustahkamlaydi.</p></aside>
+</section>
+
+<section class="slide" id="s-q" data-vars="--cx:1088px;--cy:40px;--cs:.29;--cr:0deg">
+  <span class="tag a">Mustahkamlash · kartani bosing</span>
+  <h2 class="a">Savol-javob: bugun nimani oʻrgandik?</h2>
+  <div class="body" style="top:130px;bottom:100px"><div class="quiz">
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 1</small>Jahon banki taʼrifiga koʻra moliyaviy inklyuziya qaysi 4 ta xizmatni qamraydi?<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>Toʻlov, jamgʻarma, kredit va sugʻurta.</span></span></button>
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 2</small>Moliyaviy inklyuziya qaysi 4 oʻlchovda baholanadi?<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>Foydalanish imkoniyati, foydalanish darajasi, sifat va farovonlikka taʼsir.</span></span></button>
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 3</small>2024-yilda dunyoda kattalarning necha foizi hisob raqamiga ega? Nechta kishining hisobi yoʻq?<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>79 % hisob raqamiga ega; 1,3 mlrd kattaning hisobi yoʻq.</span></span></button>
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 4</small>Oʻzbekistonda hisob egalari ulushi 2017–2024-yillarda qanday oʻzgardi?<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>34 % dan 56 % ga oʻsdi. Ayollar orasida: 28 % dan 50 % ga.</span></span></button>
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 5</small>Raqamli bankning anʼanaviy bankdan afzalliklari va yangi xavfi nima?<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>Filial shart emas, 24/7 ishlaydi, xizmat arzonroq. Yangi xavf: kiberfiribgarlik.</span></span></button>
+      <button class="flip a" type="button"><span class="in"><span class="fc"><small>SAVOL 6</small>Inklyuziyani sekinlashtiradigan toʻsiqlardan kamida uchtasini ayting.<em>javobni koʻrish uchun bosing</em></span><span class="bc"><small>JAVOB</small>Moliyaviy savodxonlik pastligi, bankka ishonchsizlik, qishloqda infratuzilma yetishmasligi, gender tafovuti, kiberfiribgarlik.</span></span></button>
+    </div>
+    <p class="qfoot a"><button class="btn" type="button" data-revealall>Hammasini ochish</button>Avval tinglovchilar javob beradi, keyin kartani bosib tekshiramiz.</p>
+  </div>
+  <aside class="notes"><p>Mavzuni mustahkamlash uchun oltita savol. Har birini oʻqiyman, tinglovchilar javob beradi, soʻng kartani bosib toʻgʻri javobni koʻrsataman.</p><p>Kartani yana bossangiz, savol tomoniga qaytadi.</p></aside>
+</section>
+
+<section class="slide s15" data-vars="--cx:880px;--cy:70px;--cs:.66;--cr:6deg">
+  <h1 class="a">Eʼtiboringiz uchun rahmat!</h1>
+  <p class="who a">Raximov Gʻanisher  ·  Fan: Sanoat iqtisodiyoti</p>
+  <div class="refs a"><h3>Foydalanilgan adabiyotlar</h3><ol>
+    <li>World Bank. The Global Findex Database 2025: Connectivity and Financial Inclusion in the Digital Economy.</li>
+    <li>Oʻzbekiston Respublikasi Markaziy banki statistik maʼlumotlari (01.01.2026 va 01.08.2026 holatiga).</li>
+    <li>«Toʻlovlar va toʻlov tizimlari toʻgʻrisida»gi Oʻzbekiston Respublikasi Qonuni, 2019.</li>
+    <li>«Raqamli Oʻzbekiston — 2030» strategiyasi, PF-6079, 05.10.2020.</li>
+    <li>2021–2023-yillarga moʻljallangan Moliyaviy xizmatlar ommabopligini oshirish milliy strategiyasi, Oʻzbekiston Respublikasi Markaziy banki.</li>
+    <li>2026–2030-yillarga moʻljallangan Moliyaviy texnologiyalar sohasini rivojlantirish milliy strategiyasi, Oʻzbekiston Respublikasi Markaziy banki (PQ-359 asosida).</li>
+    <li>Alliance for Financial Inclusion (AFI). Core Set of Financial Inclusion Indicators.</li>
+  </ol></div>
+  <aside class="notes"><p>Eʼtiboringiz uchun rahmat!</p><p>Taqdimotda Jahon bankining Global Findex 2025 maʼlumotlar bazasi, Oʻzbekiston Respublikasi Markaziy banki statistikasi, amaldagi qonun va strategiyalar hamda AFI koʻrsatkichlar toʻplamidan foydalanildi.</p><p>Toʻliq roʻyxat slaydning pastki qismida keltirilgan.</p><p>Savollaringiz boʻlsa, javob berishga tayyorman.</p></aside>
+</section>
+
+</main>
+<script src="deck.js"></script>
+</body>
+</html>

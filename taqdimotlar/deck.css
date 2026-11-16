@@ -1,0 +1,81 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#000}
+body{font-family:"Segoe UI",system-ui,sans-serif}
+.stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--font);cursor:pointer;user-select:none}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .45s,visibility 0s .45s}
+.slide.active{opacity:1;visibility:visible;transition:opacity .45s}
+.notes{display:none}
+img{display:block}
+ul,ol{list-style:none}
+
+/* kirish animatsiyalari */
+.a{opacity:0}
+.slide.active .a{animation:rise .65s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*70ms + 180ms)}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.gy{transform:scaleY(0);transform-origin:bottom}
+.gx{transform:scaleX(0);transform-origin:left}
+.slide.active .gy,.slide.active .gx{transform:none;transition:transform 1s cubic-bezier(.2,.7,.2,1) calc(var(--i,0)*70ms + 300ms)}
+.draw{stroke-dasharray:1;stroke-dashoffset:1}
+.slide.active .draw{stroke-dashoffset:0;transition:stroke-dashoffset 1.6s ease .5s}
+
+/* boshqaruv paneli */
+.bar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:flex;gap:6px;align-items:center;padding:6px 8px;border-radius:999px;background:rgba(15,15,20,.78);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);z-index:20;opacity:.25;transition:opacity .25s;font:500 13px "Segoe UI",system-ui,sans-serif}
+.bar:hover,.bar.show{opacity:1}
+.bar button,.bar a{appearance:none;border:0;background:transparent;color:#fff;font:inherit;padding:7px 12px;border-radius:999px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.bar button:hover,.bar a:hover{background:rgba(255,255,255,.14)}
+.bar button.on{background:var(--accent);color:#0b0b10}
+.bar button:focus-visible,.bar a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.bar .cnt{color:#fff;padding:0 6px;min-width:58px;text-align:center;font-variant-numeric:tabular-nums}
+.prog{position:fixed;left:0;top:0;height:3px;background:var(--accent);z-index:20;transition:width .4s}
+.notebox{position:fixed;left:50%;bottom:66px;transform:translateX(-50%);width:min(900px,92vw);max-height:34vh;overflow:auto;padding:16px 20px;border-radius:14px;background:rgba(15,15,20,.92);color:#f1f1f4;font:400 15px/1.55 "Segoe UI",system-ui,sans-serif;border:1px solid rgba(255,255,255,.14);z-index:19;display:none}
+.notebox.show{display:block}
+.notebox p+p{margin-top:8px}
+@media (prefers-reduced-motion:reduce){
+  .slide,.slide.active .a,.slide.active .gy,.slide.active .gx,.slide.active .draw{transition:none!important;animation:none!important;opacity:1}
+  .slide:not(.active){opacity:0}
+  .gy,.gx{transform:none}.draw{stroke-dashoffset:0}
+}
+
+/* ===== interaktiv qismlar (shablondan olingan gʻoyalar) ===== */
+.tag{position:absolute;left:64px;top:26px;font:600 14px/1 "Segoe UI",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.on .tag{left:0;top:40px}
+[data-go]{cursor:pointer;transition:transform .2s,box-shadow .2s}
+[data-go]:hover{transform:translateX(6px);box-shadow:inset 4px 0 0 var(--accent)}
+.btn{appearance:none;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font:600 17px "Segoe UI",sans-serif;padding:9px 20px;border-radius:999px;cursor:pointer}
+.btn:hover{background:var(--accent);color:var(--bg)}
+
+/* kirish savoli */
+.bigq{font-family:var(--head);font-weight:600;font-size:44px;line-height:1.15;text-wrap:balance}
+.hands{display:grid;gap:14px;margin-top:34px}
+.hands li{display:flex;align-items:center;gap:20px;padding:14px 22px;font-size:22px;line-height:1.25;background:var(--panel);border-radius:16px}
+.hands li>span:first-child{flex:1}
+.ctr{display:flex;align-items:center;gap:6px;flex:none}
+.ctr button{width:42px;height:42px;border-radius:50%;border:0;background:var(--deep);color:#fff;font:600 24px/1 "Segoe UI",sans-serif;cursor:pointer}
+.ctr button:hover{background:var(--accent);color:var(--bg)}
+.ctr b{min-width:54px;text-align:center;font-family:var(--head);font-size:32px;color:var(--accent);font-variant-numeric:tabular-nums}
+.hint{font:400 17px "Segoe UI",sans-serif;color:var(--mute);margin-top:20px}
+
+/* video */
+.vid{position:absolute;inset:0;border-radius:18px;overflow:hidden;background:#000;cursor:default}
+.vid video{width:100%;height:100%;object-fit:contain;display:none;background:#000}
+.vid.ok video{display:block}
+.vid.ok .vph{display:none}
+.vph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;background:var(--deep);border:2px dashed var(--accent);border-radius:18px;padding:30px}
+.vph .play{width:96px;height:96px;border-radius:50%;border:3px solid var(--accent);display:grid;place-items:center;font-size:38px;color:var(--accent);padding-left:8px}
+.vph p{font:400 20px/1.4 "Segoe UI",sans-serif;color:var(--mute);max-width:640px}
+.vph code{font:600 18px Consolas,monospace;color:#fff;background:rgba(0,0,0,.35);padding:3px 10px;border-radius:6px}
+.vph label{cursor:pointer}
+
+/* savol-javob kartalari */
+.quiz{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:18px;height:100%}
+.flip{position:relative;perspective:1400px;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;padding:0;min-height:0}
+.flip .in{position:absolute;inset:0;display:block;transition:transform .6s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+.flip.open .in{transform:rotateY(180deg)}
+.flip .fc,.flip .bc{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;padding:22px 24px;display:flex;flex-direction:column}
+.flip .fc{background:var(--panel);font-size:22px;line-height:1.3;font-weight:600}
+.flip .fc small{font:600 15px "Segoe UI",sans-serif;letter-spacing:.16em;color:var(--accent);margin-bottom:12px}
+.flip .fc em{margin-top:auto;font:400 15px "Segoe UI",sans-serif;color:var(--mute)}
+.flip .bc{background:var(--accent);color:var(--bg);transform:rotateY(180deg);font-size:21px;line-height:1.3;font-weight:600;justify-content:center}
+.flip .bc small{font:700 14px "Segoe UI",sans-serif;letter-spacing:.16em;margin-bottom:10px;opacity:.75}
+.flip:focus-visible .fc{outline:3px solid var(--accent);outline-offset:2px}
+.qfoot{position:absolute;left:0;right:0;bottom:-62px;display:flex;align-items:center;gap:16px;font:400 17px "Segoe UI",sans-serif;color:var(--mute)}
