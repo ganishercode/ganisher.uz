@@ -85,7 +85,7 @@ h1, h2, h3 { color: var(--ink); text-wrap: balance; letter-spacing: -0.02em; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .icon { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-.wrap { width: 100%; max-width: 1240px; margin-inline: auto; padding-inline: clamp(16px, 3vw, 32px); }
+.wrap { width: 100%; margin-inline: auto; padding-inline: clamp(16px, 2vw, 40px); }
 main.wrap { display: flex; flex-direction: column; gap: var(--gap); padding-block: 16px 24px; }
 
 /* ---------- Panel (har bir bo'lim) ---------- */
@@ -516,7 +516,7 @@ a.info:hover strong { color: var(--gold); }
   animation: lbIn .2s ease;
 }
 @keyframes lbIn { from { opacity: 0; } to { opacity: 1; } }
-.lb-top { display: flex; align-items: center; gap: 12px; max-width: 1240px; width: 100%; margin-inline: auto; }
+.lb-top { display: flex; align-items: center; gap: 12px; width: 100%; margin-inline: auto; }
 .lb-title { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
 .lb-title strong { color: var(--ink); font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
 .lb-title span { color: var(--gold); font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
