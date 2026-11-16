@@ -734,9 +734,6 @@ body.lb-open { overflow: hidden; }
 
 <main class="wrap">
 
-  <!-- Foydalanuvchilar hisoblagichi (stats.js chizadi) -->
-  <div data-stats="home" hidden></div>
-
   <!-- ========================================================================
        1. HERO
        ======================================================================== -->
@@ -896,6 +893,9 @@ body.lb-open { overflow: hidden; }
   <!-- ========================================================================
        5. TA'LIM XIZMATLARI — xizmatlar/ papkasidagi krossvord, test va obyektivka sahifalari
        ======================================================================== -->
+  <!-- Foydalanuvchilar hisoblagichi (stats.js chizadi) -->
+  <div data-stats="home" hidden></div>
+
   <section id="education" class="panel reveal">
     <div class="sec-head">
       <div>
@@ -1584,7 +1584,7 @@ function renderProjects() {
         : `<div class="proj-media"><span class="ph"><svg class="icon"><use href="#i-image"/></svg><code>${escapeHTML(p.folder)}/1.jpg</code></span></div>`;
     const vid = ytId(p.video);
     const links = (vid ? `<button type="button" class="btn btn-ghost btn-sm" data-pvid="${i}"><svg class="icon"><use href="#i-play"/></svg><span>${t("proj.video")}</span></button>` : "")
-      + (p.links || []).map((l, k) =>
+      + (p.links || []).filter(l => !l.sheet).map((l, k) =>
       `<a class="btn ${k ? "btn-ghost" : "btn-gold"} btn-sm" href="${escapeHTML(l.url)}" target="_blank" rel="noopener noreferrer"><span>${escapeHTML(l.label || t(l.sheet ? "proj.sheet" : "proj.open"))}</span><svg class="icon"><use href="#i-arrow-up-right"/></svg></a>`).join("");
     return `<article class="card lift proj">
       ${media}
