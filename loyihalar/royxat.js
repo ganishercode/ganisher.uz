@@ -40,6 +40,14 @@
 
 window.LOYIHALAR = [
   {
+    papka: "tabrikon",
+    nomi: "Tabrikon.uz — onlayn taklifnomalar",
+    tavsif: "To'y, nikoh, sunnat va tug'ilgan kun uchun animatsiyali onlayn taklifnomalar sayti: musiqa, xarita, to'ygacha taymer va galereya bilan. 3 tilda, 30 dan ortiq shablon.",
+    teglar: ["Veb-sayt", "Cloudflare", "3 tilda"],
+    ru: { nomi: "Tabrikon.uz — онлайн-приглашения", tavsif: "Сайт анимированных онлайн-приглашений на свадьбу, никах, суннат и день рождения: с музыкой, картой, таймером и галереей. На 3 языках, более 30 шаблонов." },
+    en: { nomi: "Tabrikon.uz — online invitations", tavsif: "A site for animated online invitations to weddings, nikah, circumcision feasts and birthdays, with music, a map, a countdown and a gallery. In 3 languages, 30+ templates." }
+  },
+  {
     papka: "kirim-chiqim",
     nomi: "Kirim-Chiqim boshqaruv tizimi",
     tavsif: "Korxonaning kirim va chiqimlarini yuritish hamda natijani avtomatik hisoblash tizimi.",

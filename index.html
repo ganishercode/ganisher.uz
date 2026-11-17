@@ -305,6 +305,17 @@ main.wrap { display: flex; flex-direction: column; gap: var(--gap); padding-bloc
 .checks { display: flex; flex-direction: column; gap: 10px; }
 .checks li { display: flex; align-items: flex-start; gap: 10px; color: var(--ink); font-size: 14.5px; font-weight: 500; }
 .checks .icon { width: 18px; height: 18px; color: var(--gold); margin-top: 2px; }
+/* Kasblarim: kim ekanimni bir qarashda ko'rsatadi */
+.roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 8px; }
+.roles li { display: flex; align-items: center; gap: 12px; padding: 9px 14px 9px 10px; border-radius: 12px; background: var(--card-hi); border: 1px solid var(--line); color: var(--ink); font-size: 14.5px; font-weight: 700; line-height: 1.3; transition: border-color .25s ease, transform .25s ease; }
+.roles li:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+.roles .ic { flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--gold-soft); border: 1px solid var(--line); }
+.roles .icon { width: 19px; height: 19px; color: var(--gold); }
+.courses { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding-top: 16px; border-top: 1px solid var(--line-soft); }
+.courses > span { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); margin-right: 4px; }
+.courses a { display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px; border-radius: 999px; font-size: 13.5px; font-weight: 700; color: var(--gold); background: var(--gold-soft); border: 1px solid var(--line); transition: background-color .25s ease, color .25s ease; }
+.courses a:hover { background: var(--gold); color: var(--on-gold); }
+.courses .icon { width: 14px; height: 14px; }
 
 #skills { display: flex; flex-direction: column; }
 #skills .sec-head { margin-bottom: 22px; }
@@ -837,6 +848,18 @@ body.lb-open { overflow: hidden; }
           <span class="eyebrow"><b>01</b><i></i><span data-i18n="about.label">Men haqimda</span></span>
           <h2 class="sec-title" data-i18n-html="about.title">Murakkab hisobni <span class="gold">oddiy tizimga</span> aylantiraman</h2>
           <p data-i18n="about.p1">Biznes jarayonlaridagi tartibsizliklarni aniq, vaqtni tejaydigan va avtomatlashtirilgan tizimlarga aylantiraman. Asosiy maqsadim — murakkab ishlarni oddiy va xatosiz ishlaydigan mexanizmga o'tkazish.</p>
+          <ul class="roles" aria-label="Kasblarim">
+            <li><span class="ic"><svg class="icon"><use href="#i-chart"/></svg></span><span data-i18n="about.r1">Buxgalter</span></li>
+            <li><span class="ic"><svg class="icon"><use href="#i-cap"/></svg></span><span data-i18n="about.r2">Ofis dasturlarida ishlash o'qituvchisi</span></li>
+            <li><span class="ic"><svg class="icon"><use href="#i-layers"/></svg></span><span data-i18n="about.r3">Tizimlashtirish mutaxassisi</span></li>
+            <li><span class="ic"><svg class="icon"><use href="#i-code"/></svg></span><span data-i18n="about.r4">Vibe-coding dasturchi</span></li>
+          </ul>
+          <div class="courses">
+            <span data-i18n="about.courses">Onlayn darsliklar</span>
+            <a href="#videos"><svg class="icon"><use href="#i-play"/></svg>Excel</a>
+            <a href="#videos"><svg class="icon"><use href="#i-play"/></svg>Google Sheets</a>
+            <a href="#videos"><svg class="icon"><use href="#i-play"/></svg><span data-i18n="about.ai">Sun'iy intellekt (AI)</span></a>
+          </div>
           <ul class="checks">
             <li><svg class="icon"><use href="#i-check-circle"/></svg><span data-i18n="about.f1">Real biznes jarayonlariga mos yechimlar</span></li>
             <li><svg class="icon"><use href="#i-check-circle"/></svg><span data-i18n="about.f2">Tushunarli va xatosiz ishlaydigan jadvallar</span></li>
@@ -1337,6 +1360,8 @@ const I18N = {
     "about.p1": "Превращаю хаос в бизнес-процессах в понятные автоматизированные системы, которые экономят время. Моя главная цель — сделать сложную работу простым механизмом, который работает без ошибок.",
     "about.f1": "Решения под реальные бизнес-процессы", "about.f2": "Понятные таблицы, которые работают без ошибок",
     "about.f3": "Практические занятия без сухой теории",
+    "about.r1": "Бухгалтер", "about.r2": "Преподаватель офисных программ", "about.r3": "Специалист по систематизации", "about.r4": "Vibe-coding разработчик",
+    "about.courses": "Онлайн-уроки", "about.ai": "Искусственный интеллект (AI)",
     "skills.label": "Навыки", "skills.title": 'Мои <span class="gold">инструменты</span>',
     "skills.note": "Всегда учусь", "skill.bot": "Telegram-бот",
     "services.label": "Услуги", "services.title": 'Готовые <span class="gold">решения</span> для бизнеса',
@@ -1391,6 +1416,8 @@ const I18N = {
     "about.p1": "I turn messy business processes into clear, time-saving, automated systems. My main goal is to make complex work a simple mechanism that runs without errors.",
     "about.f1": "Solutions built around real business processes", "about.f2": "Clear spreadsheets that work without errors",
     "about.f3": "Hands-on lessons, no dry theory",
+    "about.r1": "Accountant", "about.r2": "Office software teacher", "about.r3": "Process systematization specialist", "about.r4": "Vibe-coding developer",
+    "about.courses": "Online lessons", "about.ai": "Artificial intelligence (AI)",
     "skills.label": "Skills", "skills.title": 'My <span class="gold">toolkit</span>',
     "skills.note": "Always learning", "skill.bot": "Telegram bot",
     "services.label": "Services", "services.title": 'Ready-made <span class="gold">solutions</span> for your business',
