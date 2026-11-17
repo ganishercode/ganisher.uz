@@ -422,6 +422,37 @@ button.proj-media { cursor: zoom-in; }
   .edu-media { aspect-ratio: 16 / 9; min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
 }
 
+
+/* ---------- Ajratilgan yangi loyiha: Kursdosh AI (bot brendi ranglarida — ko'k/zangori, sayt oltinidan farq qiladi) ---------- */
+.feat {
+  --kd: #56CCF2; --kd-line: rgba(86, 204, 242, 0.34);
+  display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); align-items: center;
+  padding: clamp(18px, 2.4vw, 30px); margin-bottom: var(--gap);
+  border-radius: calc(var(--r-card) + 6px); border: 1px solid var(--kd-line);
+  background: linear-gradient(125deg, #0C1B38 0%, #081226 46%, #0B0D12 100%);
+}
+.feat-media { position: relative; aspect-ratio: 9 / 16; border-radius: 22px; overflow: hidden; background: #050B1A; border: 1px solid var(--kd-line); }
+.feat-media video { width: 100%; height: 100%; display: block; object-fit: cover; background: #050B1A; }
+.feat-body { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; min-width: 0; }
+.feat-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.feat-new { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-gold); background: var(--gold); padding: 6px 12px; border-radius: 8px; }
+.feat-kind { font-size: 13px; font-weight: 600; color: var(--kd); }
+.feat-name { display: flex; align-items: center; gap: 16px; }
+.feat-name img { width: 64px; height: 64px; object-fit: cover; flex: none; clip-path: inset(7% round 20%); scale: 1.14; }   /* videodan kesilgan logotip: och hoshiyasi qirqiladi */
+.feat-name h3 { font-size: clamp(30px, 4vw, 46px); line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); }
+.feat-lead { font-size: clamp(15px, 1.5vw, 18px); line-height: 1.6; color: #C9D3E2; max-width: 56ch; }
+.feat-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+.feat-list li { font-size: 13px; font-weight: 600; color: #E6F6FD; padding: 6px 12px; border-radius: 8px; background: rgba(86, 204, 242, 0.1); border: 1px solid var(--kd-line); }
+.feat-bonus { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 12px; background: var(--gold); color: var(--on-gold); font-size: clamp(16px, 1.8vw, 21px); font-weight: 800; line-height: 1.25; transform: rotate(-1.5deg); }
+.feat-bonus span { font-size: 1.15em; }
+.feat-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 2px; }
+.feat-cta .btn { background: #2AABEE; color: #fff; }
+.feat-cta .btn:hover { background: #45B9F2; transform: translateY(-2px); }
+.feat-user { font-size: 15px; font-weight: 700; color: var(--kd); }
+@media (max-width: 760px) {
+  .feat { grid-template-columns: 1fr; }
+  .feat-media { width: min(260px, 72%); margin-inline: auto; }
+}
 /* ==========================================================================
    PREZENTATSIYALAR
    ========================================================================== */
@@ -1102,6 +1133,32 @@ body.lb-open { overflow: hidden; }
       </div>
       <p class="sec-note" data-i18n="projects.note">Rasm ustiga bosing — barcha rasmlar kattalashib ochiladi.</p>
     </div>
+    <article class="feat" id="kursdosh-ai">
+      <div class="feat-media">
+        <video controls playsinline preload="none" poster="loyihalar/kursdosh-ai/poster.jpg" src="loyihalar/kursdosh-ai/video.mp4" aria-label="Kursdosh AI — video"></video>
+      </div>
+      <div class="feat-body">
+        <div class="feat-top"><span class="feat-new" data-i18n="kd.new">Yangi loyiha</span><span class="feat-kind" data-i18n="kd.kind">Telegram bot · sun'iy intellekt</span></div>
+        <div class="feat-name"><img src="loyihalar/kursdosh-ai/logo.png" alt="" width="64" height="64" loading="lazy" decoding="async"><h3>Kursdosh AI</h3></div>
+        <p class="feat-lead" data-i18n="kd.lead">Talabalar uchun sun'iy intellekt yordamchisi. Mavzuni yozasiz — tayyor ish bir daqiqada Telegramning o'zida keladi.</p>
+        <ul class="feat-list">
+          <li data-i18n="kd.s1">Taqdimot · 10 xil dizayn</li>
+          <li data-i18n="kd.s2">Referat</li>
+          <li data-i18n="kd.s3">Mustaqil ish</li>
+          <li data-i18n="kd.s4">Kurs ishi</li>
+          <li data-i18n="kd.s5">Konspekt</li>
+          <li data-i18n="kd.s6">Test</li>
+          <li data-i18n="kd.s7">CV</li>
+          <li data-i18n="kd.s8">Obyektivka</li>
+          <li data-i18n="kd.s9">Himoya mashqi</li>
+        </ul>
+        <p class="feat-bonus"><span aria-hidden="true">🎁</span><b data-i18n="kd.bonus">Birinchi xizmat — BEPUL!</b></p>
+        <div class="feat-cta">
+          <a class="btn" href="https://t.me/KursdoshAI" target="_blank" rel="noopener noreferrer"><span data-i18n="kd.open">Botni ochish</span><svg class="icon"><use href="#i-arrow-up-right"/></svg></a>
+          <span class="feat-user">@KursdoshAI</span>
+        </div>
+      </div>
+    </article>
     <div class="projects-grid" id="projGrid" aria-live="polite"></div>
   </section>
 
@@ -1278,6 +1335,10 @@ const I18N = {
     "s4.t": "Курсы Excel / Google Sheets", "s4.d": "Практические занятия на реальных бизнес-задачах, без сухой теории.",
     "projects.label": "Проекты", "projects.title": 'Избранные <span class="gold">проекты</span>',
     "projects.note": "Нажмите на фото — все снимки откроются крупно.",
+    "kd.new": "Новый проект", "kd.kind": "Telegram-бот · искусственный интеллект",
+    "kd.lead": "ИИ-помощник для студентов. Пишете тему — готовая работа приходит за минуту прямо в Telegram.",
+    "kd.s1": "Презентация · 10 дизайнов", "kd.s2": "Реферат", "kd.s3": "Самостоятельная работа", "kd.s4": "Курсовая работа", "kd.s5": "Конспект", "kd.s6": "Тест", "kd.s7": "CV", "kd.s8": "Объективка", "kd.s9": "Тренировка защиты",
+    "kd.bonus": "Первая услуга — БЕСПЛАТНО!", "kd.open": "Открыть бота",
     "proj.open": "Открыть", "proj.sheet": "Открыть таблицу", "proj.video": "Смотреть видео", "proj.view": "Смотреть фото", "proj.empty": "Пока нет проектов.",
     "lb.close": "Закрыть", "lb.prev": "Предыдущее", "lb.next": "Следующее",
     "edu.label": "Образовательные сервисы", "edu.title": 'Онлайн-инструменты, которые <span class="gold">экономят время</span>',
@@ -1328,6 +1389,10 @@ const I18N = {
     "s4.t": "Excel / Google Sheets courses", "s4.d": "Hands-on lessons built on real business tasks, without dry theory.",
     "projects.label": "Projects", "projects.title": 'Selected <span class="gold">projects</span>',
     "projects.note": "Click a photo to open all of them full size.",
+    "kd.new": "New project", "kd.kind": "Telegram bot · AI",
+    "kd.lead": "An AI assistant for students. Type your topic and the finished work arrives in a minute, right inside Telegram.",
+    "kd.s1": "Slides · 10 designs", "kd.s2": "Essay", "kd.s3": "Independent work", "kd.s4": "Term paper", "kd.s5": "Lecture notes", "kd.s6": "Quiz", "kd.s7": "CV", "kd.s8": "Personal data sheet", "kd.s9": "Defense practice",
+    "kd.bonus": "First service is FREE!", "kd.open": "Open the bot",
     "proj.open": "Open", "proj.sheet": "Open the spreadsheet", "proj.video": "Watch the video", "proj.view": "View photos", "proj.empty": "No projects yet.",
     "lb.close": "Close", "lb.prev": "Previous", "lb.next": "Next",
     "edu.label": "Education tools", "edu.title": 'Online tools that <span class="gold">save time</span>',
