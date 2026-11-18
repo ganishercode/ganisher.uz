@@ -284,3 +284,5 @@ h1{font-size:var(--fs-xl);font-weight:800}
 }
 [data-step].show .sj{background-size:100% 3px}
 [data-step].show .pr{background-size:100% 3px,100% 3px;transition-delay:.35s}
+.bar [data-k=next].more{background:var(--sun);color:var(--ink);animation:cue 1.6s ease-in-out infinite}
+@keyframes cue{0%,100%{box-shadow:0 0 0 0 rgba(255,200,61,.7)}50%{box-shadow:0 0 0 7px rgba(255,200,61,0)}}

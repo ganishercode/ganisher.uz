@@ -14,7 +14,7 @@
     + '<div class="lang" role="group" aria-label="Til / Язык"><button type="button" data-l="ru">RU</button><button type="button" data-l="uz">UZ</button></div>'
     + '<button type="button" class="full" data-k="full" aria-label="Во весь экран">⛶</button>';
   document.body.append(prog, bar);
-  const cnt = $('.cnt', bar), progI = $('i', prog);
+  const cnt = $('.cnt', bar), progI = $('i', prog), nextBtn = $('[data-k=next]', bar);
   if (!document.documentElement.requestFullscreen) $('.full', bar).hidden = true;
 
   /* ---------- til: RU / UZ ---------- */
@@ -38,13 +38,15 @@
     setTimeout(() => el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }), 60);
   }
   const hide = el => el.classList.remove('show', 'shown', 'vis');
-  function resetSteps(s) { s._steps.forEach(hide); s._i = 0; }
+  function resetSteps(s) { s._steps.forEach(hide); s._i = 0; cue(); }
+  /* ochilmagan qadam qolsa «›» tugmasi miltillaydi */
+  function cue() { const s = slides[cur]; nextBtn.classList.toggle('more', !!s && s._i < s._steps.length); }
   function step(d, pt) {
     const s = slides[cur];
     if (d > 0 && s._i < s._steps.length) {
       const n = s._steps[s._i].dataset.step;
       while (s._i < s._steps.length && s._steps[s._i].dataset.step === n) reveal(s._steps[s._i++]);
-      return;
+      return cue();
     }
     go(cur + d, false, pt);
   }
@@ -62,7 +64,7 @@
     next.classList.remove('show-all', 'types', 'in');
     next.scrollTop = 0;
     next.classList.add('on', 'top'); next.setAttribute('aria-hidden', 'false');
-    cur = n;
+    cur = n; cue();
     if (prev && !instant && !reduce) {
       const W = innerWidth, H = innerHeight;
       const x = pt ? pt.x : (fwd ? W - 60 : 60), y = pt ? pt.y : H - 40;
