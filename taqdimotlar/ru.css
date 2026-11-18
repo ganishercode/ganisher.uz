@@ -1,0 +1,128 @@
+@font-face{font-family:'Rubik';font-weight:400 800;font-display:swap;src:url(assets/ru/rubik-cyrillic-ext.woff2) format('woff2');unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+@font-face{font-family:'Rubik';font-weight:400 800;font-display:swap;src:url(assets/ru/rubik-cyrillic.woff2) format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+@font-face{font-family:'Rubik';font-weight:400 800;font-display:swap;src:url(assets/ru/rubik-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Rubik';font-weight:400 800;font-display:swap;src:url(assets/ru/rubik-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Nunito';font-weight:400 800;font-display:swap;src:url(assets/ru/nunito-cyrillic-ext.woff2) format('woff2');unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+@font-face{font-family:'Nunito';font-weight:400 800;font-display:swap;src:url(assets/ru/nunito-cyrillic.woff2) format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+@font-face{font-family:'Nunito';font-weight:400 800;font-display:swap;src:url(assets/ru/nunito-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Nunito';font-weight:400 800;font-display:swap;src:url(assets/ru/nunito-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Caveat';font-weight:400 700;font-display:swap;src:url(assets/ru/caveat-cyrillic-ext.woff2) format('woff2');unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+@font-face{font-family:'Caveat';font-weight:400 700;font-display:swap;src:url(assets/ru/caveat-cyrillic.woff2) format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+@font-face{font-family:'Caveat';font-weight:400 700;font-display:swap;src:url(assets/ru/caveat-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Caveat';font-weight:400 700;font-display:swap;src:url(assets/ru/caveat-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+
+/* Rus tili: daftar uslubi — chiziqli qogoz, qizil hoshiya, rangli tagiga chizishlar */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--paper:#FBF8F1;--ink:#1F2D5C;--soft:#5B6585;--rule:#cfdcef;--margin:#E8A0A3;--g:#1F9D6A;--b:#2F6FED;--o:#E8742C;--r:#D9434B;--hl:#FFE680}
+html,body{height:100%;overflow:hidden;background:#2a3350}
+body{font-family:Nunito,'Segoe UI',system-ui,sans-serif;color:var(--ink)}
+ul,ol{list-style:none}
+button{font:inherit;color:inherit}
+.stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;overflow:hidden;background:#3a4363;perspective:2200px;user-select:none}
+.slide{position:absolute;inset:0;visibility:hidden;background-color:var(--paper);
+  background-image:linear-gradient(90deg,transparent 99px,var(--margin) 99px,var(--margin) 101px,transparent 101px),repeating-linear-gradient(transparent 0 35px,var(--rule) 35px 36px);
+  background-position:0 0,0 18px;transform-origin:0 50%;backface-visibility:hidden;cursor:pointer}
+.slide.on,.slide.out{visibility:visible}
+.slide.on{z-index:3}.slide.out{z-index:4}
+.slide::after{content:"";position:absolute;left:30px;top:0;bottom:0;width:22px;background:radial-gradient(circle at 11px 18px,#3a4363 6px,transparent 7px) 0 0/22px 72px repeat-y;opacity:.85;pointer-events:none}
+.notes{display:none}
+
+/* til almashtirgich */
+.uz{display:none!important}
+body.lang-uz .uz{display:revert!important}
+body.lang-uz .ru.tr{display:none!important}
+.typing[hidden],.txt[hidden]{display:none!important}
+.lang{position:absolute;right:28px;bottom:18px;z-index:8;display:flex;border:2px solid var(--ink);border-radius:999px;overflow:hidden;background:#fff;box-shadow:0 4px 0 rgba(31,45,92,.15)}
+.lang button{border:0;background:transparent;padding:6px 16px;font:800 15px Rubik,sans-serif;letter-spacing:.06em;cursor:pointer}
+.lang button.on{background:var(--ink);color:#fff}
+
+
+/* tipografiya */
+.h{font-family:Rubik,sans-serif;font-weight:700;letter-spacing:-.01em;line-height:1.08}
+.hand{font-family:Caveat,cursive;font-weight:700}
+.title{position:absolute;left:140px;top:54px;right:170px;font-size:44px}
+.kicker{position:absolute;left:142px;top:26px;font:800 13px Rubik,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--r)}
+.body{position:absolute;left:140px;right:70px;top:150px;bottom:60px}
+.p{font-size:21px;line-height:1.55}
+.mut{color:var(--soft)}
+.hl{background:linear-gradient(transparent 55%,var(--hl) 55%)}
+.sticker{display:inline-block;padding:10px 16px;background:#FFF6C9;border:2px solid #E9D47C;border-radius:4px;transform:rotate(-1.5deg);box-shadow:0 6px 12px rgba(0,0,0,.08)}
+
+/* gap bo'laklari: tagiga chizish chiziqlari (animatsiya bilan chiziladi) */
+.m{position:relative;white-space:nowrap;padding-bottom:7px}
+.m::after{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background-repeat:repeat-x;background-position:0 50%;clip-path:inset(0 100% 0 0);transition:clip-path .9s cubic-bezier(.6,0,.2,1);transition-delay:var(--md,.6s);pointer-events:none}
+.m.opr::after{background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2716%27%20height=%278%27%3E%3Cpath%20d=%27M0%204%20Q4%200%208%204%20T16%204%27%20fill=%27none%27%20stroke=%27%231F9D6A%27%20stroke-width=%272.2%27/%3E%3C/svg%3E")}
+.m.dop::after{background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2714%27%20height=%278%27%3E%3Cpath%20d=%27M0%204h8%27%20stroke=%27%232F6FED%27%20stroke-width=%272.6%27/%3E%3C/svg%3E")}
+.m.obst::after{background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2720%27%20height=%278%27%3E%3Cpath%20d=%27M0%204h9M13%204h2.6%27%20stroke=%27%23E8742C%27%20stroke-width=%272.6%27/%3E%3C/svg%3E")}
+.m.pod::after{background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2710%27%20height=%278%27%3E%3Cpath%20d=%27M0%204h10%27%20stroke=%27%23D9434B%27%20stroke-width=%272.4%27/%3E%3C/svg%3E")}
+.m.skaz{padding-bottom:9px}.m.skaz::after{height:10px;background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2710%27%20height=%2710%27%3E%3Cpath%20d=%27M0%202.5h10M0%207.5h10%27%20stroke=%27%23D9434B%27%20stroke-width=%272.2%27/%3E%3C/svg%3E")}
+.slide.in .m.show::after,.show-all .m::after{clip-path:inset(0 0 0 0)}
+.c-opr{color:var(--g)}.c-dop{color:var(--b)}.c-obst{color:var(--o)}.c-r{color:var(--r)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font:700 14px Nunito,sans-serif}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{display:inline-block;width:44px;height:10px;background-repeat:repeat-x;background-position:0 50%}
+.legend .opr{background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2716%27%20height=%278%27%3E%3Cpath%20d=%27M0%204%20Q4%200%208%204%20T16%204%27%20fill=%27none%27%20stroke=%27%231F9D6A%27%20stroke-width=%272.2%27/%3E%3C/svg%3E")}.legend .dop{background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2714%27%20height=%278%27%3E%3Cpath%20d=%27M0%204h8%27%20stroke=%27%232F6FED%27%20stroke-width=%272.6%27/%3E%3C/svg%3E")}.legend .obst{background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2720%27%20height=%278%27%3E%3Cpath%20d=%27M0%204h9M13%204h2.6%27%20stroke=%27%23E8742C%27%20stroke-width=%272.6%27/%3E%3C/svg%3E")}
+.legend .pod{background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2710%27%20height=%278%27%3E%3Cpath%20d=%27M0%204h10%27%20stroke=%27%23D9434B%27%20stroke-width=%272.4%27/%3E%3C/svg%3E")}.legend .skaz{background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2710%27%20height=%2710%27%3E%3Cpath%20d=%27M0%202.5h10M0%207.5h10%27%20stroke=%27%23D9434B%27%20stroke-width=%272.2%27/%3E%3C/svg%3E")}
+
+/* kirish animatsiyalari: "yozib chiqiladi" */
+.w{opacity:0;clip-path:inset(0 100% 0 0)}
+.slide.in .w{opacity:1;clip-path:inset(0 0 0 0);transition:clip-path .9s cubic-bezier(.6,0,.2,1),opacity .2s;transition-delay:var(--d,.2s)}
+.u{opacity:0;transform:translateY(22px)}
+.slide.in .u{opacity:1;transform:none;transition:opacity .5s ease,transform .7s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,.3s)}
+.pop{opacity:0;transform:scale(.6) rotate(-6deg)}
+.slide.in .pop{opacity:1;transform:rotate(var(--rot,0deg));transition:opacity .4s ease,transform .7s cubic-bezier(.16,1,.3,1);transition-delay:var(--d,.3s)}
+.draw .ln{stroke-dasharray:1;stroke-dashoffset:1}
+.slide.in .draw .ln{stroke-dashoffset:0;transition:stroke-dashoffset 1.4s ease;transition-delay:var(--d,.5s)}
+
+/* kartochkalar */
+.card{background:#fff;border:2px solid var(--ink);border-radius:14px;box-shadow:5px 6px 0 rgba(31,45,92,.14)}
+.qbub{display:inline-block;font:700 28px Caveat,cursive;color:var(--r);padding:0 4px}
+.ex{font:600 27px/1.5 Nunito,sans-serif}
+.exrow{position:relative;padding:16px 22px;margin-top:14px}
+.exrow .uz{font-size:16px;color:var(--soft);font-weight:600;margin-top:4px}
+
+/* lug'at */
+.vocab{display:grid;grid-template-columns:repeat(3,1fr);gap:11px 16px}
+.vw{position:relative;display:flex;flex-direction:column;justify-content:center;min-height:70px;padding:8px 16px;text-align:left;cursor:pointer;background:#fff;border:2px solid var(--ink);border-radius:12px;box-shadow:4px 5px 0 rgba(31,45,92,.14);transition:transform .2s,background-color .3s,border-color .3s}
+.vw:hover{transform:translateY(-2px)}
+.vw .r{font:700 21px Rubik,sans-serif}
+.vw .t{font:700 18px Nunito,sans-serif;color:var(--g);max-height:0;opacity:0;overflow:hidden;transition:opacity .35s,max-height .35s}
+.vw.open .t{max-height:28px;opacity:1}
+.vw .k{position:absolute;right:12px;top:9px;font:800 11px Rubik,sans-serif;letter-spacing:.12em;color:#9aa3bd}
+.vw.open{background:#F2FBF6;border-color:var(--g)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border:2px solid var(--ink);border-radius:999px;background:#fff;font:800 15px Rubik,sans-serif;cursor:pointer;box-shadow:0 4px 0 rgba(31,45,92,.18)}
+.btn:hover{background:var(--ink);color:#fff}
+.btn.on{background:var(--ink);color:#fff}
+
+/* dialog */
+.chat{position:absolute;left:140px;right:70px;top:118px;bottom:124px;overflow:hidden;-webkit-mask-image:linear-gradient(transparent 0,#000 46px);mask-image:linear-gradient(transparent 0,#000 46px);padding-top:46px;display:flex;flex-direction:column;justify-content:flex-end;gap:9px}
+.msg{display:none;gap:12px;align-items:flex-end;max-width:78%;opacity:0;transform:translateY(16px) scale(.96);transition:opacity .35s,transform .5s cubic-bezier(.16,1,.3,1)}
+.msg.shown{display:flex}
+.msg.vis{opacity:1;transform:none}
+.msg.b{align-self:flex-end;flex-direction:row-reverse}
+.ava{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:800 15px Rubik,sans-serif;color:#fff}
+.msg.a .ava{background:var(--b)}.msg.b .ava{background:var(--o)}
+.bub{padding:10px 16px;border-radius:18px;background:#fff;border:2px solid var(--ink);font:600 19px/1.4 Nunito,sans-serif;box-shadow:3px 4px 0 rgba(31,45,92,.12)}
+.msg.a .bub{border-bottom-left-radius:4px}.msg.b .bub{border-bottom-right-radius:4px;background:#FFF4EA}
+.bub small{display:block;font:800 12px Rubik,sans-serif;letter-spacing:.08em;color:var(--soft);margin-bottom:2px}
+.typing{display:inline-flex;gap:4px;padding:6px 2px}
+.typing i{width:8px;height:8px;border-radius:50%;background:#9aa3bd;animation:blink 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+.chatbar{position:absolute;left:140px;bottom:66px;display:flex;gap:12px;align-items:center}
+
+/* boshqaruv */
+.bar{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:2px;align-items:center;padding:5px 7px;border-radius:999px;background:rgba(31,45,92,.92);z-index:20;opacity:.2;transition:opacity .25s;font:700 13px Nunito,sans-serif}
+.bar:hover,.bar.show{opacity:1}
+.bar button,.bar a{border:0;background:transparent;color:#fff;padding:7px 12px;border-radius:999px;cursor:pointer;text-decoration:none;font:inherit}
+.bar button:hover,.bar a:hover{background:rgba(255,255,255,.16)}
+.bar button.on{background:var(--o)}
+.bar .cnt{color:#fff;padding:0 6px;min-width:56px;text-align:center;font-variant-numeric:tabular-nums}
+.prog{position:fixed;left:0;top:0;width:100%;height:4px;background:var(--o);z-index:20;transform:scaleX(0);transform-origin:left;transition:transform .6s}
+.notebox{position:fixed;left:50%;bottom:62px;transform:translateX(-50%);width:min(900px,92vw);max-height:34vh;overflow:auto;padding:16px 20px;border-radius:12px;background:#1F2D5C;color:#f3f4fa;font:15px/1.55 Nunito,sans-serif;z-index:19;display:none}
+.notebox.show{display:block}.notebox p+p{margin-top:8px}
+@media (prefers-reduced-motion:reduce){
+  .w,.u,.pop{opacity:1!important;clip-path:none!important;transform:none!important;transition:none!important}
+  .m::after{transition:none!important}
+  .draw .ln{stroke-dashoffset:0!important;transition:none!important}
+}

@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Второстепенные члены предложения</title>
+<link rel="stylesheet" href="ru.css">
+<style>
+.kw{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kw li{padding:16px 18px;min-height:96px;display:flex;flex-direction:column;justify-content:center}
+.kw b{font:700 21px Rubik,sans-serif;line-height:1.2}
+.kw span.uz{font:700 16px Nunito,sans-serif;color:var(--g);margin-top:4px}
+.kw li:nth-child(4n+1){--rot:-1.2deg}.kw li:nth-child(4n+2){--rot:1deg}.kw li:nth-child(4n+3){--rot:-.6deg}.kw li:nth-child(4n){--rot:1.4deg}
+.rule{padding:22px 26px}
+.rule .h{font-size:28px}
+.rule p{font-size:19px;line-height:1.5;margin-top:10px}
+.qs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.qs span{font:700 17px Nunito,sans-serif;padding:4px 12px;border-radius:999px;background:#fff;border:2px solid currentColor}
+.pic{position:absolute}
+.pic svg{display:block;width:100%;height:auto;overflow:visible}
+.cap{font:700 24px Caveat,cursive;color:var(--soft);text-align:center;margin-top:4px}
+.tree text{font-family:Rubik,sans-serif}
+.parse{position:absolute;left:140px;right:70px;top:250px;text-align:center}
+.parse .sent{font:700 33px/1.2 Nunito,sans-serif;display:flex;justify-content:center;gap:14px;flex-wrap:nowrap}
+.parse .wd{display:inline-flex;flex-direction:column;align-items:center}
+.parse .lab{font:700 15px Nunito,sans-serif;margin-top:10px;opacity:0;transform:translateY(-6px);transition:opacity .4s .5s,transform .5s .5s;white-space:nowrap}
+.parse .lab .qbub{font-size:24px;display:block;line-height:1}
+.parse .m.show + .lab{opacity:1;transform:none}
+.parse .m{--md:0s}
+.txt{font:600 20px/1.6 Nunito,sans-serif;text-align:justify}
+.txt p+p{margin-top:14px}
+.txt .m{padding-bottom:5px}
+.ill{position:absolute;padding:14px}
+.ill .cap{font-size:22px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#D9434B"/></marker>
+</defs></svg>
+
+<main class="stage">
+
+<!-- 1 · Тема -->
+<section class="slide">
+  <p class="kicker w" style="--d:.1s"><span class="ru tr">Русский язык · практическое занятие</span><span class="uz">Rus tili · amaliy mashg‘ulot</span></p>
+  <h1 class="h w" style="position:absolute;left:140px;top:120px;width:900px;font-size:66px;--d:.25s"><span class="ru tr">Второстепенные члены предложения</span><span class="uz">Gapning ikkinchi darajali bo‘laklari</span></h1>
+  <p class="u" style="position:absolute;left:142px;top:300px;font:600 24px Nunito,sans-serif;--d:.8s"><span class="ru tr">Лексическая тема:</span><span class="uz">Leksik mavzu:</span> <span class="hl"><b><span class="ru tr">текст по специальности «Уравнение»</span><span class="uz">mutaxassislik bo‘yicha matn — «Tenglama»</span></b></span></p>
+  <div class="legend u" style="position:absolute;left:142px;top:370px;--d:1s">
+    <span><i class="opr"></i><span class="ru tr">определение</span><span class="uz">aniqlovchi</span></span>
+    <span><i class="dop"></i><span class="ru tr">дополнение</span><span class="uz">to‘ldiruvchi</span></span>
+    <span><i class="obst"></i><span class="ru tr">обстоятельство</span><span class="uz">hol</span></span>
+  </div>
+  <div class="card pop" style="position:absolute;left:142px;top:470px;padding:18px 24px;--d:1.2s;--rot:-1deg">
+    <p style="font:600 18px/1.6 Nunito,sans-serif"><span class="ru tr">Студентка:</span><span class="uz">Talaba:</span> <b><span class="ru tr">Джумабаева Мехринисо</span><span class="uz">Jumabayeva Mehriniso</span></b><br>
+    <span class="ru tr">Группа:</span><span class="uz">Guruh:</span> <b><span class="ru tr">262-математика</span><span class="uz">262-matematika</span></b><br>
+    <span class="ru tr">Предмет:</span><span class="uz">Fan:</span> <b><span class="ru tr">Русский язык</span><span class="uz">Rus tili</span></b></p>
+  </div>
+  <div class="pic draw" style="left:820px;top:380px;width:360px;--d:.6s">
+    <svg viewBox="0 0 360 260"><rect class="ln" pathLength="1" x="10" y="10" width="340" height="220" rx="10" fill="#2E4A3E" stroke="#8a6a3c" stroke-width="10"/>
+      <text x="180" y="105" text-anchor="middle" font-family="Caveat" font-size="58" fill="#f4f1e6">x + 5 = 12</text>
+      <text x="180" y="180" text-anchor="middle" font-family="Caveat" font-size="52" fill="#FFE680">x = 7</text></svg>
+  </div>
+  <aside class="notes"><p>Здравствуйте! Тема нашего занятия — «Второстепенные члены предложения». Лексическая тема — текст по специальности «Уравнение».</p></aside>
+</section>
+
+<!-- 2 · Ключевые слова -->
+<section class="slide">
+  <p class="kicker w"><span class="ru tr">Шаг 1</span><span class="uz">1-qadam</span></p>
+  <h2 class="title h w" style="--d:.2s"><span class="ru tr">Ключевые слова</span><span class="uz">Kalit so‘zlar</span></h2>
+  <div class="body" style="top:160px">
+    <ul class="kw">
+      <li class="card pop" style="--d:.3s"><b>члены предложения</b><span class="uz">gap bo‘laklari</span></li>
+      <li class="card pop" style="--d:.4s"><b>главные члены</b><span class="uz">bosh bo‘laklar</span></li>
+      <li class="card pop" style="--d:.5s"><b>второстепенные члены</b><span class="uz">ikkinchi darajali bo‘laklar</span></li>
+      <li class="card pop" style="--d:.6s"><b>подлежащее · сказуемое</b><span class="uz">ega · kesim</span></li>
+      <li class="card pop" style="--d:.7s"><b class="c-opr">определение</b><span class="uz">aniqlovchi</span></li>
+      <li class="card pop" style="--d:.8s"><b class="c-dop">дополнение</b><span class="uz">to‘ldiruvchi</span></li>
+      <li class="card pop" style="--d:.9s"><b class="c-obst">обстоятельство</b><span class="uz">hol</span></li>
+      <li class="card pop" style="--d:1s"><b>вопрос</b><span class="uz">so‘roq</span></li>
+      <li class="card pop" style="--d:1.1s"><b>уравнение</b><span class="uz">tenglama</span></li>
+      <li class="card pop" style="--d:1.2s"><b>неизвестное</b><span class="uz">noma’lum</span></li>
+      <li class="card pop" style="--d:1.3s"><b>решение</b><span class="uz">yechim</span></li>
+      <li class="card pop" style="--d:1.4s"><b>логическое мышление</b><span class="uz">mantiqiy fikrlash</span></li>
+    </ul>
+  </div>
+  <aside class="notes"><p>Ключевые слова урока: члены предложения, главные и второстепенные члены, определение, дополнение, обстоятельство, а также слова из текста — уравнение, неизвестное, решение, логическое мышление.</p></aside>
+</section>
+
+<!-- 3 · Правило: общая схема -->
+<section class="slide">
+  <p class="kicker w"><span class="ru tr">Шаг 2 · правило</span><span class="uz">2-qadam · qoida</span></p>
+  <h2 class="title h w" style="--d:.2s"><span class="ru tr">Главные и второстепенные члены</span><span class="uz">Bosh va ikkinchi darajali bo‘laklar</span></h2>
+  <p class="p u" style="position:absolute;left:140px;top:132px;width:1050px;--d:.4s"><span class="ru tr">Главные члены — <b>подлежащее</b> и <b>сказуемое</b> — составляют основу предложения. <b>Второстепенные</b> члены поясняют главные или другие члены предложения.</span><span class="uz">Bosh bo‘laklar — <b>ega</b> va <b>kesim</b> — gapning asosini tashkil etadi. <b>Ikkinchi darajali</b> bo‘laklar bosh bo‘laklarni yoki boshqa bo‘laklarni izohlaydi.</span></p>
+  <div class="pic draw tree" style="left:140px;top:230px;width:1060px;--d:.6s">
+    <svg viewBox="0 0 1060 420">
+      <rect x="390" y="0" width="280" height="62" rx="14" fill="#fff" stroke="#1F2D5C" stroke-width="3"/>
+      <text x="530" y="40" text-anchor="middle" font-size="26" font-weight="700" fill="#1F2D5C">Предложение</text>
+      <path class="ln" pathLength="1" d="M530 62 V92 H230 V122 M530 92 H790 V122" fill="none" stroke="#1F2D5C" stroke-width="3"/>
+      <rect x="90" y="122" width="280" height="56" rx="12" fill="#FDECEC" stroke="#D9434B" stroke-width="3"/>
+      <text x="230" y="158" text-anchor="middle" font-size="23" font-weight="700" fill="#D9434B">главные члены</text>
+      <rect x="610" y="122" width="360" height="56" rx="12" fill="#EEF3FF" stroke="#1F2D5C" stroke-width="3"/>
+      <text x="790" y="158" text-anchor="middle" font-size="23" font-weight="700" fill="#1F2D5C">второстепенные члены</text>
+      <path class="ln" pathLength="1" d="M230 178 V206 H140 V236 M230 206 H320 V236" fill="none" stroke="#D9434B" stroke-width="3"/>
+      <path class="ln" pathLength="1" d="M790 178 V206 H620 V236 M790 206 V236 M790 206 H960 V236" fill="none" stroke="#1F2D5C" stroke-width="3"/>
+      <text x="140" y="270" text-anchor="middle" font-size="21" font-weight="700" fill="#1F2D5C">подлежащее</text>
+      <line x1="85" x2="195" y1="290" y2="290" stroke="#D9434B" stroke-width="3"/>
+      <text x="140" y="322" text-anchor="middle" font-size="17" fill="#5B6585">кто? что?</text>
+      <text x="320" y="270" text-anchor="middle" font-size="21" font-weight="700" fill="#1F2D5C">сказуемое</text>
+      <line x1="270" x2="370" y1="287" y2="287" stroke="#D9434B" stroke-width="3"/><line x1="270" x2="370" y1="294" y2="294" stroke="#D9434B" stroke-width="3"/>
+      <text x="320" y="322" text-anchor="middle" font-size="17" fill="#5B6585">что делает?</text>
+      <text x="620" y="270" text-anchor="middle" font-size="21" font-weight="700" fill="#1F9D6A">определение</text>
+      <path d="M555 290 q8 -8 16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="#1F9D6A" stroke-width="3"/>
+      <text x="620" y="322" text-anchor="middle" font-size="17" fill="#5B6585">какой? чей?</text>
+      <text x="790" y="270" text-anchor="middle" font-size="21" font-weight="700" fill="#2F6FED">дополнение</text>
+      <line x1="730" x2="850" y1="290" y2="290" stroke="#2F6FED" stroke-width="3" stroke-dasharray="10 7"/>
+      <text x="790" y="322" text-anchor="middle" font-size="17" fill="#5B6585">кого? чего? что? чем?</text>
+      <text x="960" y="270" text-anchor="middle" font-size="21" font-weight="700" fill="#E8742C">обстоятельство</text>
+      <line x1="885" x2="1035" y1="290" y2="290" stroke="#E8742C" stroke-width="3" stroke-dasharray="12 5 3 5"/>
+      <text x="960" y="322" text-anchor="middle" font-size="17" fill="#5B6585">где? когда? как?</text>
+    </svg>
+  </div>
+  <p class="u uz" style="position:absolute;left:140px;top:600px;font:600 16px Nunito,sans-serif;color:var(--soft);--d:1.4s">Sxemada: ega — kim? nima?, kesim — nima qiladi?, aniqlovchi — qanday? kimning?, to‘ldiruvchi — kimni? nimani? nima bilan?, hol — qayerda? qachon? qanday?</p>
+  <aside class="notes"><p>Члены предложения делятся на главные и второстепенные. Главные — подлежащее и сказуемое. Второстепенные — определение, дополнение и обстоятельство. Каждый член предложения подчёркивается своей линией.</p></aside>
+</section>
+
+<!-- 4 · Определение -->
+<section class="slide">
+  <p class="kicker w"><span class="ru tr">Правило 1</span><span class="uz">1-qoida</span></p>
+  <h2 class="title h w c-opr" style="--d:.2s"><span class="ru tr">Определение</span><span class="uz">Aniqlovchi</span></h2>
+  <div class="card rule u" style="position:absolute;left:140px;top:136px;width:560px;--d:.4s">
+    <p style="margin-top:0"><span class="ru tr">Определение обозначает <b>признак предмета</b> и отвечает на вопросы:</span><span class="uz">Aniqlovchi <b>narsaning belgisini</b> bildiradi va quyidagi so‘roqlarga javob beradi:</span></p>
+    <div class="qs c-opr"><span>какой?</span><span>какая?</span><span>какое?</span><span>какие?</span><span>чей?</span></div>
+    <p><span class="ru tr">Подчёркивается</span><span class="uz">Tagiga</span> <b class="c-opr"><span class="ru tr">волнистой линией</span><span class="uz">to‘lqinli chiziq chiziladi</span></b> <span class="legend" style="display:inline-flex;vertical-align:middle"><i class="opr"></i></span></p>
+  </div>
+  <div class="exrow card u" style="position:absolute;left:140px;top:396px;width:560px;--d:.8s">
+    <p class="ex"><span class="m opr show" style="--md:1.4s">Линейные</span> уравнения являются простыми.</p>
+    <p class="uz">Chiziqli tenglamalar sodda hisoblanadi.</p>
+  </div>
+  <div class="exrow card u" style="position:absolute;left:140px;top:530px;width:560px;--d:1s">
+    <p class="ex">Каждый вид имеет <span class="m opr show" style="--md:1.8s">свои</span> особенности.</p>
+    <p class="uz">Har bir turning o‘z xususiyatlari bor.</p>
+  </div>
+  <div class="pic draw" style="left:760px;top:150px;width:440px;--d:.8s">
+    <svg viewBox="0 0 440 440">
+      <rect x="20" y="40" width="400" height="300" rx="16" fill="#fff" stroke="#1F2D5C" stroke-width="3"/>
+      <path d="M60 300 H390 M80 320 V70" stroke="#9aa3bd" stroke-width="2"/>
+      <path class="ln" pathLength="1" d="M80 290 L380 90" stroke="#1F9D6A" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <text x="250" y="250" font-family="Caveat" font-size="32" font-weight="700" fill="#1F9D6A">y = 2x + 1</text>
+      <rect x="40" y="0" width="190" height="56" rx="28" fill="#1F9D6A"/>
+      <text x="135" y="37" text-anchor="middle" font-family="Rubik" font-size="22" font-weight="700" fill="#fff">уравнение</text>
+      <path class="ln" pathLength="1" d="M135 56 C 140 120, 200 140, 250 190" stroke="#D9434B" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+      <text x="170" y="118" font-family="Caveat" font-size="34" font-weight="700" fill="#D9434B">какое?</text>
+      <rect x="150" y="364" width="160" height="56" rx="12" fill="#F2FBF6" stroke="#1F9D6A" stroke-width="3"/>
+      <text x="230" y="401" text-anchor="middle" font-family="Rubik" font-size="24" font-weight="700" fill="#1F9D6A">линейное</text>
+    </svg>
+    <p class="cap"><span class="ru tr">Какое уравнение? — линейное (признак)</span><span class="uz">Qanday tenglama? — chiziqli (belgi)</span></p>
+  </div>
+  <aside class="notes"><p>Определение обозначает признак предмета и отвечает на вопросы «какой?», «чей?». Например: уравнения (какие?) линейные. Определение подчёркивается волнистой линией.</p></aside>
+</section>
+
+<!-- 5 · Дополнение -->
+<section class="slide">
+  <p class="kicker w"><span class="ru tr">Правило 2</span><span class="uz">2-qoida</span></p>
+  <h2 class="title h w c-dop" style="--d:.2s"><span class="ru tr">Дополнение</span><span class="uz">To‘ldiruvchi</span></h2>
+  <div class="card rule u" style="position:absolute;left:140px;top:136px;width:560px;--d:.4s">
+    <p style="margin-top:0"><span class="ru tr">Дополнение обозначает <b>предмет</b> и отвечает на вопросы косвенных падежей:</span><span class="uz">To‘ldiruvchi <b>narsani</b> bildiradi va vositali kelishik so‘roqlariga javob beradi:</span></p>
+    <div class="qs c-dop"><span>кого? чего?</span><span>кому? чему?</span><span>кого? что?</span><span>кем? чем?</span><span>о ком? о чём?</span></div>
+    <p><span class="ru tr">Подчёркивается</span><span class="uz">Tagiga</span> <b class="c-dop"><span class="ru tr">пунктирной линией</span><span class="uz">punktir (uzuq) chiziq chiziladi</span></b> <span class="legend" style="display:inline-flex;vertical-align:middle"><i class="dop"></i></span></p>
+  </div>
+  <div class="exrow card u" style="position:absolute;left:140px;top:396px;width:560px;--d:.8s">
+    <p class="ex">Студент решает <span class="m dop show" style="--md:1.4s">уравнение</span>.</p>
+    <p class="uz">Talaba tenglamani yechmoqda.</p>
+  </div>
+  <div class="exrow card u" style="position:absolute;left:140px;top:530px;width:560px;--d:1s">
+    <p class="ex">Изучение уравнений развивает <span class="m dop show" style="--md:1.8s">мышление</span>.</p>
+    <p class="uz">Tenglamalarni o‘rganish fikrlashni rivojlantiradi.</p>
+  </div>
+  <div class="pic draw" style="left:760px;top:150px;width:440px;--d:.8s">
+    <svg viewBox="0 0 440 440">
+      <circle cx="90" cy="120" r="34" fill="#2F6FED"/>
+      <path d="M40 250 q0 -80 50 -80 q50 0 50 80z" fill="#2F6FED"/>
+      <text x="90" y="285" text-anchor="middle" font-family="Rubik" font-size="20" font-weight="700" fill="#1F2D5C">студент</text>
+      <path class="ln" pathLength="1" d="M150 190 H250" stroke="#D9434B" stroke-width="4" fill="none" marker-end="url(#ar)"/>
+      <text x="196" y="96" text-anchor="middle" font-family="Caveat" font-size="30" font-weight="700" fill="#D9434B">решает</text><text x="196" y="128" text-anchor="middle" font-family="Caveat" font-size="30" font-weight="700" fill="#D9434B">что?</text>
+      <rect x="262" y="120" width="170" height="140" rx="10" fill="#2E4A3E" stroke="#8a6a3c" stroke-width="7"/>
+      <text x="347" y="182" text-anchor="middle" font-family="Caveat" font-size="34" fill="#f4f1e6">x² − 4 = 0</text>
+      <text x="347" y="230" text-anchor="middle" font-family="Caveat" font-size="30" fill="#FFE680">x = ±2</text>
+      <rect x="252" y="300" width="190" height="56" rx="12" fill="#EEF3FF" stroke="#2F6FED" stroke-width="3" stroke-dasharray="10 6"/>
+      <text x="347" y="337" text-anchor="middle" font-family="Rubik" font-size="24" font-weight="700" fill="#2F6FED">уравнение</text>
+    </svg>
+    <p class="cap"><span class="ru tr">Решает что? — уравнение (предмет действия)</span><span class="uz">Nimani yechadi? — tenglamani (harakat obyekti)</span></p>
+  </div>
+  <aside class="notes"><p>Дополнение обозначает предмет и отвечает на вопросы косвенных падежей. Например: решает (что?) уравнение. Дополнение подчёркивается пунктиром.</p></aside>
+</section>
+
+<!-- 6 · Обстоятельство -->
+<section class="slide">
+  <p class="kicker w"><span class="ru tr">Правило 3</span><span class="uz">3-qoida</span></p>
+  <h2 class="title h w c-obst" style="--d:.2s"><span class="ru tr">Обстоятельство</span><span class="uz">Hol</span></h2>
+  <div class="card rule u" style="position:absolute;left:140px;top:136px;width:560px;--d:.4s">
+    <p style="margin-top:0"><span class="ru tr">Обстоятельство обозначает <b>место, время, образ действия, причину</b> или <b>цель</b> и отвечает на вопросы:</span><span class="uz">Hol harakatning <b>o‘rni, vaqti, tarzi, sababi</b> yoki <b>maqsadini</b> bildiradi va quyidagi so‘roqlarga javob beradi:</span></p>
+    <div class="qs c-obst"><span>где?</span><span>когда?</span><span>куда?</span><span>как?</span><span>почему?</span><span>зачем?</span></div>
+    <p><span class="ru tr">Подчёркивается</span><span class="uz">Tagiga</span> <b class="c-obst"><span class="ru tr">штрихпунктирной линией</span><span class="uz">nuqta-chiziq chiziladi</span></b> <span class="legend" style="display:inline-flex;vertical-align:middle"><i class="obst"></i></span></p>
+  </div>
+  <div class="exrow card u" style="position:absolute;left:140px;top:420px;width:560px;--d:.8s">
+    <p class="ex">Уравнения <span class="m obst show" style="--md:1.4s">широко</span> используются <span class="m obst show" style="--md:1.9s">в физике</span>.</p>
+    <p class="uz">Tenglamalar fizikada keng qo‘llaniladi.</p>
+  </div>
+  <div class="pic draw" style="left:760px;top:140px;width:440px;--d:.8s">
+    <svg viewBox="0 0 440 460">
+      <rect x="20" y="20" width="400" height="120" rx="14" fill="#fff" stroke="#1F2D5C" stroke-width="3"/>
+      <circle cx="80" cy="80" r="34" fill="#FFF4EA" stroke="#E8742C" stroke-width="4"/><path d="M80 80 V58 M80 80 L96 90" stroke="#E8742C" stroke-width="4" stroke-linecap="round"/>
+      <text x="140" y="70" font-family="Caveat" font-size="32" font-weight="700" fill="#D9434B">когда?</text>
+      <text x="140" y="108" font-family="Rubik" font-size="21" font-weight="700" fill="#E8742C">утром, на уроке</text>
+      <rect x="20" y="160" width="400" height="120" rx="14" fill="#fff" stroke="#1F2D5C" stroke-width="3"/>
+      <path d="M80 190 c-20 0 -32 16 -32 32 c0 24 32 46 32 46 s32 -22 32 -46 c0 -16 -12 -32 -32 -32z" fill="#FFF4EA" stroke="#E8742C" stroke-width="4"/><circle cx="80" cy="222" r="9" fill="#E8742C"/>
+      <text x="140" y="210" font-family="Caveat" font-size="32" font-weight="700" fill="#D9434B">где?</text>
+      <text x="140" y="248" font-family="Rubik" font-size="21" font-weight="700" fill="#E8742C">в физике, в аудитории</text>
+      <rect x="20" y="300" width="400" height="120" rx="14" fill="#fff" stroke="#1F2D5C" stroke-width="3"/>
+      <path class="ln" pathLength="1" d="M52 380 q14 -40 28 0 t28 0" fill="none" stroke="#E8742C" stroke-width="5" stroke-linecap="round"/>
+      <text x="140" y="350" font-family="Caveat" font-size="32" font-weight="700" fill="#D9434B">как?</text>
+      <text x="140" y="388" font-family="Rubik" font-size="21" font-weight="700" fill="#E8742C">широко, внимательно</text>
+    </svg>
+  </div>
+  <aside class="notes"><p>Обстоятельство обозначает место, время, образ действия, причину или цель. Например: используются (как?) широко, (где?) в физике. Обстоятельство подчёркивается штрихпунктирной линией.</p></aside>
+</section>
+
+<!-- 7 · Разбор предложения -->
+<section class="slide" data-back-steps>
+  <p class="kicker w"><span class="ru tr">Практика · нажимайте → </span><span class="uz">Amaliyot · → tugmasini bosing</span></p>
+  <h2 class="title h w" style="--d:.2s"><span class="ru tr">Разберём предложение по членам</span><span class="uz">Gapni bo‘laklarga ajratamiz</span></h2>
+  <div class="legend u" style="position:absolute;left:142px;top:132px;--d:.4s">
+    <span><i class="pod"></i><span class="ru tr">подлежащее</span><span class="uz">ega</span></span>
+    <span><i class="skaz"></i><span class="ru tr">сказуемое</span><span class="uz">kesim</span></span>
+    <span><i class="opr"></i><span class="ru tr">определение</span><span class="uz">aniqlovchi</span></span>
+    <span><i class="dop"></i><span class="ru tr">дополнение</span><span class="uz">to‘ldiruvchi</span></span>
+    <span><i class="obst"></i><span class="ru tr">обстоятельство</span><span class="uz">hol</span></span>
+  </div>
+  <div class="parse u" style="--d:.5s">
+    <p class="sent">
+      <span class="wd"><span class="m pod" data-step="1">Студенты</span><span class="lab c-r"><span class="qbub">кто?</span><span class="ru tr">подлежащее</span><span class="uz">ega</span></span></span>
+      <span class="wd"><span class="m obst" data-step="4">внимательно</span><span class="lab c-obst"><span class="qbub">как?</span><span class="ru tr">обстоятельство</span><span class="uz">hol</span></span></span>
+      <span class="wd"><span class="m skaz" data-step="2">решают</span><span class="lab c-r"><span class="qbub">что делают?</span><span class="ru tr">сказуемое</span><span class="uz">kesim</span></span></span>
+      <span class="wd"><span class="m opr" data-step="5">сложные</span><span class="lab c-opr"><span class="qbub">какие?</span><span class="ru tr">определение</span><span class="uz">aniqlovchi</span></span></span>
+      <span class="wd"><span class="m dop" data-step="3">уравнения</span><span class="lab c-dop"><span class="qbub">что?</span><span class="ru tr">дополнение</span><span class="uz">to‘ldiruvchi</span></span></span>
+      <span class="wd"><span class="m obst" data-step="6">на уроке.</span><span class="lab c-obst"><span class="qbub">где?</span><span class="ru tr">обстоятельство</span><span class="uz">hol</span></span></span>
+    </p>
+    <p class="uz" style="font:600 19px Nunito,sans-serif;color:var(--soft);margin-top:34px">Talabalar darsda murakkab tenglamalarni diqqat bilan yechishadi.</p>
+  </div>
+  <div class="chatbar u" style="--d:.7s"><button class="btn" type="button" data-next>▸ <span class="ru tr">Следующий член</span><span class="uz">Keyingi bo‘lak</span></button><button class="btn" type="button" data-restart>↺ <span class="ru tr">Сначала</span><span class="uz">Qaytadan</span></button></div>
+  <aside class="notes"><p>Разберём предложение. Студенты — подлежащее (кто?). Решают — сказуемое (что делают?). Решают что? — уравнения, это дополнение. Решают как? — внимательно, обстоятельство. Уравнения какие? — сложные, определение. Решают где? — на уроке, обстоятельство.</p></aside>
+</section>
+
+<!-- 8 · Текст, часть 1 -->
+<section class="slide">
+  <p class="kicker w"><span class="ru tr">Шаг 3 · текст по специальности</span><span class="uz">3-qadam · mutaxassislik bo‘yicha matn</span></p>
+  <h2 class="title h w" style="--d:.2s"><span class="ru tr">Уравнение</span><span class="uz">Tenglama</span></h2>
+  <div class="txt u" style="position:absolute;left:140px;top:136px;width:640px;--d:.4s">
+    <div class="ru tr">
+      <p>Уравнение — это <span class="m opr">важная</span> часть математики. Оно представляет собой <span class="m opr">математическое</span> равенство, содержащее <span class="m opr">неизвестное</span> число. С помощью уравнений можно находить <span class="m opr">неизвестные</span> <span class="m dop">значения</span> и решать <span class="m opr">различные</span> <span class="m dop">задачи</span>.</p>
+      <p>Уравнения бывают <span class="m opr">разных</span> видов: линейные, квадратные, дробные и другие. <span class="m opr">Каждый</span> вид имеет <span class="m opr">свои</span> <span class="m dop">особенности</span> и <span class="m dop">способы</span> решения. Например, <span class="m opr">линейные</span> уравнения являются одними из самых простых.</p>
+    </div>
+    <div class="uz">
+      <p>Tenglama — matematikaning muhim qismi. U noma’lum sonni o‘z ichiga olgan matematik tenglikdan iborat. Tenglamalar yordamida noma’lum qiymatlarni topish va turli masalalarni yechish mumkin.</p>
+      <p>Tenglamalar turli xil bo‘ladi: chiziqli, kvadrat, kasrli va boshqalar. Har bir turning o‘z xususiyatlari va yechish usullari bor. Masalan, chiziqli tenglamalar eng sodda tenglamalardan biri hisoblanadi.</p>
+    </div>
+  </div>
+  <div class="ill card pop" style="left:840px;top:100px;width:340px;--d:.7s;--rot:1.5deg">
+    <svg viewBox="0 0 330 170"><rect x="5" y="5" width="320" height="160" rx="8" fill="#2E4A3E" stroke="#8a6a3c" stroke-width="8"/>
+      <text x="165" y="78" text-anchor="middle" font-family="Caveat" font-size="44" fill="#f4f1e6">3x − 6 = 9</text>
+      <text x="165" y="136" text-anchor="middle" font-family="Caveat" font-size="40" fill="#FFE680">x = 5</text></svg>
+    <p class="cap"><span class="ru tr">неизвестное число</span><span class="uz">noma’lum son</span></p>
+  </div>
+  <div class="ill card pop draw" style="left:840px;top:350px;width:340px;--d:.9s;--rot:-1.5deg">
+    <svg viewBox="0 0 330 190">
+      <path d="M20 160 H310 M165 175 V10" stroke="#9aa3bd" stroke-width="2"/>
+      <path class="ln" pathLength="1" d="M40 170 L300 30" stroke="#1F9D6A" stroke-width="4" fill="none"/>
+      <path class="ln" pathLength="1" d="M85 20 Q165 300 245 20" stroke="#2F6FED" stroke-width="4" fill="none"/>
+      <path class="ln" pathLength="1" d="M180 20 Q190 140 305 150 M150 175 Q140 120 25 110" stroke="#E8742C" stroke-width="4" fill="none"/>
+      <text x="252" y="64" font-family="Rubik" font-size="15" font-weight="700" fill="#1F9D6A">линейное</text>
+      <text x="40" y="40" font-family="Rubik" font-size="15" font-weight="700" fill="#2F6FED">квадратное</text>
+      <text x="230" y="140" font-family="Rubik" font-size="15" font-weight="700" fill="#E8742C">дробное</text>
+    </svg>
+    <p class="cap"><span class="ru tr">виды уравнений</span><span class="uz">tenglama turlari</span></p>
+  </div>
+  <div class="u" style="position:absolute;left:140px;bottom:66px;display:flex;gap:16px;align-items:center;--d:1s"><button class="btn ru tr" type="button" data-showall>✎ Найти второстепенные члены</button><span class="legend ru tr"><span><i class="opr"></i>определение</span><span><i class="dop"></i>дополнение</span><span><i class="obst"></i>обстоятельство</span></span></div>
+  <aside class="notes"><p>Прочитаем первую часть текста. Найдите в тексте определения и дополнения. Нажмите кнопку «Найти второстепенные члены» — они будут подчёркнуты.</p></aside>
+</section>
+
+<!-- 9 · Текст, часть 2 -->
+<section class="slide">
+  <p class="kicker w"><span class="ru tr">Шаг 3 · текст по специальности</span><span class="uz">3-qadam · mutaxassislik bo‘yicha matn</span></p>
+  <h2 class="title h w" style="--d:.2s"><span class="ru tr">Уравнение (продолжение)</span><span class="uz">Tenglama (davomi)</span></h2>
+  <div class="txt u" style="position:absolute;left:140px;top:136px;width:640px;--d:.4s">
+    <div class="ru tr">
+      <p>Уравнения <span class="m obst">широко</span> используются не только <span class="m obst">в математике</span>, но и <span class="m obst">в физике, экономике, инженерии</span> и других науках. Они помогают решать <span class="m opr">сложные</span> <span class="m dop">задачи</span> и находить <span class="m opr">точные</span> <span class="m dop">ответы</span>.</p>
+      <p>Таким образом, уравнения играют <span class="m obst">очень</span> <span class="m opr">важную</span> <span class="m dop">роль</span> в развитии науки и образования. Изучение уравнений развивает <span class="m opr">логическое</span> <span class="m dop">мышление</span>, <span class="m dop">внимательность</span> и <span class="m dop">умение</span> анализировать.</p>
+    </div>
+    <div class="uz">
+      <p>Tenglamalar nafaqat matematikada, balki fizika, iqtisodiyot, muhandislik va boshqa fanlarda ham keng qo‘llaniladi. Ular murakkab masalalarni yechishga va aniq javoblarni topishga yordam beradi.</p>
+      <p>Shunday qilib, tenglamalar fan va ta’lim rivojida juda muhim rol o‘ynaydi. Tenglamalarni o‘rganish mantiqiy fikrlash, diqqatlilik va tahlil qilish ko‘nikmasini rivojlantiradi.</p>
+    </div>
+  </div>
+  <div class="ill card pop" style="left:840px;top:100px;width:340px;--d:.7s;--rot:-1.2deg">
+    <svg viewBox="0 0 330 150">
+      <g transform="translate(55 70)"><circle r="6" fill="#2F6FED"/><ellipse rx="40" ry="14" fill="none" stroke="#2F6FED" stroke-width="3"/><ellipse rx="40" ry="14" fill="none" stroke="#2F6FED" stroke-width="3" transform="rotate(60)"/><ellipse rx="40" ry="14" fill="none" stroke="#2F6FED" stroke-width="3" transform="rotate(-60)"/></g>
+      <g transform="translate(145 30)"><rect x="0" y="50" width="14" height="30" fill="#1F9D6A"/><rect x="20" y="30" width="14" height="50" fill="#1F9D6A"/><rect x="40" y="10" width="14" height="70" fill="#1F9D6A"/><path d="M-4 84 H60" stroke="#1F2D5C" stroke-width="3"/></g>
+      <g transform="translate(270 70)" fill="none" stroke="#E8742C" stroke-width="5"><circle r="16"/><path d="M0 -34 V-24 M0 24 V34 M-34 0 H-24 M24 0 H34 M-24 -24 L-17 -17 M17 17 L24 24 M-24 24 L-17 17 M17 -17 L24 -24"/></g>
+      <text x="55" y="135" text-anchor="middle" font-family="Rubik" font-size="15" font-weight="700" fill="#2F6FED">физика</text>
+      <text x="172" y="135" text-anchor="middle" font-family="Rubik" font-size="15" font-weight="700" fill="#1F9D6A">экономика</text>
+      <text x="270" y="135" text-anchor="middle" font-family="Rubik" font-size="15" font-weight="700" fill="#E8742C">инженерия</text>
+    </svg>
+    <p class="cap"><span class="ru tr">где используются уравнения</span><span class="uz">tenglamalar qayerda qo‘llaniladi</span></p>
+  </div>
+  <div class="ill card pop" style="left:840px;top:350px;width:340px;--d:.9s;--rot:1.2deg">
+    <svg viewBox="0 0 330 170">
+      <path d="M165 20 c-42 0 -66 32 -66 62 c0 26 18 40 26 56 h80 c8 -16 26 -30 26 -56 c0 -30 -24 -62 -66 -62z" fill="#FFE680" stroke="#1F2D5C" stroke-width="4"/>
+      <rect x="130" y="140" width="70" height="22" rx="6" fill="#1F2D5C"/>
+      <path d="M150 100 l15 -30 l15 30" fill="none" stroke="#D9434B" stroke-width="4"/>
+      <text x="40" y="60" font-family="Caveat" font-size="26" font-weight="700" fill="#2F6FED">логика</text>
+      <text x="232" y="60" font-family="Caveat" font-size="26" font-weight="700" fill="#1F9D6A">анализ</text>
+      <text x="236" y="120" font-family="Caveat" font-size="26" font-weight="700" fill="#E8742C">внимание</text>
+    </svg>
+    <p class="cap"><span class="ru tr">развитие мышления</span><span class="uz">fikrlashni rivojlantirish</span></p>
+  </div>
+  <div class="u" style="position:absolute;left:140px;bottom:66px;display:flex;gap:16px;align-items:center;--d:1s"><button class="btn ru tr" type="button" data-showall>✎ Найти второстепенные члены</button><span class="legend ru tr"><span><i class="opr"></i>определение</span><span><i class="dop"></i>дополнение</span><span><i class="obst"></i>обстоятельство</span></span></div>
+  <aside class="notes"><p>Вторая часть текста. Здесь много обстоятельств места: в математике, в физике, экономике, инженерии. Нажмите кнопку, чтобы проверить.</p></aside>
+</section>
+
+<!-- 10 · Словарь -->
+<section class="slide">
+  <p class="kicker w"><span class="ru tr">Шаг 4 · нажмите на слово</span><span class="uz">4-qadam · so‘zni bosing</span></p>
+  <h2 class="title h w" style="--d:.2s"><span class="ru tr">Словарь к тексту</span><span class="uz">Matn lug‘ati</span></h2>
+  <div class="body" style="top:132px;bottom:96px">
+    <div class="vocab">
+      <button type="button" class="vw pop" style="--d:.25s"><span class="k">01</span><span class="r">Решение</span><span class="t">Yechim</span></button>
+      <button type="button" class="vw pop" style="--d:.3s"><span class="k">02</span><span class="r">Линейный</span><span class="t">Chiziqli</span></button>
+      <button type="button" class="vw pop" style="--d:.35s"><span class="k">03</span><span class="r">Квадратный</span><span class="t">Kvadrat</span></button>
+      <button type="button" class="vw pop" style="--d:.4s"><span class="k">04</span><span class="r">Дробный</span><span class="t">Kasrli</span></button>
+      <button type="button" class="vw pop" style="--d:.45s"><span class="k">05</span><span class="r">Особенность</span><span class="t">Xususiyat</span></button>
+      <button type="button" class="vw pop" style="--d:.5s"><span class="k">06</span><span class="r">Способ</span><span class="t">Usul</span></button>
+      <button type="button" class="vw pop" style="--d:.55s"><span class="k">07</span><span class="r">Применяться</span><span class="t">Qo‘llanilmoq</span></button>
+      <button type="button" class="vw pop" style="--d:.6s"><span class="k">08</span><span class="r">Развитие</span><span class="t">Rivojlanish</span></button>
+      <button type="button" class="vw pop" style="--d:.65s"><span class="k">09</span><span class="r">Наука</span><span class="t">Fan</span></button>
+      <button type="button" class="vw pop" style="--d:.7s"><span class="k">10</span><span class="r">Образование</span><span class="t">Ta’lim</span></button>
+      <button type="button" class="vw pop" style="--d:.75s"><span class="k">11</span><span class="r">Логическое мышление</span><span class="t">Mantiqiy fikrlash</span></button>
+      <button type="button" class="vw pop" style="--d:.8s"><span class="k">12</span><span class="r">Внимательность</span><span class="t">Diqqatlilik</span></button>
+      <button type="button" class="vw pop" style="--d:.85s"><span class="k">13</span><span class="r">Анализировать</span><span class="t">Tahlil qilmoq</span></button>
+    </div>
+  </div>
+  <div class="chatbar u" style="--d:1s"><button class="btn" type="button" data-allwords>👁 <span class="ru tr">Показать все переводы</span><span class="uz">Barcha tarjimalarni ko‘rsatish</span></button><span class="mut" style="font:600 15px Nunito,sans-serif"><span class="ru tr">Сначала переведите сами, потом проверьте.</span><span class="uz">Avval o‘zingiz tarjima qiling, keyin tekshiring.</span></span></div>
+  <aside class="notes"><p>Словарь к тексту. Сначала попробуйте перевести слово сами, потом нажмите на карточку — появится перевод на узбекский язык.</p></aside>
+</section>
+
+<!-- 11 · Диалог -->
+<section class="slide" data-back-steps>
+  <p class="kicker w"><span class="ru tr">Шаг 5 · диалог</span><span class="uz">5-qadam · dialog</span></p>
+  <h2 class="title h w" style="--d:.2s"><span class="ru tr">Диалог на тему «Математика»</span><span class="uz">«Matematika» mavzusida dialog</span></h2>
+  <div class="chat">
+    <div class="msg a" data-step="1"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 1</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Привет! Как дела?<span class="uz"><br><em class="mut">Salom! Ishlaring qalay?</em></span></span></div></div>
+    <div class="msg b" data-step="2"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 2</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Привет! Спасибо, хорошо. А у тебя как?<span class="uz"><br><em class="mut">Salom! Rahmat, yaxshi. O‘zingda-chi?</em></span></span></div></div>
+    <div class="msg a" data-step="3"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 1</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">У меня тоже всё хорошо. У меня к тебе вопрос.<span class="uz"><br><em class="mut">Menda ham hammasi yaxshi. Senga bitta savolim bor.</em></span></span></div></div>
+    <div class="msg b" data-step="4"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 2</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Да, конечно. Спрашивай.<span class="uz"><br><em class="mut">Ha, albatta. So‘rayver.</em></span></span></div></div>
+    <div class="msg a" data-step="5"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 1</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Какой твой любимый предмет?<span class="uz"><br><em class="mut">Sevimli faning qaysi?</em></span></span></div></div>
+    <div class="msg b" data-step="6"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 2</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Мой любимый предмет — математика. А твой?<span class="uz"><br><em class="mut">Mening sevimli fanim — matematika. Seniki-chi?</em></span></span></div></div>
+    <div class="msg a" data-step="7"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 1</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Мне тоже нравится математика. Почему ты любишь этот предмет?<span class="uz"><br><em class="mut">Menga ham matematika yoqadi. Nega bu fanni yaxshi ko‘rasan?</em></span></span></div></div>
+    <div class="msg b" data-step="8"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 2</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Потому что математика развивает логическое мышление и учит решать задачи.<span class="uz"><br><em class="mut">Chunki matematika mantiqiy fikrlashni rivojlantiradi va masala yechishga o‘rgatadi.</em></span></span></div></div>
+    <div class="msg a" data-step="9"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 1</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Какие разделы математики ты знаешь?<span class="uz"><br><em class="mut">Matematikaning qaysi bo‘limlarini bilasan?</em></span></span></div></div>
+    <div class="msg b" data-step="10"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 2</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Алгебра, геометрия, математический анализ и теория чисел.<span class="uz"><br><em class="mut">Algebra, geometriya, matematik analiz va sonlar nazariyasi.</em></span></span></div></div>
+    <div class="msg a" data-step="11"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 1</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Математика — трудный предмет?<span class="uz"><br><em class="mut">Matematika qiyin fanmi?</em></span></span></div></div>
+    <div class="msg b" data-step="12"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 2</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Иногда трудный, но очень интересный.<span class="uz"><br><em class="mut">Ba’zan qiyin, lekin juda qiziq.</em></span></span></div></div>
+    <div class="msg a" data-step="13"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 1</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Согласен с тобой. Математика очень важна в нашей жизни.<span class="uz"><br><em class="mut">Senga qo‘shilaman. Matematika hayotimizda juda muhim.</em></span></span></div></div>
+    <div class="msg b" data-step="14"><span class="ava">M</span><div class="bub"><small>СТУДЕНТ 2</small><span class="typing" hidden><i></i><i></i><i></i></span><span class="txt">Да, без математики трудно представить современный мир.<span class="uz"><br><em class="mut">Ha, matematikasiz zamonaviy dunyoni tasavvur qilish qiyin.</em></span></span></div></div>
+  </div>
+  <div class="chatbar u" style="--d:.5s"><button class="btn" type="button" data-next>▸ <span class="ru tr">Следующая реплика</span><span class="uz">Keyingi gap</span></button><button class="btn" type="button" data-play>▶ <span class="ru tr">Автовоспроизведение</span><span class="uz">Avtomatik</span></button><button class="btn" type="button" data-restart>↺ <span class="ru tr">Сначала</span><span class="uz">Qaytadan</span></button></div>
+  <aside class="notes"><p>Диалог на тему «Математика». Нажимайте стрелку вправо или кнопку «Следующая реплика» — реплики появляются по одной. Можно включить автовоспроизведение. Студенты читают диалог по ролям.</p></aside>
+</section>
+
+<!-- 12 · Итог -->
+<section class="slide">
+  <h2 class="h w" style="position:absolute;left:140px;top:140px;font-size:72px;--d:.2s"><span class="ru tr">Спасибо за внимание!</span><span class="uz">E’tiboringiz uchun rahmat!</span></h2>
+  <div class="legend u" style="position:absolute;left:142px;top:270px;--d:.6s">
+    <span><i class="opr"></i><span class="ru tr">определение — какой? чей?</span><span class="uz">aniqlovchi — qanday? kimning?</span></span>
+    <span><i class="dop"></i><span class="ru tr">дополнение — кого? что? чем?</span><span class="uz">to‘ldiruvchi — kimni? nimani? nima bilan?</span></span>
+    <span><i class="obst"></i><span class="ru tr">обстоятельство — где? когда? как?</span><span class="uz">hol — qayerda? qachon? qanday?</span></span>
+  </div>
+  <div class="card u" style="position:absolute;left:142px;top:380px;padding:16px 22px;--d:1s">
+    <p style="font:600 18px/1.6 Nunito,sans-serif"><b><span class="ru tr">Джумабаева Мехринисо</span><span class="uz">Jumabayeva Mehriniso</span></b> · <span class="ru tr">группа 262-математика</span><span class="uz">262-matematika guruhi</span> · <span class="ru tr">Русский язык</span><span class="uz">Rus tili</span></p>
+  </div>
+  <aside class="notes"><p>Подведём итог: определение отвечает на вопросы «какой? чей?», дополнение — на вопросы косвенных падежей, обстоятельство — «где? когда? как?». Спасибо за внимание!</p></aside>
+</section>
+
+</main>
+<script src="ru.js"></script>
+</body>
+</html>
