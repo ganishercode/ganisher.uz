@@ -151,6 +151,19 @@ tr.warn td:last-child{color:#ffb86b}
 .s15 .refs h3{font-family:var(--head);font-size:21px;color:var(--accent);margin-bottom:12px}
 .s15 .refs li{font-size:17px;line-height:1.5;color:#d6e4df;font-weight:400;padding-left:28px;position:relative;font-family:"Segoe UI",sans-serif}
 .s15 .refs{counter-reset:r}.s15 .refs li::before{counter-increment:r;content:counter(r)".";position:absolute;left:0;color:var(--gold)}
+/* ICONS-3D:start */
+.ic{box-sizing:border-box;padding:7px;border-radius:26%;
+background:radial-gradient(circle at 30% 22%,#3f8f78 0,#1d5f4d 34%,#0f3d31 72%,#08251e 100%);
+box-shadow:inset 0 2px 1px rgba(190,255,230,.45),inset 0 -6px 10px rgba(0,20,14,.55),0 3px 0 #0b2f25,0 5px 0 #061c16,0 10px 16px rgba(0,0,0,.45);
+transform:perspective(260px) rotateX(10deg) rotateY(-12deg)}
+.icb{position:relative;
+background:radial-gradient(circle at 30% 22%,#e3fff4 0,#8ff3cf 16%,#2EE6A8 42%,#14a679 74%,#0a5c44 100%);
+box-shadow:inset 0 3px 2px rgba(255,255,255,.75),inset 0 -10px 16px rgba(0,60,40,.45),inset -5px 0 10px rgba(0,90,60,.35),0 6px 0 #0e7d5c,0 8px 0 #08513c,0 18px 26px rgba(0,0,0,.5);
+transform:perspective(300px) rotateX(10deg) rotateY(-12deg)}
+.icb::after{content:"";position:absolute;left:10%;top:6%;width:62%;height:32%;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none}
+.icb .ic{position:relative;z-index:1;padding:0;border-radius:0;background:none;box-shadow:none;transform:none;
+filter:brightness(0) invert(1) drop-shadow(0 1px 0 #d8fff0) drop-shadow(0 2px 0 #12a074) drop-shadow(0 3px 0 #0a6a4d) drop-shadow(0 5px 5px rgba(0,40,28,.55))}
+/* ICONS-3D:end */
 </style>
 </head>
 <body>

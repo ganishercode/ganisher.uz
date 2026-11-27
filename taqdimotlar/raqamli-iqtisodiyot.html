@@ -129,6 +129,15 @@ h1,h2,.big,.num{font-family:var(--head);font-weight:600;letter-spacing:-.01em}
 .s15 .refs ol{columns:2;column-gap:50px;counter-reset:r}
 .s15 .refs li{font-size:15.5px;line-height:1.45;margin-bottom:9px;break-inside:avoid;padding-left:28px;position:relative;color:#e4e1f5}
 .s15 .refs li::before{counter-increment:r;content:counter(r)".";position:absolute;left:0;color:var(--accent)}
+/* ICONS-3D:start */
+.ic3d{position:relative;display:inline-grid;place-items:center;flex:none;border-radius:26%;vertical-align:middle;
+background:radial-gradient(circle at 30% 22%,#7a68ec 0,#4a39b8 30%,#2c2082 68%,#1a1252 100%);
+box-shadow:inset 0 2px 1px rgba(255,255,255,.5),inset 0 -6px 10px rgba(10,5,45,.6),inset -3px 0 6px rgba(200,245,96,.15),0 4px 0 #1b1355,0 6px 0 #110b38,0 12px 18px rgba(0,0,0,.45);
+transform:perspective(260px) rotateX(10deg) rotateY(-12deg)}
+.ic3d::after{content:"";position:absolute;left:10%;top:6%;width:62%;height:30%;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,0));pointer-events:none}
+.ic3d>.ic{position:relative;z-index:1;width:74%!important;height:74%!important;margin:0!important;
+filter:drop-shadow(.7px 0 0 #C8F560) drop-shadow(-.7px 0 0 #C8F560) drop-shadow(0 .7px 0 #C8F560) drop-shadow(0 1px 0 #f0ffc4) drop-shadow(0 2px 0 #8fbf2a) drop-shadow(0 3px 0 #4f6c0e) drop-shadow(0 5px 4px rgba(5,2,30,.6))}
+/* ICONS-3D:end */
 </style>
 </head>
 <body>
@@ -414,6 +423,8 @@ h1,h2,.big,.num{font-family:var(--head);font-weight:600;letter-spacing:-.01em}
 </section>
 
 </main>
-<script src="deck.js"></script>
+<script src="deck.js"></script><script>/* ICONS-3D:js */(()=>{const wrap=()=>document.querySelectorAll('img.ic').forEach(img=>{if(img.parentElement.classList.contains('ic3d'))return;const cs=getComputedStyle(img),s=document.createElement('span');s.className='ic3d';
+s.style.width=cs.width;s.style.height=cs.height;s.style.margin=cs.margin;s.style.alignSelf=cs.alignSelf;s.style.order=cs.order;img.replaceWith(s);s.append(img);});
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',wrap):wrap();})();</script>
 </body>
 </html>
